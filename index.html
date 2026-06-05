@@ -109,6 +109,19 @@ function renderizarVideos(videos){
     });
 }
 
+function startLoopIframe(id, timeMs) {
+      const iframe = document.getElementById(id);
+    
+      setInterval(() => {
+        const src = iframe.src;
+        iframe.src = "";
+        
+        setTimeout(() => {
+          iframe.src = src;
+        }, 200);
+      }, timeMs);
+    }
+
 document
 .getElementById("search")
 .addEventListener("input", function(){
@@ -133,19 +146,6 @@ document
 
     renderizarVideos(filtrados);
 
-    
-    function startLoopIframe(id, timeMs) {
-      const iframe = document.getElementById(id);
-    
-      setInterval(() => {
-        const src = iframe.src;
-        iframe.src = "";
-        
-        setTimeout(() => {
-          iframe.src = src;
-        }, 200);
-      }, timeMs);
-    }
 
 });
 
