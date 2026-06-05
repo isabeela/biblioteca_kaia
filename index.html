@@ -33,15 +33,22 @@
 <script>
 
 let todosVideos = [];
+fetch(
+  "https://script.google.com/u/0/home/projects/1fisgECsog6q_bSVSVHJcVrQ00rsih8j2u4b-W-v5BFvJcCwCls4RSM8s/edit"
+)
+.then(response => response.json())
+.then(videos => {
 
-google.script.run
-  .withSuccessHandler(function(videos){
+    todosVideos = videos;
 
-      todosVideos = videos;
-      renderizarVideos(videos);
+    renderizarVideos(videos);
 
-  })
-  .listarVideos();
+})
+.catch(error => {
+
+    console.error(error);
+
+});
 
 function renderizarVideos(videos){
 
