@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Biblioteca de Vídeos</title>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🎬 Biblioteca de Vídeos</h1>
+
+<input
+    type="text"
+    id="search"
+    placeholder="Pesquisar vídeo ou etiqueta..."
+>
+
+</header>
+
+<main
+    class="gallery"
+    id="gallery">
+</main>
+
+<script>
+
+let todosVideos = [];
+
+google.script.run
+  .withSuccessHandler(function(videos){
+
+      todosVideos = videos;
+      renderizarVideos(videos);
+
+  })
+  .listarVideos();
+
+function renderizarVideos(videos){
+
+    const gallery =
+      document.getElementById("gallery");
+
+    gallery.innerHTML = "";
+
+    videos.forEach(video => {
+
+        const tags =
+          video.tags
+            ? video.tags.split(",")
+            : [];
+
+        const tagsHtml =
+          tags.map(tag =>
+            `<span>${tag.trim()}</span>`
+          ).join("");
+
+        gallery.innerHTML += `
+
+        <div class="video-card">
+
+            <div class="video-preview">
+
+                <video controls preload="metadata">
+
+                    <source
+                        src="${video.url}"
+                        type="video/mp4">
+
+                </video>
+
+            </div>
+
+            <div class="content">
+
+                <h3>${video.nome}</h3>
+
+                <div class="tags">
+                    ${tagsHtml}
+                </div>
+
+                <div class="tag-form">
+
+                    <input
+                        type="text"
+                        placeholder="Nova etiqueta">
+
+                    <button>
+                        Adicionar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+}
+
+document
+.getElementById("search")
+.addEventListener("input", function(){
+
+    const termo =
+      this.value.toLowerCase();
+
+    const filtrados =
+      todosVideos.filter(video => {
+
+        return (
+          video.nome.toLowerCase()
+          .includes(termo)
+
+          ||
+
+          video.tags.toLowerCase()
+          .includes(termo)
+        );
+
+      });
+
+    renderizarVideos(filtrados);
+
+});
+
+</script>
+
+</body>
+</html>
