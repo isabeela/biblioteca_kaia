@@ -159,7 +159,7 @@ async function salvarTagsVideo(fileId) {
   try {
 
     const resposta = await fetch(
-      "https://script.google.com/u/0/home/projects/1fisgECsog6q_bSVSVHJcVrQ00rsih8j2u4b-W-v5BFvJcCwCls4RSM8s/",
+      "SUA_URL_DO_APPS_SCRIPT",
       {
         method: "POST",
         headers: {
