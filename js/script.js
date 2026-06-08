@@ -19,11 +19,11 @@ fetch(
 function renderizarVideos(videos){
 
   const gallery =
-    document.getElementById("gallery");
+  document.getElementById("gallery");
 
-  gallery.innerHTML = "";
+gallery.innerHTML = "";
 
-  videos.forEach(video => {
+videos.forEach(video => {
 
     const tags =
       video.tags
@@ -37,51 +37,46 @@ function renderizarVideos(videos){
 
     gallery.innerHTML += `
 
-      <div class="video-card">
+    <div class="video-card">
 
         <div class="video-preview">
-          <iframe
-            src="${video.url}"
+           <iframe
+            src="${video.Url}"
             width="100%"
             height="220"
             allow="autoplay">
-          </iframe>
-        </div>
+        </iframe>
 
         <div class="content">
 
-          <h3>${video.nome}</h3>
+            <h3>${video.Nome}</h3>
 
-          <div class="tags">
-            ${tagsHtml}
-          </div>
+            <div class="tags">
+                ${tagsHtml}
+            </div>
 
-          <div class="tag-form">
+            <div class="tag-form">
 
-            <input
-              type="text"
-              id="tags_${video.fileId}"
-              value="${video.tags || ''}"
-              placeholder="Digite as tags">
+                <input
+                    type="text"
+                    placeholder="Nova etiqueta">
 
-            <button
-              onclick="salvarTagsVideo('${video.fileId}')">
+                <button>
+                    Adicionar
+                </button>
 
-              Salvar
-
-            </button>
-
-          </div>
+            </div>
 
         </div>
 
-      </div>
+    </div>
 
     `;
+});
 
-  });
 
 }
+
 
 const observer = new IntersectionObserver((entries) => {
 
