@@ -18,61 +18,69 @@ fetch(
 
 function renderizarVideos(videos){
 
-    const gallery =
-      document.getElementById("gallery");
+  const gallery =
+    document.getElementById("gallery");
 
-    gallery.innerHTML = "";
+  gallery.innerHTML = "";
 
-    videos.forEach(video => {
+  videos.forEach(video => {
 
-        const tags =
-          video.tags
-            ? video.tags.split(",")
-            : [];
+    const tags =
+      video.tags
+        ? video.tags.split(",")
+        : [];
 
-        const tagsHtml =
-          tags.map(tag =>
-            `<span>${tag.trim()}</span>`
-          ).join("");
+    const tagsHtml =
+      tags.map(tag =>
+        `<span>${tag.trim()}</span>`
+      ).join("");
 
-        gallery.innerHTML += `
+    gallery.innerHTML += `
 
-        <div class="video-card">
+      <div class="video-card">
 
-            <div class="video-preview">
-               <iframe
-                src="${video.Url}"
-                width="100%"
-                height="220"
-                allow="autoplay">
-            </iframe>
+        <div class="video-preview">
+          <iframe
+            src="${video.url}"
+            width="100%"
+            height="220"
+            allow="autoplay">
+          </iframe>
+        </div>
 
-            <div class="content">
+        <div class="content">
 
-                <h3>${video.Nome}</h3>
+          <h3>${video.nome}</h3>
 
-                <div class="tags">
-                    ${tagsHtml}
-                </div>
+          <div class="tags">
+            ${tagsHtml}
+          </div>
 
-                <div class="tag-form">
+          <div class="tag-form">
 
-                    <input
-                        type="text"
-                        placeholder="Nova etiqueta">
+            <input
+              type="text"
+              id="tags_${video.fileId}"
+              value="${video.tags || ''}"
+              placeholder="Digite as tags">
 
-                    <button>
-                        Adicionar
-                    </button>
+            <button
+              onclick="salvarTagsVideo('${video.fileId}')">
 
-                </div>
+              Salvar
 
-            </div>
+            </button>
+
+          </div>
 
         </div>
 
-        `;
-    });
+      </div>
+
+    `;
+
+  });
+
 }
 
 const observer = new IntersectionObserver((entries) => {
@@ -139,6 +147,50 @@ document
       });
 
     renderizarVideos(filtrados);
-
-
 });
+
+async function salvarTagsVideo(fileId) {
+
+  const tags =
+    document.getElementById(
+      `tags_${fileId}`
+    ).value;
+
+  try {
+
+    const resposta = await fetch(
+      "https://script.google.com/u/0/home/projects/1fisgECsog6q_bSVSVHJcVrQ00rsih8j2u4b-W-v5BFvJcCwCls4RSM8s/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          acao: "salvarTags",
+          fileId: fileId,
+          tags: tags
+        })
+      }
+    );
+
+    const resultado =
+      await resposta.json();
+
+    if (resultado.sucesso) {
+
+      alert("Tags salvas!");
+
+    } else {
+
+      alert("Erro ao salvar.");
+
+    }
+
+  } catch(err) {
+
+    console.error(err);
+    alert("Erro de conexão.");
+
+  }
+
+}
