@@ -3,6 +3,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+h1 {
+    color: #fff;
+    text-align: center;
+}
+
 #gallery{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
