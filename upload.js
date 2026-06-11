@@ -41,7 +41,7 @@ async function uploadVideo() {
   // 1. Upload para Storage
   const { data: uploadData, error: uploadError } = await supabase
     .storage
-    .from("videos")
+    .from("biblioteca")
     .upload(fileName, file);
 
   if (uploadError) {
@@ -53,14 +53,14 @@ async function uploadVideo() {
   // 2. Pegar URL pública
   const { data: publicUrlData } = supabase
     .storage
-    .from("videos")
+    .from("bibliotecas")
     .getPublicUrl(fileName);
 
   const url = publicUrlData.publicUrl;
 
   // 3. Inserir no banco
   const { error: dbError } = await supabase
-    .from("videos")
+    .from("bibliotecas")
     .insert([
       {
         nome,
