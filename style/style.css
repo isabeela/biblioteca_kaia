@@ -1,5 +1,5 @@
 body {
-    background-color: #4d4d4d;
+    background-color: #292929;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -9,6 +9,7 @@ h1, h4 {
 }
 
 #gallery{
+padding: 20px;
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
   gap:20px;
