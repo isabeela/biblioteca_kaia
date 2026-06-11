@@ -9,7 +9,7 @@ h1, h4 {
 }
 
 #gallery{
-padding: 20px;
+padding: 100px;
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
   gap:20px;
