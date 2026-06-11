@@ -39,7 +39,7 @@ videos.forEach(video => {
 
     <div class="video-card">
         <div class="video-preview">
-          <img src="${converterUrlDrive(video.Url)}" width="100%" height="220"  loading="lazy">
+          <img src="${(video.Url)}" width="100%" height="220"  loading="lazy">
 
             <div class="content">
 
@@ -97,13 +97,3 @@ document
 
     renderizarVideos(filtrados);
 });
-
-function converterUrlDrive(url) {
-    const match = url.match(/\/d\/([^/]+)/);
-
-    if (!match) return url;
-
-    const id = match[1];
-
-    return `https://drive.google.com/uc?export=view&id=${id}`;
-}
