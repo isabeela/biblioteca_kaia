@@ -39,10 +39,7 @@ videos.forEach(video => {
 
     <div class="video-card">
         <div class="video-preview">
-           <img
-            src="${video.Url}"
-            width="100%"
-            height="220">
+           <img src="${video.Url}" width="300" style="border:3px solid red; display:block;">
 
             <div class="content">
 
