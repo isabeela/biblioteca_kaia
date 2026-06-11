@@ -19,12 +19,18 @@ videoInput.addEventListener("change", () => {
 });
 
 
+function extrairNomeArquivo(nomeArquivo) {
+  const semExtensao = nomeArquivo.replace(/\.[^/.]+$/, "");
+  const parteAntesAnim = semExtensao.split("_anim")[0];
+  return parteAntesAnim.trim();
+}
+
 async function uploadVideo() {
-  const nome = document.getElementById("nome").value;
+  const nome = extrairNomeArquivo(file.name);
   const descricao = document.getElementById("descricao").value;
   const personagem = document.getElementById("personagem").value;
   const tags = document.getElementById("tags").value;
-  const file = videoInput.files[0];
+  const files = Array.from(videoInput.files);
 
   const status = document.getElementById("status");
 
@@ -33,39 +39,43 @@ async function uploadVideo() {
     return;
   }
 
-  status.innerText = "Enviando...";
+  status.innerText = "Enviando vídeos...";
 
-  // nome único do arquivo
+const files = Array.from(videoInput.files);
+
+for (const file of files) {
   const fileName = `${Date.now()}-${file.name}`;
 
-  // 1. Upload para Storage
-  const { data: uploadData, error: uploadError } = await supabase
+  // 1. Upload
+  const { error: uploadError } = await supabase
     .storage
     .from("videos")
     .upload(fileName, file);
 
   if (uploadError) {
     console.error(uploadError);
-    status.innerText = "Erro no upload do vídeo.";
-    return;
+    continue;
   }
 
-  // 2. Pegar URL pública
-  const { data: publicUrlData } = supabase
+  // 2. URL
+  const { data } = supabase
     .storage
     .from("videos")
     .getPublicUrl(fileName);
 
-  const url = publicUrlData.publicUrl;
+  const url = data.publicUrl;
 
-  // 3. Inserir no banco
+  // 3. Nome automático
+  const nome = extrairNomeArquivo(file.name);
+
+  // 4. Insert no banco
   const { error: dbError } = await supabase
     .from("biblioteca")
     .insert([
       {
         nome,
-        descricao,
-        personagem,
+        descricao: "",       // ou vazio mesmo
+        personagem: "",
         tags,
         url
       }
@@ -73,9 +83,8 @@ async function uploadVideo() {
 
   if (dbError) {
     console.error(dbError);
-    status.innerText = "Erro ao salvar no banco.";
-    return;
   }
+}
 
   status.innerText = "Upload concluído com sucesso!";
 }
