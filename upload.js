@@ -18,6 +18,12 @@ videoInput.addEventListener("change", () => {
   }
 });
 
+document.getElementById("btnUpload").addEventListener("click", uploadVideo);
+
+async function uploadVideo() {
+  console.log("upload");
+}
+
 async function uploadVideo() {
   const nome = document.getElementById("nome").value;
   const descricao = document.getElementById("descricao").value;
@@ -79,8 +85,3 @@ async function uploadVideo() {
   status.innerText = "Upload concluído com sucesso!";
 }
 
-document.getElementById("btnUpload").addEventListener("click", uploadVideo);
-
-async function uploadVideo() {
-  console.log("upload");
-}
