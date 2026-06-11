@@ -88,46 +88,4 @@ function renderizarVideos(videos) {
 
 }
 
-document
-  .getElementById("search")
-  .addEventListener("input", function () {
-
-    const termo =
-      this.value.toLowerCase();
-
-    const filtrados =
-      todosVideos.filter(video => {
-
-        const nome =
-          (video.nome || "")
-          .toLowerCase();
-
-        const tags =
-          (video.tags || "")
-          .toLowerCase();
-
-        const personagem =
-          (video.personagem || "")
-          .toLowerCase();
-
-        return (
-
-          nome.includes(termo)
-
-          ||
-
-          tags.includes(termo)
-
-          ||
-
-          personagem.includes(termo)
-
-        );
-
-      });
-
-    renderizarVideos(filtrados);
-
-  });
-
 carregarVideos();
