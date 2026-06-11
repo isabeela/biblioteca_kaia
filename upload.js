@@ -41,7 +41,7 @@ async function uploadVideo() {
   // 1. Upload para Storage
   const { data: uploadData, error: uploadError } = await supabase
     .storage
-    .from("biblioteca")
+    .from("videos")
     .upload(fileName, file);
 
   if (uploadError) {
