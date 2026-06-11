@@ -77,47 +77,6 @@ videos.forEach(video => {
 }
 
 
-const observer = new IntersectionObserver((entries) => {
-
-  entries.forEach(entry => {
-
-    const iframe = entry.target;
-
-    if (entry.isIntersecting) {
-
-      if (!iframe.src) {
-        iframe.src = iframe.dataset.src;
-      }
-
-    } else {
-
-      iframe.src = "";
-
-    }
-
-  });
-
-}, {
-  rootMargin: "300px"
-});
-
-document.querySelectorAll(".video-frame").forEach(iframe => {
-  observer.observe(iframe);
-});
-
-function startLoopIframe(id, timeMs) {
-      const iframe = document.getElementById(id);
-    
-      setInterval(() => {
-        const src = iframe.src;
-        iframe.src = "";
-        
-        setTimeout(() => {
-          iframe.src = src;
-        }, 200);
-      }, timeMs);
-    }
-
 document
 .getElementById("search")
 .addEventListener("input", function(){
