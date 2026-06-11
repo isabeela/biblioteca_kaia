@@ -4,7 +4,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcndkZ2JkZWx1aXNrbWlvamZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzYyODQsImV4cCI6MjA5Njc1MjI4NH0.zT5JLfXnxOe95LrJ_kqanPu2HlTn8ZZLxUYQDlbrxfM";
 
-const supabase =
+const db =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
@@ -14,7 +14,7 @@ let todosVideos = [];
 
 async function carregarVideos() {
 
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from("biblioteca")
     .select("*")
     .order("id", { ascending: false });
