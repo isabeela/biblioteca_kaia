@@ -43,8 +43,7 @@ videos.forEach(video => {
            <img
             src="${video.Url}"
             width="100%"
-            height="220"
-            allow="autoplay">
+            height="220">
 
         <div class="content">
 
