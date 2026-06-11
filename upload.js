@@ -53,7 +53,7 @@ async function uploadVideo() {
   // 2. Pegar URL pública
   const { data: publicUrlData } = supabase
     .storage
-    .from("biblioteca")
+    .from("videos")
     .getPublicUrl(fileName);
 
   const url = publicUrlData.publicUrl;
