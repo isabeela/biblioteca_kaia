@@ -1,39 +1,41 @@
+const SUPABASE_URL =
+  "https://rjrwdgbdeluiskmiojfi.supabase.co";
+
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcndkZ2JkZWx1aXNrbWlvamZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzYyODQsImV4cCI6MjA5Njc1MjI4NH0.zT5JLfXnxOe95LrJ_kqanPu2HlTn8ZZLxUYQDlbrxfM";
+
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
 let todosVideos = [];
 
-fetch(
-   "https://opensheet.elk.sh/1TbeO6CjnHWwOm1hdwhVRFMIBGLPkdXpILSEA_9D2bSM/teste"
-)
-.then(response => response.json())
-.then(videos => {
+async function carregarVideos() {
 
-  todosVideos = videos;
+  const { data, error } = await supabase
+    .from("biblioteca")
+    .select("*")
+    .order("id", { ascending: false });
 
-  renderizarVideos(videos);
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-})
-.catch(error => {
+  todosVideos = data;
 
-  console.error(error);
-
-});
-
-function converterUrlDrive(url) {
-
-  const match = url.match(/\/d\/([^/]+)/);
-
-  if (!match) return url;
-
-  const id = match[1];
-
-  return `https://drive.google.com/uc?export=view&id=${id}`;
+  renderizarVideos(data);
 
 }
 
 function renderizarVideos(videos) {
 
-  const gallery = document.getElementById("gallery");
+  const gallery =
+    document.getElementById("gallery");
 
-  let html = "";
+  gallery.innerHTML = "";
 
   videos.forEach(video => {
 
@@ -42,77 +44,90 @@ function renderizarVideos(videos) {
       : [];
 
     const tagsHtml = tags
-      .map(tag => `<span>${tag.trim()}</span>`)
+      .map(tag =>
+        `<span class="tag">${tag.trim()}</span>`
+      )
       .join("");
 
-    const urlImagem = converterUrlDrive(video.Url);
+    gallery.innerHTML += `
 
-    html += `
       <div class="video-card">
 
         <div class="video-preview">
 
-          <img
-            src="${urlImagem}"
-            alt="${video.Nome}"
-            loading="lazy"
-            onload="console.log('CARREGOU:', this.src)"
-            onerror="console.log('ERRO:', this.src)"
-          >
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata">
+
+            <source
+              src="${video.url}"
+              type="video/mp4">
+
+          </video>
 
         </div>
 
         <div class="content">
 
-          <h3>${video.Nome || ""}</h3>
+          <h3>${video.nome || ""}</h3>
 
           <div class="tags">
             ${tagsHtml}
           </div>
 
-          <div class="tag-form">
-
-            <input
-              type="text"
-              placeholder="Nova etiqueta"
-            >
-
-            <button>
-              Adicionar
-            </button>
-
-          </div>
-
         </div>
 
       </div>
+
     `;
 
   });
 
-  gallery.innerHTML = html;
-
 }
 
 document
-.getElementById("search")
-.addEventListener("input", function () {
+  .getElementById("search")
+  .addEventListener("input", function () {
 
-  const termo = this.value.toLowerCase();
+    const termo =
+      this.value.toLowerCase();
 
-  const filtrados = todosVideos.filter(video => {
+    const filtrados =
+      todosVideos.filter(video => {
 
-    const nome = (video.Nome || "").toLowerCase();
+        const nome =
+          (video.nome || "")
+          .toLowerCase();
 
-    const tags = (video.tags || "").toLowerCase();
+        const tags =
+          (video.tags || "")
+          .toLowerCase();
 
-    return (
-      nome.includes(termo) ||
-      tags.includes(termo)
-    );
+        const personagem =
+          (video.personagem || "")
+          .toLowerCase();
+
+        return (
+
+          nome.includes(termo)
+
+          ||
+
+          tags.includes(termo)
+
+          ||
+
+          personagem.includes(termo)
+
+        );
+
+      });
+
+    renderizarVideos(filtrados);
 
   });
 
-  renderizarVideos(filtrados);
-
-});
+carregarVideos();
