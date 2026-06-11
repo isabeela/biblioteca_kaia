@@ -18,11 +18,6 @@ videoInput.addEventListener("change", () => {
   }
 });
 
-document.getElementById("btnUpload").addEventListener("click", uploadVideo);
-
-async function uploadVideo() {
-  console.log("upload");
-}
 
 async function uploadVideo() {
   const nome = document.getElementById("nome").value;
