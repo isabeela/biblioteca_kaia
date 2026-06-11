@@ -40,12 +40,11 @@ videos.forEach(video => {
     <div class="video-card">
 
         <div class="video-preview">
-           <iframe
+           <img
             src="${video.Url}"
             width="100%"
             height="220"
             allow="autoplay">
-        </iframe>
 
         <div class="content">
 
