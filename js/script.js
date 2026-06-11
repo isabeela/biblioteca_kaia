@@ -12,22 +12,36 @@ const db =
 
 let todosVideos = [];
 
+// async function carregarVideos() {
+
+//   const { data, error } = await db
+//     .from("biblioteca")
+//     .select("*")
+//     .order("id", { ascending: false });
+
+//   if (error) {
+//     console.error(error);
+//     return;
+//   }
+
+//   todosVideos = data;
+
+//   renderizarVideos(data);
+
+// }
+
 async function carregarVideos() {
 
   const { data, error } = await db
     .from("biblioteca")
-    .select("*")
-    .order("id", { ascending: false });
+    .select("*");
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+  console.log("DATA:", data);
+  console.log("ERROR:", error);
 
-  todosVideos = data;
+  if (error) return;
 
   renderizarVideos(data);
-
 }
 
 function renderizarVideos(videos) {
