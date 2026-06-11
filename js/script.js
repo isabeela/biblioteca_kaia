@@ -38,35 +38,34 @@ videos.forEach(video => {
     gallery.innerHTML += `
 
     <div class="video-card">
-
         <div class="video-preview">
            <img
             src="${video.Url}"
             width="100%"
             height="220">
 
-        <div class="content">
+            <div class="content">
 
-            <h3>${video.Nome}</h3>
+                <h3>${video.Nome}</h3>
 
-            <div class="tags">
-                ${tagsHtml}
+                <div class="tags">
+                    ${tagsHtml}
+                </div>
+
+                <div class="tag-form">
+
+                    <input
+                        type="text"
+                        placeholder="Nova etiqueta">
+
+                    <button>
+                        Adicionar
+                    </button>
+
+                </div>
+
             </div>
-
-            <div class="tag-form">
-
-                <input
-                    type="text"
-                    placeholder="Nova etiqueta">
-
-                <button>
-                    Adicionar
-                </button>
-
-            </div>
-
         </div>
-
     </div>
 
     `;
