@@ -78,3 +78,9 @@ async function uploadVideo() {
 
   status.innerText = "Upload concluído com sucesso!";
 }
+
+document.getElementById("btnUpload").addEventListener("click", uploadVideo);
+
+async function uploadVideo() {
+  console.log("upload");
+}
