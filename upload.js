@@ -28,11 +28,6 @@ videoInput.addEventListener("change", (event) => {
 
   if (!files.length) return;
 
-  // // PREVIEW PRINCIPAL
-  // const firstFile = files[0];
-  // preview.src = URL.createObjectURL(firstFile);
-  // preview.style.display = "block";
-
   // LISTA
   files.forEach((file, index) => {
     const url = URL.createObjectURL(file);
