@@ -24,50 +24,25 @@
 </button>
 
 <div id="tagModal" class="modal">
-
     <div class="modal-content">
+        <h3>Cadastrar Tag</h3>
+        <input type="text" id="novaTag" placeholder="Nome da tag">
 
-        <h3>Nova Tag</h3>
-
-        <input
-            type="text"
-            id="novaTag"
-            placeholder="Nome da tag"
-        >
-
-        <input
-            type="color"
-            id="tagColor"
-            value="#3b82f6"
-        >
-
-        <input
-            type="text"
-            id="tagEmoji"
-            placeholder="Emoji"
-            readonly
-        >
-
-        <button id="btnEmoji">
-            😀 Escolher Emoji
-        </button>
-
-        <div
-            id="emojiContainer"
-            style="display:none;margin-top:10px;"
-        >
+        <div class="tag-options">
+            <input type="color" id="tagColor" value="#3b82f6">
+            <input type="text" id="tagEmoji" readonly>
+            <div id="emojiContainer" style="display:none;margin-top:10px;">
+            <button id="btnEmoji"> 😀 Emoji </button>
             <emoji-picker></emoji-picker>
         </div>
+    </div>
 
-        <br><br>
+</div>
 
-        <button id="saveTag">
-            Salvar
-        </button>
 
-        <button id="cancelTag">
-            Cancelar
-        </button>
+
+<button id="saveTag"> Salvar </button>
+<button id="cancelTag"> Cancelar </button>
 
         <hr>
 
