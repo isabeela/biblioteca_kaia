@@ -8,19 +8,19 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ELEMENTOS
 const videoInput = document.getElementById("video");
-const preview = document.querySelector(".preview-video");
+// const preview = document.querySelector(".preview-video");
 const queue = document.getElementById("queue");
 const status = document.getElementById("status");
 
-// PREVIEW SINGLE
-videoInput.addEventListener("change", () => {
-  const file = videoInput.files[0];
+// // PREVIEW SINGLE
+// videoInput.addEventListener("change", () => {
+//   const file = videoInput.files[0];
 
-  if (file) {
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
-  }
-});
+//   if (file) {
+//     preview.src = URL.createObjectURL(file);
+//     preview.style.display = "block";
+//   }
+// });
 
 // EXTRAI NOME
 function extrairNomeArquivo(nomeArquivo) {
@@ -36,18 +36,17 @@ videoInput.addEventListener("change", () => {
 
   files.forEach((file, index) => {
     const nome = extrairNomeArquivo(file.name);
-    const previewUrl = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
 
     const div = document.createElement("div");
     div.className = "video-item";
 
     const video = document.createElement("video");
-    video.src = previewUrl;
+    video.src = url;
     video.controls = true;
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
-    video.preload = "metadata";
 
     const inputNome = document.createElement("input");
     inputNome.value = nome;
