@@ -28,12 +28,12 @@ videoInput.addEventListener("change", (event) => {
 
   if (!files.length) return;
 
-  // 🔵 PREVIEW PRINCIPAL
-  const firstFile = files[0];
-  preview.src = URL.createObjectURL(firstFile);
-  preview.style.display = "block";
+  // // PREVIEW PRINCIPAL
+  // const firstFile = files[0];
+  // preview.src = URL.createObjectURL(firstFile);
+  // preview.style.display = "block";
 
-  // 🟢 LISTA
+  // LISTA
   files.forEach((file, index) => {
     const url = URL.createObjectURL(file);
     const nome = extrairNomeArquivo(file.name);
@@ -83,6 +83,7 @@ videoInput.addEventListener("change", (event) => {
 // 🚀 UPLOAD TODOS
 //
 async function uploadVideo() {
+
   const files = Array.from(videoInput.files);
 
   if (!files.length) {
@@ -90,11 +91,23 @@ async function uploadVideo() {
     return;
   }
 
-  status.innerText = "Enviando vídeos...";
+  status.innerText = `Enviando ${files.length} vídeos...`;
 
-  for (const file of files) {
+  for (let i = 0; i < files.length; i++) {
+
+    const file = files[i];
+
+    const tags =
+      document.querySelector(`.tags-${i}`)?.value || "";
+
+    const descricao =
+      document.querySelector(`.desc-${i}`)?.value || "";
+
+    const nome = extrairNomeArquivo(file.name);
+
     const fileName = `${Date.now()}-${file.name}`;
 
+    // Upload Storage
     const { error: uploadError } = await supabase.storage
       .from("videos")
       .upload(fileName, file);
@@ -104,22 +117,22 @@ async function uploadVideo() {
       continue;
     }
 
+    // URL pública
     const { data } = supabase.storage
       .from("videos")
       .getPublicUrl(fileName);
 
     const url = data.publicUrl;
 
-    const nome = extrairNomeArquivo(file.name);
-
+    // Banco
     const { error: dbError } = await supabase
       .from("biblioteca")
       .insert([
         {
           nome,
-          descricao: "",
+          descricao,
+          tags,
           personagem: "",
-          tags: "",
           url
         }
       ]);
@@ -129,7 +142,7 @@ async function uploadVideo() {
     }
   }
 
-  status.innerText = "Upload concluído!";
+  status.innerText = "✅ Todos os vídeos foram enviados!";
 }
 
 //
