@@ -28,23 +28,18 @@ videoInput.addEventListener("change", (event) => {
 
   if (!files.length) return;
 
-  // 🔵 PREVIEW DO PRIMEIRO VÍDEO
+  // 🔵 PREVIEW PRINCIPAL
   const firstFile = files[0];
   preview.src = URL.createObjectURL(firstFile);
   preview.style.display = "block";
 
-  // 🟢 LISTA DE TODOS OS VÍDEOS
+  // 🟢 LISTA
   files.forEach((file, index) => {
     const url = URL.createObjectURL(file);
     const nome = extrairNomeArquivo(file.name);
 
     const card = document.createElement("div");
     card.className = "video-item";
-    card.style.border = "1px solid #444";
-    card.style.margin = "10px";
-    card.style.padding = "10px";
-    card.style.display = "inline-block";
-    card.style.width = "250px";
 
     const video = document.createElement("video");
     video.src = url;
@@ -66,7 +61,9 @@ videoInput.addEventListener("change", (event) => {
 
     const btn = document.createElement("button");
     btn.textContent = "Enviar este vídeo";
-    btn.onclick = () => uploadSingle(index);
+
+    // 🔥 IMPORTANTE: capturar file direto (não index)
+    btn.onclick = () => uploadSingleFile(file, tags, desc);
 
     card.appendChild(video);
     card.appendChild(title);
@@ -134,12 +131,9 @@ async function uploadVideo() {
 //
 // 🎯 UPLOAD INDIVIDUAL
 //
-async function uploadSingle(index) {
-  const files = Array.from(videoInput.files);
-  const file = files[index];
-
-  const tags = document.querySelector(`.tags-${index}`).value;
-  const descricao = document.querySelector(`.desc-${index}`).value;
+async function uploadSingleFile(file, tagsEl, descEl) {
+  const tags = tagsEl.value;
+  const descricao = descEl.value;
 
   const nome = extrairNomeArquivo(file.name);
   const fileName = `${Date.now()}-${file.name}`;
