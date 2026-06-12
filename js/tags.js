@@ -1,62 +1,57 @@
+// ==========================
+// ELEMENTOS
+// ==========================
+
 const modal =
-  document.getElementById("tagModal");
+document.getElementById("tagModal");
 
 const btnNovaTag =
-  document.getElementById("btnNovaTag");
+document.getElementById("btnNovaTag");
 
 const btnSalvarTag =
-  document.getElementById("saveTag");
+document.getElementById("saveTag");
 
 const btnCancelarTag =
-  document.getElementById("cancelTag");
+document.getElementById("cancelTag");
 
-// abrir
+const btnEmoji =
+document.getElementById("btnEmoji");
+
+const emojiContainer =
+document.getElementById("emojiContainer");
+
+const picker =
+document.querySelector("emoji-picker");
+
+// ==========================
+// ABRIR MODAL
+// ==========================
+
 btnNovaTag.addEventListener("click", () => {
 
-  modal.classList.add("show");
+    modal.classList.add("show");
 
 });
 
-// fechar
+// ==========================
+// FECHAR MODAL
+// ==========================
+
 btnCancelarTag.addEventListener("click", () => {
 
-  modal.classList.remove("show");
+    modal.classList.remove("show");
 
 });
 
-// salvar
-btnSalvarTag.addEventListener(
-  "click",
-  salvarTag
-);
+// ==========================
+// ABRIR EMOJI PICKER
+// ==========================
 
-// ===========================
-// SALVAR TAG
-// ===========================
-
-async function salvarTag() {
-
-  const nome =
-    document
-      .getElementById("novaTag")
-      .value
-      .trim();
-
-  const cor =
-    document
-      .getElementById("tagColor")
-      .value;
-
-  const btnEmoji =
-  document.getElementById("btnEmoji");
-
-  const emojiContainer =
-    document.getElementById("emojiContainer");
-
-    btnEmoji.addEventListener("click", () => {
+btnEmoji.addEventListener("click", () => {
 
     if (
-        emojiContainer.style.display === "none"
+        emojiContainer.style.display === "none" ||
+        emojiContainer.style.display === ""
     ) {
 
         emojiContainer.style.display = "block";
@@ -67,118 +62,182 @@ async function salvarTag() {
 
     }
 
-    });
+});
 
-    const picker = document.querySelector("emoji-picker");
+// ==========================
+// SELECIONAR EMOJI
+// ==========================
 
-    picker.addEventListener(
+picker.addEventListener(
     "emoji-click",
-    event => {
+    (event) => {
 
         document
         .getElementById("tagEmoji")
         .value =
-            event.detail.unicode;
+        event.detail.unicode;
 
         emojiContainer.style.display =
         "none";
 
     }
-    );
+);
 
-  if (!nome) {
+// ==========================
+// BOTÃO SALVAR
+// ==========================
 
-    alert("Digite o nome da tag");
+btnSalvarTag.addEventListener(
+    "click",
+    salvarTag
+);
 
-    return;
+// ==========================
+// SALVAR TAG
+// ==========================
 
-  }
+async function salvarTag() {
 
-  const { error } = await db
+    const nome =
+    document
+    .getElementById("novaTag")
+    .value
+    .trim();
+
+    const cor =
+    document
+    .getElementById("tagColor")
+    .value;
+
+    const emoji =
+    document
+    .getElementById("tagEmoji")
+    .value;
+
+    if (!nome) {
+
+        alert("Digite o nome da tag");
+
+        return;
+
+    }
+
+    const { error } =
+    await db
     .from("tags")
     .insert([
-      {
-        nome,
-        cor,
-        emoji
-      }
+        {
+            nome,
+            cor,
+            emoji
+        }
     ]);
 
-  if (error) {
+    if (error) {
 
-    console.error(error);
+        console.error(error);
+
+        alert(
+            "Erro ao salvar tag"
+        );
+
+        return;
+
+    }
 
     alert(
-      "Erro ao salvar tag"
+        "Tag criada com sucesso!"
     );
 
-    return;
+    // limpa campos
 
-  }
+    document.getElementById(
+        "novaTag"
+    ).value = "";
 
-  alert(
-    "Tag criada com sucesso!"
-  );
+    document.getElementById(
+        "tagEmoji"
+    ).value = "";
 
-  document.getElementById(
-    "novaTag"
-  ).value = "";
+    document.getElementById(
+        "tagColor"
+    ).value = "#3b82f6";
 
-  document.getElementById(
-    "tagEmoji"
-  ).value = "";
+    modal.classList.remove("show");
 
-  document.getElementById(
-    "tagColor"
-  ).value = "#3b82f6";
-
-  modal.classList.remove("show");
-
-  carregarTags();
+    carregarTags();
 
 }
 
-// ===========================
+// ==========================
 // CARREGAR TAGS
-// ===========================
+// ==========================
 
 async function carregarTags() {
 
-  const { data, error } = await db
+    const { data, error } =
+    await db
     .from("tags")
     .select("*")
-    .order("nome");
+    .order(
+        "nome",
+        {
+            ascending: true
+        }
+    );
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+    if (error) {
 
-  const lista =
-    document.getElementById("listaTags");
+        console.error(error);
 
-  lista.innerHTML = "";
+        return;
 
-  data.forEach(tag => {
+    }
 
-    const div =
-      document.createElement("div");
+    const lista =
+    document.getElementById(
+        "listaTags"
+    );
 
-    div.className = "tag-item";
+    lista.innerHTML = "";
 
-    div.style.background =
-      tag.cor || "#666";
+    data.forEach(tag => {
 
-    div.innerHTML =
-      `${tag.emoji || ""} ${tag.nome}`;
+        const div =
+        document.createElement("div");
 
-    lista.appendChild(div);
+        div.className =
+        "tag-item";
 
-  });
+        div.style.background =
+        tag.cor || "#666";
+
+        div.style.color =
+        "#fff";
+
+        div.style.padding =
+        "8px 12px";
+
+        div.style.margin =
+        "4px";
+
+        div.style.borderRadius =
+        "20px";
+
+        div.style.display =
+        "inline-block";
+
+        div.innerHTML =
+        `${tag.emoji || ""} ${tag.nome}`;
+
+        lista.appendChild(div);
+
+    });
 
 }
-// ===========================
+
+// ==========================
 // INICIALIZAÇÃO
-// ===========================
+// ==========================
 
 carregarTags();

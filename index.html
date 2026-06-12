@@ -20,51 +20,66 @@
 <h4> A Biblioteca de animação da Kaia </h4>
 
 <button id="btnNovaTag">
-    + Nova Tag
+    Nova Tag
 </button>
 
 <div id="tagModal" class="modal">
 
-  <div class="modal-content">
+    <div class="modal-content">
 
-    <h3>Nova Tag</h3>
+        <h3>Nova Tag</h3>
 
-    <input
-      type="text"
-      id="novaTag"
-      placeholder="Nome da tag"
-    >
+        <input
+            type="text"
+            id="novaTag"
+            placeholder="Nome da tag"
+        >
 
-    <input type="color" id="tagColor" value="#3b82f6">
+        <input
+            type="color"
+            id="tagColor"
+            value="#3b82f6"
+        >
 
-    <input type="text" id="tagEmoji" placeholder="Emoji" readonly>
-    <button id="btnEmoji"> 😀 Escolher Emoji </button>
+        <input
+            type="text"
+            id="tagEmoji"
+            placeholder="Emoji"
+            readonly
+        >
 
-<div
-  id="emojiContainer"
-  style="display:none; margin-top:10px;">
-  
-  <emoji-picker></emoji-picker>
+        <button id="btnEmoji">
+            😀 Escolher Emoji
+        </button>
+
+        <div
+            id="emojiContainer"
+            style="display:none;margin-top:10px;"
+        >
+            <emoji-picker></emoji-picker>
+        </div>
+
+        <br><br>
+
+        <button id="saveTag">
+            Salvar
+        </button>
+
+        <button id="cancelTag">
+            Cancelar
+        </button>
+
+        <hr>
+
+        <h4>Tags cadastradas</h4>
+
+        <div id="listaTags"></div>
+
+    </div>
 
 </div>
 
-    <button id="saveTag">
-      Salvar
-    </button>
 
-    <button id="cancelTag">
-      Cancelar
-    </button>
-
-    <hr>
-
-    <h4>Tags cadastradas</h4>
-
-    <div id="listaTags"></div>
-
-  </div>
-
-</div>
 
 </header>
 
@@ -74,7 +89,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/emoji-picker-element"> </script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 <script src="js/script.js"></script>
 <script src="js/tags.js"></script>
 
