@@ -34,31 +34,47 @@ videoInput.addEventListener("change", () => {
 
   const files = Array.from(videoInput.files);
 
-  alert("TOTAL: " + files.length);
-
   files.forEach((file, index) => {
+    const nome = extrairNomeArquivo(file.name);
+    const previewUrl = URL.createObjectURL(file);
+
     const div = document.createElement("div");
     div.className = "video-item";
 
-    div.style.border = "2px solid red";
-    div.style.margin = "10px";
-    div.style.display = "block";
-
     const video = document.createElement("video");
-    video.src = URL.createObjectURL(file);
-    video.width = 200;
+    video.src = previewUrl;
     video.controls = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+
+    const inputNome = document.createElement("input");
+    inputNome.value = nome;
+    inputNome.className = `nome-${index}`;
+
+    const inputTags = document.createElement("input");
+    inputTags.placeholder = "Tags";
+    inputTags.className = `tags-${index}`;
+
+    const desc = document.createElement("textarea");
+    desc.placeholder = "Descrição";
+    desc.className = `desc-${index}`;
+
+    const btn = document.createElement("button");
+    btn.textContent = "Enviar este vídeo";
+    btn.onclick = () => uploadSingle(index);
 
     div.appendChild(video);
-
-    const p = document.createElement("p");
-    p.innerText = file.name;
-
-    div.appendChild(p);
+    div.appendChild(inputNome);
+    div.appendChild(inputTags);
+    div.appendChild(desc);
+    div.appendChild(btn);
 
     queue.appendChild(div);
   });
 });
+
 // UPLOAD TODOS
 async function uploadVideo() {
   const files = Array.from(videoInput.files);
