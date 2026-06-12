@@ -12,15 +12,15 @@ const preview = document.querySelector(".preview-video");
 const queue = document.getElementById("queue");
 const status = document.getElementById("status");
 
-// PREVIEW SINGLE
-videoInput.addEventListener("change", () => {
-  const file = videoInput.files[0];
+// // PREVIEW SINGLE
+// videoInput.addEventListener("change", () => {
+//   const file = videoInput.files[0];
 
-  if (file) {
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
-  }
-});
+//   if (file) {
+//     preview.src = URL.createObjectURL(file);
+//     preview.style.display = "block";
+//   }
+// });
 
 // EXTRAI NOME
 function extrairNomeArquivo(nomeArquivo) {
