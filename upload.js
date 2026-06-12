@@ -30,14 +30,33 @@ videoInput.addEventListener("change", () => {
     const div = document.createElement("div");
     div.className = "video-item";
 
-    div.innerHTML = `
-      <video src="${previewUrl}" width="200" muted loop autoplay></video>
+    const video = document.createElement("video");
 
-      <input type="text" class="tags-${index}" placeholder="Tags">
-      <textarea class="desc-${index}" placeholder="Descrição"></textarea>
+    video.src = previewUrl;
+    video.width = 220;
+    video.muted = true;
+    video.controls = true;
+    video.loop = true;
+    video.playsInline = true;
 
-      <p><strong>${nome}</strong></p>
-    `;
+    // força carregamento (IMPORTANTE)
+    video.load();
+
+    const tags = document.createElement("input");
+    tags.placeholder = "Tags";
+    tags.className = `tags-${index}`;
+
+    const desc = document.createElement("textarea");
+    desc.placeholder = "Descrição";
+    desc.className = `desc-${index}`;
+
+    const title = document.createElement("p");
+    title.innerHTML = `<strong>${nome}</strong>`;
+
+    div.appendChild(video);
+    div.appendChild(tags);
+    div.appendChild(desc);
+    div.appendChild(title);
 
     queue.appendChild(div);
   });
