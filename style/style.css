@@ -52,7 +52,7 @@ padding: 100px;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .video-item {
