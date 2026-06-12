@@ -79,6 +79,8 @@ padding: 100px;
 .upload-actions {
     width: 50%;
     text-align: center;
+    margin: 0 auto;
+    justify-content: center;
   
 }
 
