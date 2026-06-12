@@ -85,3 +85,8 @@ padding: 100px;
     font-size: 16px;
     cursor: pointer;
 }
+
+.box {
+  width: 90%;
+  align-items: center;
+}
