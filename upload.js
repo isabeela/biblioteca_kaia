@@ -50,6 +50,7 @@ videoInput.addEventListener("change", (event) => {
     video.playsInline = true;
 
     video.src = url;
+    video.style.display = "block";
 
     const title = document.createElement("p");
     title.textContent = nome;
