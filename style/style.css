@@ -129,6 +129,7 @@ padding: 100px;
     color:white;
     background:#1f1f1f;
     transition:.2s;
+    width: 50%;
 }
 
 #drop-zone:hover{
