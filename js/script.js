@@ -10,6 +10,58 @@ const db =
     SUPABASE_KEY
   );
 
+
+const modal =
+  document.getElementById("tagModal");
+
+document
+  .getElementById("btnNovaTag")
+  .addEventListener("click", () => {
+
+    modal.classList.add("show");
+
+});
+
+document
+  .getElementById("cancelTag")
+  .addEventListener("click", () => {
+
+    modal.classList.remove("show");
+
+});
+
+document
+  .getElementById("saveTag")
+  .addEventListener("click", async () => {
+
+    const nome =
+      document.getElementById("novaTag")
+      .value
+      .trim();
+
+    if (!nome) return;
+
+    const { error } = await supabase
+      .from("tags")
+      .insert([
+        { nome }
+      ]);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    alert("Tag criada!");
+
+    modal.classList.remove("show");
+
+    document.getElementById("novaTag").value = "";
+
+    carregarTags();
+
+});
+
 let todosVideos = [];
 
 // async function carregarVideos() {
