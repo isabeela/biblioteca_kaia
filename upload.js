@@ -6,10 +6,13 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// preview
+// ELEMENTOS
 const videoInput = document.getElementById("video");
 const preview = document.getElementById("preview");
+const queue = document.getElementById("queue");
+const status = document.getElementById("status");
 
+// PREVIEW SINGLE
 videoInput.addEventListener("change", () => {
   const file = videoInput.files[0];
 
@@ -19,14 +22,13 @@ videoInput.addEventListener("change", () => {
   }
 });
 
-// extrair nome
+// EXTRAI NOME
 function extrairNomeArquivo(nomeArquivo) {
   const semExtensao = nomeArquivo.replace(/\.[^/.]+$/, "");
-  const parteAntesAnim = semExtensao.split("_anim")[0];
-  return parteAntesAnim.trim();
+  return semExtensao.split("_anim")[0].trim();
 }
-const queue = document.getElementById("queue");
 
+// CRIA CARDS
 videoInput.addEventListener("change", () => {
   queue.innerHTML = "";
 
@@ -37,14 +39,13 @@ videoInput.addEventListener("change", () => {
     const previewUrl = URL.createObjectURL(file);
 
     const div = document.createElement("div");
-
     div.className = "video-item";
 
     div.innerHTML = `
       <video src="${previewUrl}" width="200" muted loop autoplay></video>
 
-      <input type="text" placeholder="Nome" value="${nome}" class="nome-${index}">
-      <input type="text" placeholder="Tags (ex: futebol, gol)" class="tags-${index}">
+      <input type="text" value="${nome}" class="nome-${index}">
+      <input type="text" placeholder="Tags" class="tags-${index}">
       <textarea placeholder="Descrição" class="desc-${index}"></textarea>
 
       <button onclick="uploadSingle(${index})">Enviar este vídeo</button>
@@ -54,25 +55,20 @@ videoInput.addEventListener("change", () => {
   });
 });
 
+// UPLOAD TODOS
 async function uploadVideo() {
   const files = Array.from(videoInput.files);
-  const status = document.getElementById("status");
 
   if (!files.length) {
     status.innerText = "Selecione um vídeo.";
     return;
   }
 
-  const nome = extrairNomeArquivo(file.name);
-  const descricao = document.getElementById("descricao").value;
-  const tags = document.getElementById("tags").value;
-
   status.innerText = "Enviando vídeos...";
 
   for (const file of files) {
     const fileName = `${Date.now()}-${file.name}`;
 
-    // 1. upload
     const { error: uploadError } = await supabase
       .storage
       .from("videos")
@@ -83,7 +79,6 @@ async function uploadVideo() {
       continue;
     }
 
-    // 2. URL
     const { data } = supabase
       .storage
       .from("videos")
@@ -91,18 +86,16 @@ async function uploadVideo() {
 
     const url = data.publicUrl;
 
-    // 3. nome automático
     const nome = extrairNomeArquivo(file.name);
 
-    // 4. insert banco
     const { error: dbError } = await supabase
       .from("biblioteca")
       .insert([
         {
           nome,
-          descricao,
-          personagem,
-          tags,
+          descricao: "",
+          personagem: "",
+          tags: "",
           url
         }
       ]);
@@ -112,11 +105,12 @@ async function uploadVideo() {
     }
   }
 
-  status.innerText = "Upload concluído com sucesso!";
+  status.innerText = "Upload concluído!";
 }
 
+// UPLOAD INDIVIDUAL
 async function uploadSingle(index) {
-  const files = Array.from(document.getElementById("video").files);
+  const files = Array.from(videoInput.files);
   const file = files[index];
 
   const nome = document.querySelector(`.nome-${index}`).value;
@@ -125,7 +119,6 @@ async function uploadSingle(index) {
 
   const fileName = `${Date.now()}-${file.name}`;
 
-  // 1. upload
   const { error: uploadError } = await supabase.storage
     .from("videos")
     .upload(fileName, file);
@@ -135,14 +128,12 @@ async function uploadSingle(index) {
     return;
   }
 
-  // 2. url
   const { data } = supabase.storage
     .from("videos")
     .getPublicUrl(fileName);
 
   const url = data.publicUrl;
 
-  // 3. banco
   const { error: dbError } = await supabase
     .from("biblioteca")
     .insert([
@@ -162,8 +153,7 @@ async function uploadSingle(index) {
   alert("Vídeo enviado!");
 }
 
-
-
+// BOTÃO
 document
   .getElementById("btnUpload")
   .addEventListener("click", uploadVideo);
