@@ -42,6 +42,7 @@ videoInput.addEventListener("change", (event) => {
     card.className = "video-item";
 
     const video = document.createElement("video");
+    video.className = "preview-video";
     video.src = url;
     video.controls = true;
     video.muted = true;
