@@ -87,7 +87,32 @@ padding: 100px;
     cursor: pointer;
 }
 
+
 .box {
-  width: 90%;
-  align-items: center;
-}
+      max-width: 90%;
+      margin: auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      background: #00c2ff;
+      border: none;
+      cursor: pointer;
+    }
+
+    video {
+      width: 100%;
+      margin-top: 10px;
+      display: none;
+    }
