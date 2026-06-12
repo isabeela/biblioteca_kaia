@@ -25,8 +25,6 @@ function extrairNomeArquivo(nomeArquivo) {
   const parteAntesAnim = semExtensao.split("_anim")[0];
   return parteAntesAnim.trim();
 }
-
-const videoInput = document.getElementById("video");
 const queue = document.getElementById("queue");
 
 videoInput.addEventListener("change", () => {
