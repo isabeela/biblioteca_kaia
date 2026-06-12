@@ -5,18 +5,64 @@ const supabaseUrl = "https://rjrwdgbdeluiskmiojfi.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcndkZ2JkZWx1aXNrbWlvamZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzYyODQsImV4cCI6MjA5Njc1MjI4NH0.zT5JLfXnxOe95LrJ_kqanPu2HlTn8ZZLxUYQDlbrxfM";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-
 // ELEMENTOS
 const videoInput = document.getElementById("video");
 const preview = document.querySelector(".preview-video");
 const queue = document.getElementById("queue");
 const status = document.getElementById("status");
 
+//
+// DRAG & DROP
+//
+const dropZone = document.getElementById("drop-zone");
+
+// clicar na área
+dropZone.addEventListener("click", () => {
+    videoInput.click();
+});
+
+// arrastando sobre a área
+dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+});
+
+// saiu da área
+dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+});
+
+// soltou arquivos
+dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    dropZone.classList.remove("dragover");
+
+    const files = e.dataTransfer.files;
+
+    if (!files.length) return;
+
+    // coloca os arquivos no input
+    const dataTransfer = new DataTransfer();
+
+    Array.from(files).forEach(file => {
+        dataTransfer.items.add(file);
+    });
+
+    videoInput.files = dataTransfer.files;
+
+    // dispara o mesmo evento usado pelo botão escolher arquivos
+    videoInput.dispatchEvent(
+        new Event("change", { bubbles: true })
+    );
+});
+
 // EXTRAI NOME LIMPO
 function extrairNomeArquivo(nomeArquivo) {
   const semExtensao = nomeArquivo.replace(/.[^/.]+$/, "");
   return semExtensao.split("_anim")[0].trim();
 }
+
 
 //
 // 🎬 PREVIEW PRINCIPAL + LISTA
