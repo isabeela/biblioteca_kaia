@@ -64,9 +64,25 @@ function extrairNomeArquivo(nomeArquivo) {
 }
 
 
-//
-// 🎬 PREVIEW PRINCIPAL + LISTA
-//
+let todasTags = [];
+async function carregarTags() {
+
+  const { data, error } = await supabase
+    .from("tags")
+    .select("*")
+    .order("nome");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  todasTags = data;
+}
+
+carregarTags();
+
+
 videoInput.addEventListener("change", (event) => {
   queue.innerHTML = "";
 
@@ -96,9 +112,33 @@ videoInput.addEventListener("change", (event) => {
     const title = document.createElement("p");
     title.textContent = nome;
 
-    const tags = document.createElement("input");
-    tags.placeholder = "Tags";
-    tags.className = `tags-${index}`;
+   const tagsContainer = document.createElement("div");
+   tagsContainer.className = "tags-container";
+
+   todasTags.forEach(tag => {
+
+    const label = document.createElement("label");
+
+    label.innerHTML = `
+      <input
+        type="checkbox"
+        value="${tag.nome}"
+        class="video-tag-${index}"
+      >
+
+      <span
+        class="tag-chip"
+        style="
+          background:${tag.cor};
+        "
+      >
+        ${tag.emoji || ""} ${tag.nome}
+      </span>
+    `;
+
+    tagsContainer.appendChild(label);
+
+  });
 
     const desc = document.createElement("textarea");
     desc.placeholder = "Descrição";
@@ -108,11 +148,16 @@ videoInput.addEventListener("change", (event) => {
     btn.textContent = "Enviar este vídeo";
 
     // 🔥 IMPORTANTE: capturar file direto (não index)
-    btn.onclick = () => uploadSingleFile(file, tags, desc);
+   btn.onclick = () =>
+    uploadSingleFile(
+      file,
+      desc,
+      index
+    );
 
     card.appendChild(video);
     card.appendChild(title);
-    card.appendChild(tags);
+    card.appendChild(tagsContainer);
     card.appendChild(desc);
     card.appendChild(btn);
 
@@ -138,8 +183,13 @@ async function uploadVideo() {
 
     const file = files[i];
 
-    const tags =
-      document.querySelector(`.tags-${i}`)?.value || "";
+    const tagsSelecionadas =
+      Array.from(
+        document.querySelectorAll(
+          `.video-tag-${i}:checked`
+        )
+      )
+      .map(el => el.value);
 
     const descricao =
       document.querySelector(`.desc-${i}`)?.value || "";
@@ -172,7 +222,7 @@ async function uploadVideo() {
         {
           nome,
           descricao,
-          tags,
+          tags: tagsSelecionadas.join(","),
           personagem: "",
           url
         }
@@ -189,8 +239,15 @@ async function uploadVideo() {
 //
 // 🎯 UPLOAD INDIVIDUAL
 //
-async function uploadSingleFile(file, tagsEl, descEl) {
-  const tags = tagsEl.value;
+async function uploadSingleFile(file, descEl, index) {
+  const tags =
+  Array.from(
+    document.querySelectorAll(
+      `.video-tag-${index}:checked`
+    )
+  )
+.map(el => el.value)
+.join(",");
   const descricao = descEl.value;
 
   const nome = extrairNomeArquivo(file.name);
