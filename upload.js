@@ -29,48 +29,38 @@ function extrairNomeArquivo(nomeArquivo) {
 }
 
 // CRIA CARDS
-videoInput.addEventListener("change", () => {
+const videoInput = document.getElementById("video");
+const queue = document.getElementById("queue");
+
+videoInput.addEventListener("change", (event) => {
   queue.innerHTML = "";
 
-  const files = Array.from(videoInput.files);
+  const files = Array.from(event.target.files);
 
-  files.forEach((file, index) => {
-    const nome = extrairNomeArquivo(file.name);
+  console.log("TOTAL FILES:", files.length);
+
+  files.forEach((file) => {
     const url = URL.createObjectURL(file);
 
-    const div = document.createElement("div");
-    div.className = "video-item";
+    const card = document.createElement("div");
+    card.style.border = "2px solid red";
+    card.style.margin = "10px";
+    card.style.display = "block";
 
     const video = document.createElement("video");
     video.src = url;
     video.controls = true;
     video.muted = true;
     video.loop = true;
-    video.playsInline = true;
+    video.width = 250;
 
-    const inputNome = document.createElement("input");
-    inputNome.value = nome;
-    inputNome.className = `nome-${index}`;
+    const name = document.createElement("p");
+    name.textContent = file.name;
 
-    const inputTags = document.createElement("input");
-    inputTags.placeholder = "Tags";
-    inputTags.className = `tags-${index}`;
+    card.appendChild(video);
+    card.appendChild(name);
 
-    const desc = document.createElement("textarea");
-    desc.placeholder = "Descrição";
-    desc.className = `desc-${index}`;
-
-    const btn = document.createElement("button");
-    btn.textContent = "Enviar este vídeo";
-    btn.onclick = () => uploadSingle(index);
-
-    div.appendChild(video);
-    div.appendChild(inputNome);
-    div.appendChild(inputTags);
-    div.appendChild(desc);
-    div.appendChild(btn);
-
-    queue.appendChild(div);
+    queue.appendChild(card);
   });
 });
 
