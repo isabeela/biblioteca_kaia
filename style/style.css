@@ -560,7 +560,7 @@ emoji-picker{
 
 #novaTag{
     flex:1;
-    margin:0 !important;
+    margin:0;
 }
 
 #tagColor{
@@ -573,15 +573,15 @@ emoji-picker{
 }
 
 #tagEmoji{
-    width:60px !important;
+    width:60px;
     text-align:center;
     font-size:24px;
     flex:none;
-    margin:0 !important;
+    margin:0;
 }
 
 #btnEmoji{
-    padding:12px 16px;
+    padding:12px 12px;
     border:none;
     border-radius:8px;
     background:#4f46e5;
