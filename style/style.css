@@ -273,17 +273,6 @@ padding: 100px;
     background:none;
 }
 
-#tagEmoji{
-
-    width:70px !important;
-
-    text-align:center;
-
-    font-size:24px;
-
-    flex:none;
-}
-
 #btnEmoji{
 
     width:auto;
@@ -392,36 +381,6 @@ padding: 100px;
     margin-top:15px;
 }
 
-/* Cor */
-
-#tagColor{
-
-    width:50px;
-    height:50px;
-
-    border:none;
-    padding:0;
-
-    cursor:pointer;
-
-    background:none;
-}
-
-/* Emoji */
-
-#tagEmoji{
-
-    width:70px !important;
-
-    text-align:center;
-
-    font-size:24px;
-
-    flex:none;
-}
-
-/* Botão Emoji */
-
 #btnEmoji{
 
     padding:10px 15px;
@@ -447,14 +406,11 @@ padding: 100px;
 ========================== */
 
 #emojiContainer{
-
     display:none;
-
     margin-top:15px;
 }
 
 emoji-picker{
-
     width:100%;
     height:350px;
 }
@@ -555,19 +511,10 @@ emoji-picker{
     margin-bottom:15px;
 }
 
-#novaTag{
-    flex:1;
-    margin:0;
+#novaTag{ 
+  margin:0;
 }
 
-#tagColor{
-    width:50px;
-    height:50px;
-    border:none;
-    padding:0;
-    cursor:pointer;
-    flex:none;
-}
 
 #tagEmoji{
     width:40px;
