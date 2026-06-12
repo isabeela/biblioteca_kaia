@@ -24,7 +24,7 @@ videoInput.addEventListener("change", () => {
   const files = Array.from(videoInput.files);
 
   files.forEach((file, index) => {
-    const previewUrl = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
     const nome = extrairNomeArquivo(file.name);
 
     const div = document.createElement("div");
@@ -32,15 +32,14 @@ videoInput.addEventListener("change", () => {
 
     const video = document.createElement("video");
 
-    video.src = previewUrl;
     video.width = 220;
-    video.muted = true;
     video.controls = true;
+    video.muted = true;
     video.loop = true;
     video.playsInline = true;
 
-    // força carregamento (IMPORTANTE)
-    video.load();
+    // 👇 IMPORTANTE: só define src
+    video.src = url;
 
     const tags = document.createElement("input");
     tags.placeholder = "Tags";
