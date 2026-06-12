@@ -8,68 +8,77 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ELEMENTOS
 const videoInput = document.getElementById("video");
-// const preview = document.querySelector(".preview-video");
 const queue = document.getElementById("queue");
 const status = document.getElementById("status");
 
-// // PREVIEW SINGLE
-// videoInput.addEventListener("change", () => {
-//   const file = videoInput.files[0];
-
-//   if (file) {
-//     preview.src = URL.createObjectURL(file);
-//     preview.style.display = "block";
-//   }
-// });
-
-// EXTRAI NOME
+// EXTRAI NOME LIMPO
 function extrairNomeArquivo(nomeArquivo) {
-  const semExtensao = nomeArquivo.replace(/\.[^/.]+$/, "");
+  const semExtensao = nomeArquivo.replace(/.[^/.]+$/, "");
   return semExtensao.split("_anim")[0].trim();
 }
 
-// CRIA CARDS
-const videoInput = document.getElementById("video");
-const queue = document.getElementById("queue");
-
+//
+// 🎬 PREVIEW MULTI
+//
 videoInput.addEventListener("change", (event) => {
   queue.innerHTML = "";
 
   const files = Array.from(event.target.files);
 
-  console.log("TOTAL FILES:", files.length);
+  console.log("Arquivos selecionados:", files.length);
 
-  files.forEach((file) => {
+  files.forEach((file, index) => {
     const url = URL.createObjectURL(file);
+    const nome = extrairNomeArquivo(file.name);
 
     const card = document.createElement("div");
-    card.style.border = "2px solid red";
+    card.className = "video-item";
+    card.style.border = "1px solid #444";
+    card.style.padding = "10px";
     card.style.margin = "10px";
-    card.style.display = "block";
+    card.style.display = "inline-block";
+    card.style.width = "250px";
 
     const video = document.createElement("video");
     video.src = url;
     video.controls = true;
     video.muted = true;
     video.loop = true;
-    video.width = 250;
+    video.width = 220;
 
-    const name = document.createElement("p");
-    name.textContent = file.name;
+    const title = document.createElement("p");
+    title.textContent = nome;
+
+    const tags = document.createElement("input");
+    tags.placeholder = "Tags";
+    tags.className = `tags-${index}`;
+
+    const desc = document.createElement("textarea");
+    desc.placeholder = "Descrição";
+    desc.className = `desc-${index}`;
+
+    const btn = document.createElement("button");
+    btn.textContent = "Enviar este vídeo";
+    btn.onclick = () => uploadSingle(index);
 
     card.appendChild(video);
-    card.appendChild(name);
+    card.appendChild(title);
+    card.appendChild(tags);
+    card.appendChild(desc);
+    card.appendChild(btn);
 
     queue.appendChild(card);
   });
 });
 
-// UPLOAD TODOS
+//
+// 🚀 UPLOAD TODOS
+//
 async function uploadVideo() {
   const files = Array.from(videoInput.files);
 
   if (!files.length) {
-    status.innerText = "Selecione um vídeo.";
+    status.innerText = "Selecione vídeos.";
     return;
   }
 
@@ -78,8 +87,8 @@ async function uploadVideo() {
   for (const file of files) {
     const fileName = `${Date.now()}-${file.name}`;
 
-    const { error: uploadError } = await supabase
-      .storage
+    // 1. upload storage
+    const { error: uploadError } = await supabase.storage
       .from("videos")
       .upload(fileName, file);
 
@@ -88,15 +97,17 @@ async function uploadVideo() {
       continue;
     }
 
-    const { data } = supabase
-      .storage
+    // 2. url pública
+    const { data } = supabase.storage
       .from("videos")
       .getPublicUrl(fileName);
 
     const url = data.publicUrl;
 
+    // 3. nome automático
     const nome = extrairNomeArquivo(file.name);
 
+    // 4. banco
     const { error: dbError } = await supabase
       .from("biblioteca")
       .insert([
@@ -117,17 +128,22 @@ async function uploadVideo() {
   status.innerText = "Upload concluído!";
 }
 
-// UPLOAD INDIVIDUAL
+//
+// 🎯 UPLOAD INDIVIDUAL
+//
 async function uploadSingle(index) {
   const files = Array.from(videoInput.files);
   const file = files[index];
 
-  const nome = document.querySelector(`.nome-${index}`).value;
-  const tags = document.querySelector(`.tags-${index}`).value;
-  const descricao = document.querySelector(`.desc-${index}`).value;
+  if (!file) return;
+
+  const tags = document.querySelector(`.tags-${index}`)?.value || "";
+  const descricao = document.querySelector(`.desc-${index}`)?.value || "";
+  const nome = extrairNomeArquivo(file.name);
 
   const fileName = `${Date.now()}-${file.name}`;
 
+  // upload
   const { error: uploadError } = await supabase.storage
     .from("videos")
     .upload(fileName, file);
@@ -137,12 +153,14 @@ async function uploadSingle(index) {
     return;
   }
 
+  // url
   const { data } = supabase.storage
     .from("videos")
     .getPublicUrl(fileName);
 
   const url = data.publicUrl;
 
+  // banco
   const { error: dbError } = await supabase
     .from("biblioteca")
     .insert([
@@ -162,7 +180,9 @@ async function uploadSingle(index) {
   alert("Vídeo enviado!");
 }
 
-// BOTÃO
+//
+// BOTÃO UPLOAD TODOS
+//
 document
   .getElementById("btnUpload")
   .addEventListener("click", uploadVideo);
