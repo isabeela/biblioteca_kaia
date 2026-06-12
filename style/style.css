@@ -184,3 +184,18 @@ padding: 100px;
     justify-content:flex-end;
     gap:10px;
 }
+
+#listaTags{
+  margin-top:15px;
+  max-height:250px;
+  overflow-y:auto;
+}
+
+.tag-item{
+  display:inline-block;
+  margin:4px;
+  padding:6px 10px;
+  border-radius:20px;
+  color:white;
+  font-size:14px;
+}

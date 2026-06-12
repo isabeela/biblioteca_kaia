@@ -1,19 +1,3 @@
-// const SUPABASE_URL =
-//   "https://rjrwdgbdeluiskmiojfi.supabase.co";
-
-// const SUPABASE_KEY =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcndkZ2JkZWx1aXNrbWlvamZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzYyODQsImV4cCI6MjA5Njc1MjI4NH0.zT5JLfXnxOe95LrJ_kqanPu2HlTn8ZZLxUYQDlbrxfM";
-
-// const db =
-//   window.supabase.createClient(
-//     SUPABASE_URL,
-//     SUPABASE_KEY
-//   );
-
-  // ===========================
-// MODAL TAGS
-// ===========================
-
 const modal =
   document.getElementById("tagModal");
 
@@ -127,71 +111,39 @@ async function salvarTag() {
 
 async function carregarTags() {
 
-  const { data, error } =
-    await db
-      .from("tags")
-      .select("*")
-      .order(
-        "nome",
-        {
-          ascending: true
-        }
-      );
+  const { data, error } = await db
+    .from("tags")
+    .select("*")
+    .order("nome");
 
   if (error) {
-
     console.error(error);
-
     return;
-
   }
 
   const lista =
-    document.getElementById(
-      "listaTags"
-    );
+    document.getElementById("listaTags");
 
   lista.innerHTML = "";
 
   data.forEach(tag => {
 
-    const span =
-      document.createElement(
-        "span"
-      );
+    const div =
+      document.createElement("div");
 
-    span.className =
-      "tag-item";
+    div.className = "tag-item";
 
-    span.style.background =
+    div.style.background =
       tag.cor || "#666";
 
-    span.style.color =
-      "#fff";
-
-    span.style.padding =
-      "6px 12px";
-
-    span.style.margin =
-      "4px";
-
-    span.style.borderRadius =
-      "20px";
-
-    span.style.display =
-      "inline-block";
-
-    span.innerHTML =
+    div.innerHTML =
       `${tag.emoji || ""} ${tag.nome}`;
 
-    lista.appendChild(
-      span
-    );
+    lista.appendChild(div);
 
   });
 
 }
-
 // ===========================
 // INICIALIZAÇÃO
 // ===========================

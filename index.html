@@ -23,52 +23,45 @@
     + Nova Tag
 </button>
 
-
-
 <div id="tagModal" class="modal">
 
-    <div class="modal-content">
+  <div class="modal-content">
 
-        <h3>Nova Tag</h3>
+    <h3>Nova Tag</h3>
 
-        <input
-            type="text"
-            id="novaTag"
-            placeholder="Nome da tag"
-        >
+    <input
+      type="text"
+      id="novaTag"
+      placeholder="Nome da tag"
+    >
 
-        <input
-            type="text"
-            id="novaTag"
-            placeholder="Nome da tag"
-            >
+    <input
+      type="color"
+      id="tagColor"
+      value="#3b82f6"
+    >
 
-            <input
-            type="color"
-            id="tagColor"
-            value="#3b82f6"
-            >
+    <input
+      type="text"
+      id="tagEmoji"
+      placeholder="Emoji"
+    >
 
-            <input
-            type="text"
-            id="tagEmoji"
-            placeholder="Emoji"
-            maxlength="2"
-            >
+    <button id="saveTag">
+      Salvar
+    </button>
 
-        <div class="modal-buttons">
+    <button id="cancelTag">
+      Cancelar
+    </button>
 
-            <button id="cancelTag">
-                Cancelar
-            </button>
+    <hr>
 
-            <button id="saveTag">
-                Salvar
-            </button>
+    <h4>Tags cadastradas</h4>
 
-        </div>
+    <div id="listaTags"></div>
 
-    </div>
+  </div>
 
 </div>
 
