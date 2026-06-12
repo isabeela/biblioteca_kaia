@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel='stylesheet' href="style/style.css">
+<script src="https://cdn.jsdelivr.net/npm/emoji-picker-element"> </script>
 
 
 <title>BiblioteKaia - Biblioteca de animação</title>
@@ -35,17 +36,18 @@
       placeholder="Nome da tag"
     >
 
-    <input
-      type="color"
-      id="tagColor"
-      value="#3b82f6"
-    >
+    <input type="color" id="tagColor" value="#3b82f6">
 
-    <input
-      type="text"
-      id="tagEmoji"
-      placeholder="Emoji"
-    >
+    <input type="text" id="tagEmoji" placeholder="Emoji" readonly>
+    <button id="btnEmoji"> 😀 Escolher Emoji </button>
+
+<div
+  id="emojiContainer"
+  style="display:none; margin-top:10px;">
+  
+  <emoji-picker></emoji-picker>
+
+</div>
 
     <button id="saveTag">
       Salvar

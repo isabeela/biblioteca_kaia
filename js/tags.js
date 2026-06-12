@@ -47,11 +47,44 @@ async function salvarTag() {
       .getElementById("tagColor")
       .value;
 
-  const emoji =
-    document
-      .getElementById("tagEmoji")
-      .value
-      .trim();
+  const btnEmoji =
+  document.getElementById("btnEmoji");
+
+  const emojiContainer =
+    document.getElementById("emojiContainer");
+
+    btnEmoji.addEventListener("click", () => {
+
+    if (
+        emojiContainer.style.display === "none"
+    ) {
+
+        emojiContainer.style.display = "block";
+
+    } else {
+
+        emojiContainer.style.display = "none";
+
+    }
+
+    });
+
+    const picker = document.querySelector("emoji-picker");
+
+    picker.addEventListener(
+    "emoji-click",
+    event => {
+
+        document
+        .getElementById("tagEmoji")
+        .value =
+            event.detail.unicode;
+
+        emojiContainer.style.display =
+        "none";
+
+    }
+    );
 
   if (!nome) {
 
