@@ -490,13 +490,10 @@ emoji-picker{
 #cancelTag{
 
     padding:10px 18px;
-
     border:none;
     border-radius:8px;
-
-    background:#ef4444;
+    background:#9e1c1c;
     color:white;
-
     cursor:pointer;
 }
 
