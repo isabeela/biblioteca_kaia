@@ -26,6 +26,36 @@ function extrairNomeArquivo(nomeArquivo) {
   return parteAntesAnim.trim();
 }
 
+const videoInput = document.getElementById("video");
+const queue = document.getElementById("queue");
+
+videoInput.addEventListener("change", () => {
+  queue.innerHTML = "";
+
+  const files = Array.from(videoInput.files);
+
+  files.forEach((file, index) => {
+    const nome = extrairNomeArquivo(file.name);
+    const previewUrl = URL.createObjectURL(file);
+
+    const div = document.createElement("div");
+
+    div.className = "video-item";
+
+    div.innerHTML = `
+      <video src="${previewUrl}" width="200" muted loop autoplay></video>
+
+      <input type="text" placeholder="Nome" value="${nome}" class="nome-${index}">
+      <input type="text" placeholder="Tags (ex: futebol, gol)" class="tags-${index}">
+      <textarea placeholder="Descrição" class="desc-${index}"></textarea>
+
+      <button onclick="uploadSingle(${index})">Enviar este vídeo</button>
+    `;
+
+    queue.appendChild(div);
+  });
+});
+
 async function uploadVideo() {
   const files = Array.from(videoInput.files);
   const status = document.getElementById("status");
@@ -35,8 +65,8 @@ async function uploadVideo() {
     return;
   }
 
+  const nome = extrairNomeArquivo(file.name);
   const descricao = document.getElementById("descricao").value;
-  const personagem = document.getElementById("personagem").value;
   const tags = document.getElementById("tags").value;
 
   status.innerText = "Enviando vídeos...";
@@ -86,6 +116,55 @@ async function uploadVideo() {
 
   status.innerText = "Upload concluído com sucesso!";
 }
+
+async function uploadSingle(index) {
+  const files = Array.from(document.getElementById("video").files);
+  const file = files[index];
+
+  const nome = document.querySelector(`.nome-${index}`).value;
+  const tags = document.querySelector(`.tags-${index}`).value;
+  const descricao = document.querySelector(`.desc-${index}`).value;
+
+  const fileName = `${Date.now()}-${file.name}`;
+
+  // 1. upload
+  const { error: uploadError } = await supabase.storage
+    .from("videos")
+    .upload(fileName, file);
+
+  if (uploadError) {
+    console.error(uploadError);
+    return;
+  }
+
+  // 2. url
+  const { data } = supabase.storage
+    .from("videos")
+    .getPublicUrl(fileName);
+
+  const url = data.publicUrl;
+
+  // 3. banco
+  const { error: dbError } = await supabase
+    .from("biblioteca")
+    .insert([
+      {
+        nome,
+        tags,
+        descricao,
+        url
+      }
+    ]);
+
+  if (dbError) {
+    console.error(dbError);
+    return;
+  }
+
+  alert("Vídeo enviado!");
+}
+
+
 
 document
   .getElementById("btnUpload")

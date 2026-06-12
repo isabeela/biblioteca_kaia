@@ -45,21 +45,25 @@
 <body>
 
 <div class="box">
-  <h2>Upload de Vídeo</h2>
+  <h2> Adicione os ciclos </h2>
 
-  <input id="nome" placeholder="Nome">
-  <input id="descricao" placeholder="Descrição">
-  <input id="personagem" placeholder="Personagem">
-  <input id="tags" placeholder="Tags">
 
   <input type="file" id="video" accept="video/*" multiple>
+  
+  <input id="descricao" placeholder="Descrição">
+  <input id="tags" placeholder="Tags">
+
+  
 
   <video id="preview" controls loop></video>
 
  <button id="btnUpload">Enviar</button>
 
   <p id="status"></p>
+  <div id="queue"></div>
 </div>
+
+
 
 <script type="module" src="upload.js"></script>
 
