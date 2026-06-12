@@ -63,8 +63,8 @@ videoInput.addEventListener("change", (event) => {
     desc.placeholder = "Descrição";
     desc.className = `desc-${index}`;
 
-    const btn = document.createElement("button");
-    btn.textContent = "Enviar este vídeo";
+    // const btn = document.createElement("button");
+    // btn.textContent = "Enviar este vídeo";
 
     // 🔥 IMPORTANTE: capturar file direto (não index)
     btn.onclick = () => uploadSingleFile(file, tags, desc);
