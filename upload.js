@@ -29,27 +29,46 @@ function extrairNomeArquivo(nomeArquivo) {
 }
 
 // CRIA CARDS
-videoInput.addEventListener("change", () => {
+videoInput.addEventListener("change", (event) => {
   queue.innerHTML = "";
 
-  const files = Array.from(videoInput.files);
+  const files = Array.from(event.target.files);
+
+  console.log("TOTAL FILES:", files.length);
 
   files.forEach((file, index) => {
+    console.log("LOADING:", file.name);
+
+    const url = URL.createObjectURL(file);
     const nome = extrairNomeArquivo(file.name);
-    const previewUrl = URL.createObjectURL(file);
 
     const div = document.createElement("div");
     div.className = "video-item";
 
-    div.innerHTML = `
-      <video src="${previewUrl}" width="200" muted loop autoplay></video>
+    const video = document.createElement("video");
+    video.src = url;
+    video.width = 200;
+    video.muted = true;
+    video.controls = true;
+    video.loop = true;
+    video.autoplay = false;
 
-      <input type="text" value="${nome}" class="nome-${index}">
-      <input type="text" placeholder="Tags" class="tags-${index}">
-      <textarea placeholder="Descrição" class="desc-${index}"></textarea>
+    const inputNome = document.createElement("input");
+    inputNome.value = nome;
+    inputNome.className = `nome-${index}`;
 
-      <button onclick="uploadSingle(${index})">Enviar este vídeo</button>
-    `;
+    const inputTags = document.createElement("input");
+    inputTags.placeholder = "Tags";
+    inputTags.className = `tags-${index}`;
+
+    const desc = document.createElement("textarea");
+    desc.placeholder = "Descrição";
+    desc.className = `desc-${index}`;
+
+    div.appendChild(video);
+    div.appendChild(inputNome);
+    div.appendChild(inputTags);
+    div.appendChild(desc);
 
     queue.appendChild(div);
   });
