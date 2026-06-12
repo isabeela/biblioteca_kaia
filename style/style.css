@@ -51,6 +51,7 @@ padding: 100px;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  align-items: flex-start;
 }
 
 .video-item {
@@ -58,10 +59,9 @@ padding: 100px;
   background: #111;
   padding: 10px;
   border-radius: 10px;
-  color: white;
-}
 
-.video-item video {
-  width: 100%;
-  border-radius: 8px;
+  /* IMPORTANTÍSSIMO */
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
