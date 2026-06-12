@@ -73,7 +73,7 @@ videoInput.addEventListener("change", (event) => {
     card.appendChild(title);
     card.appendChild(tags);
     card.appendChild(desc);
-    card.appendChild(btn);
+    // card.appendChild(btn);
 
     queue.appendChild(card);
   });
