@@ -8,6 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ELEMENTOS
 const videoInput = document.getElementById("video");
+const preview = document.querySelector(".preview-video");
 const queue = document.getElementById("queue");
 const status = document.getElementById("status");
 
@@ -18,15 +19,21 @@ function extrairNomeArquivo(nomeArquivo) {
 }
 
 //
-// 🎬 PREVIEW MULTI
+// 🎬 PREVIEW PRINCIPAL + LISTA
 //
 videoInput.addEventListener("change", (event) => {
   queue.innerHTML = "";
 
   const files = Array.from(event.target.files);
 
-  console.log("Arquivos selecionados:", files.length);
+  if (!files.length) return;
 
+  // 🔵 PREVIEW DO PRIMEIRO VÍDEO
+  const firstFile = files[0];
+  preview.src = URL.createObjectURL(firstFile);
+  preview.style.display = "block";
+
+  // 🟢 LISTA DE TODOS OS VÍDEOS
   files.forEach((file, index) => {
     const url = URL.createObjectURL(file);
     const nome = extrairNomeArquivo(file.name);
@@ -34,8 +41,8 @@ videoInput.addEventListener("change", (event) => {
     const card = document.createElement("div");
     card.className = "video-item";
     card.style.border = "1px solid #444";
-    card.style.padding = "10px";
     card.style.margin = "10px";
+    card.style.padding = "10px";
     card.style.display = "inline-block";
     card.style.width = "250px";
 
@@ -87,7 +94,6 @@ async function uploadVideo() {
   for (const file of files) {
     const fileName = `${Date.now()}-${file.name}`;
 
-    // 1. upload storage
     const { error: uploadError } = await supabase.storage
       .from("videos")
       .upload(fileName, file);
@@ -97,17 +103,14 @@ async function uploadVideo() {
       continue;
     }
 
-    // 2. url pública
     const { data } = supabase.storage
       .from("videos")
       .getPublicUrl(fileName);
 
     const url = data.publicUrl;
 
-    // 3. nome automático
     const nome = extrairNomeArquivo(file.name);
 
-    // 4. banco
     const { error: dbError } = await supabase
       .from("biblioteca")
       .insert([
@@ -135,15 +138,12 @@ async function uploadSingle(index) {
   const files = Array.from(videoInput.files);
   const file = files[index];
 
-  if (!file) return;
+  const tags = document.querySelector(`.tags-${index}`).value;
+  const descricao = document.querySelector(`.desc-${index}`).value;
 
-  const tags = document.querySelector(`.tags-${index}`)?.value || "";
-  const descricao = document.querySelector(`.desc-${index}`)?.value || "";
   const nome = extrairNomeArquivo(file.name);
-
   const fileName = `${Date.now()}-${file.name}`;
 
-  // upload
   const { error: uploadError } = await supabase.storage
     .from("videos")
     .upload(fileName, file);
@@ -153,14 +153,12 @@ async function uploadSingle(index) {
     return;
   }
 
-  // url
   const { data } = supabase.storage
     .from("videos")
     .getPublicUrl(fileName);
 
   const url = data.publicUrl;
 
-  // banco
   const { error: dbError } = await supabase
     .from("biblioteca")
     .insert([
@@ -181,7 +179,7 @@ async function uploadSingle(index) {
 }
 
 //
-// BOTÃO UPLOAD TODOS
+// BOTÃO
 //
 document
   .getElementById("btnUpload")
