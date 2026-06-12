@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ELEMENTOS
 const videoInput = document.getElementById("video");
-// const preview = document.querySelector(".preview-video");
+const preview = document.querySelector(".preview-video");
 const queue = document.getElementById("queue");
 const status = document.getElementById("status");
 
