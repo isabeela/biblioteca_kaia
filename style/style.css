@@ -130,6 +130,8 @@ padding: 100px;
     background:#1f1f1f;
     transition:.2s;
     width: 50%;
+    justify-content: center;
+    text-align: center;
 }
 
 #drop-zone:hover{
