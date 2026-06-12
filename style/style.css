@@ -132,6 +132,7 @@ padding: 100px;
     width: 50%;
     justify-content: center;
     text-align: center;
+    margin: 0 auto;
 }
 
 #drop-zone:hover{
