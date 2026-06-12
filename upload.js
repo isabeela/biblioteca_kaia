@@ -42,12 +42,14 @@ videoInput.addEventListener("change", (event) => {
     card.className = "video-item";
 
     const video = document.createElement("video");
+
     video.className = "preview-video";
-    video.src = url;
     video.controls = true;
-    video.muted = true;
     video.loop = true;
-    video.width = 220;
+    video.muted = true;
+    video.playsInline = true;
+
+    video.src = url;
 
     const title = document.createElement("p");
     title.textContent = nome;
