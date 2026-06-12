@@ -573,9 +573,9 @@ emoji-picker{
 }
 
 #tagEmoji{
-    width:60px;
+    width:40px;
     text-align:center;
-    font-size:24px;
+    font-size:20px;
     flex:none;
     margin:0;
 }
