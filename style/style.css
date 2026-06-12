@@ -79,14 +79,16 @@ padding: 100px;
 .upload-actions {
     width: 50%;
     text-align: center;
-    margin-top: 30px;
-    justify-content: center;
+  
 }
 
 #btnUpload {
     padding: 12px 24px;
     font-size: 16px;
     cursor: pointer;
+    margin-top: 30px;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 
