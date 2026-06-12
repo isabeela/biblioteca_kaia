@@ -20,25 +20,62 @@
 <h4> A Biblioteca de animação da Kaia </h4>
 
 <button id="btnNovaTag">
-    Nova Tag
+    ➕ Nova Tag
 </button>
 
 <div id="tagModal" class="modal">
+
     <div class="modal-content">
-        <h3>Cadastrar Tag</h3>
-        <input type="text" id="novaTag" placeholder="Nome da tag">
+
+        <h3>Criar Nova Tag</h3>
+
+        <input
+            type="text"
+            id="novaTag"
+            placeholder="Nome da tag"
+        >
 
         <div class="tag-options">
-            <input type="color" id="tagColor" value="#3b82f6">
-            <input type="text" id="tagEmoji" readonly>
-            <button id="btnEmoji"> 😀 Emoji </button>
-            <emoji-picker></emoji-picker>
-        </div>
-        <div id="emojiContainer" style="display:none;margin-top:10px;"></div>
-    </div>
 
-<button id="saveTag"> Salvar </button>
-<button id="cancelTag"> Cancelar </button>
+            <input
+                type="color"
+                id="tagColor"
+                value="#3b82f6"
+            >
+
+            <input
+                type="text"
+                id="tagEmoji"
+                placeholder="😀"
+                readonly
+            >
+
+            <button
+                type="button"
+                id="btnEmoji"
+            >
+                😀 Escolher Emoji
+            </button>
+
+        </div>
+
+        <div id="emojiContainer">
+
+            <emoji-picker></emoji-picker>
+
+        </div>
+
+        <div class="modal-buttons">
+
+            <button id="saveTag">
+                Salvar
+            </button>
+
+            <button id="cancelTag">
+                Cancelar
+            </button>
+
+        </div>
 
         <hr>
 
@@ -49,9 +86,6 @@
     </div>
 
 </div>
-
-
-
 </header>
 
 <main
