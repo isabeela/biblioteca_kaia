@@ -11,6 +11,7 @@ const db =
   );
 
 let todosVideos = [];
+let mapaTags = {};
 
 // async function carregarVideos() {
 
@@ -30,18 +31,46 @@ let todosVideos = [];
 
 // }
 
+
+// async function carregarVideos() {
+
+//   const { data, error } = await db
+//     .from("biblioteca")
+//     .select("*");
+
+//   console.log("DATA:", data);
+//   console.log("ERROR:", error);
+
+//   if (error) return;
+
+//   renderizarVideos(data);
+// }
+
+
 async function carregarVideos() {
 
-  const { data, error } = await db
+  // vídeos
+  const { data: videos, error } = await db
     .from("biblioteca")
     .select("*");
 
-  console.log("DATA:", data);
-  console.log("ERROR:", error);
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-  if (error) return;
+  // tags
+  const { data: tags } = await db
+    .from("tags")
+    .select("*");
 
-  renderizarVideos(data);
+  mapaTags = {};
+
+  tags.forEach(tag => {
+    mapaTags[tag.nome] = tag;
+  });
+
+  renderizarVideos(videos);
 }
 
 function renderizarVideos(videos) {
@@ -53,16 +82,35 @@ function renderizarVideos(videos) {
 
   videos.forEach(video => {
 
-    const tags = video.tags
-      ? video.tags.split(",")
-      : [];
+   const tagsHtml = tags
+    .map(nomeTag => {
 
-    const tagsHtml = tags
-      .map(tag =>
-        `<span class="tag">${tag.trim()}</span>`
-      )
-      .join("");
+      const tag =
+        mapaTags[nomeTag.trim()];
 
+      if (!tag) {
+        return `
+          <span class="tag">
+            ${nomeTag}
+          </span>
+        `;
+      }
+
+      return `
+        <span
+          class="tag"
+          style="
+            background:${tag.cor};
+            color:white;
+          "
+        >
+          ${tag.emoji || ""}
+          ${tag.nome}
+        </span>
+      `;
+
+    })
+    .join("");
    gallery.innerHTML += `
 
     <div class="video-card">
