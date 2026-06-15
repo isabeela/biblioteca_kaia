@@ -201,9 +201,8 @@ function renderizarMaisVideos() {
           <video
             muted
             loop
-            autoplay
             playsinline
-            preload="metadata">
+            preload="none">
 
             <source
               src="${video.url}"
@@ -259,6 +258,43 @@ window.addEventListener(
     }
 
   }
+);
+
+
+const observer = new IntersectionObserver(
+
+(entries) => {
+
+  entries.forEach(entry => {
+
+    const video =
+      entry.target;
+
+    if (entry.isIntersecting) {
+
+      if (!video.srcLoaded) {
+
+        video.srcLoaded = true;
+
+        video.src =
+          video.dataset.src;
+      }
+
+      video.play().catch(() => {});
+
+    } else {
+
+      video.pause();
+
+    }
+
+  });
+
+},
+{
+  threshold: 0.25
+}
+
 );
 
 carregarVideos();
