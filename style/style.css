@@ -307,196 +307,370 @@ QUEUE DE UPLOAD
     color:white;
 }
 
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+
+}
+
+.modal.show{
+display:flex;
+}
+
+/* ==========================
+CONTEÚDO
+========================== */
+
+.modal-content{
+
+background:#2b2b2b;
+
+width:800px;
+max-width:90vw;
+
+max-height:90vh;
+overflow-y:auto;
+
+padding:25px;
+
+border-radius:12px;
+
+color:#fff;
+
+box-shadow:
+    0 10px 30px rgba(0,0,0,.4);
+
+
+}
+
+.modal-content h3{
+margin-top:0;
+}
+
+.modal-content h4{
+margin-top:25px;
+margin-bottom:10px;
+}
+
+/* ==========================
+INPUTS
+========================== */
+
+.modal-content input[type="text"]{
+
+width:100%;
+
+padding:10px 12px;
+
+margin-top:10px;
+
+border:none;
+border-radius:8px;
+
+background:#3a3a3a;
+color:white;
+
+box-sizing:border-box;
+
+
+}
+
+.modal-content textarea{
+
+width:100%;
+
+min-height:100px;
+
+padding:10px;
+
+border:none;
+border-radius:8px;
+
+background:#3a3a3a;
+color:white;
+
+resize:vertical;
+
+box-sizing:border-box;
+
+
+}
+
+/* ==========================
+COR + EMOJI
+========================== */
+
+.tag-options{
+
+display:flex;
+align-items:center;
+gap:10px;
+
+margin-top:15px;
+
+
+}
+
+#tagColor{
+
+width:70px;
+height:50px;
+border:none;
+padding:0;
+cursor:pointer;
+background:none;
+
+
+}
+
+#btnEmoji{
+
+width:auto;
+
+padding:10px 15px;
+
+border:none;
+border-radius:8px;
+
+background:#4f46e5;
+color:white;
+
+cursor:pointer;
+
+
+}
+
+#btnEmoji:hover{
+
+opacity:.9;
+
+
+}
+
 /* ==========================
 MODAL
 ========================== */
 
 .modal{
+display:none;
+position:fixed;
+inset:0;
 
-    display:none;
+background:rgba(0,0,0,.75);
 
-    position:fixed;
+justify-content:center;
+align-items:center;
 
-    inset:0;
+z-index:9999;
 
-    background:rgba(0,0,0,.8);
 
-    justify-content:center;
-
-    align-items:center;
-
-    z-index:9999;
 }
 
 .modal.show{
-
-    display:flex;
+display:flex;
 }
+
+/* ==========================
+CONTEÚDO
+========================== */
 
 .modal-content{
 
-    width:min(800px,95vw);
+width:800px;
+max-width:90vw;
 
-    max-height:90vh;
+max-height:90vh;
+overflow-y:auto;
 
-    overflow-y:auto;
+background:#2b2b2b;
 
-    background:#2b2b2b;
+padding:25px;
 
-    border-radius:16px;
+border-radius:12px;
 
-    padding:25px;
+color:white;
 
-    color:white;
+box-shadow:
+    0 10px 30px rgba(0,0,0,.4);
 
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.5);
+
 }
 
 .modal-content h3{
+margin-top:0;
+}
 
-    margin-bottom:15px;
+.modal-content h4{
+margin-top:20px;
 }
 
 /* ==========================
-INPUTS MODAL
+INPUTS
 ========================== */
 
-.modal-content input[type="text"],
-.modal-content textarea{
+.modal-content input[type="text"]{
 
-    width:100%;
+width:100%;
 
-    padding:12px;
+padding:12px;
 
-    border:none;
+margin-top:10px;
 
-    border-radius:8px;
+border:none;
+border-radius:8px;
 
-    background:#3a3a3a;
+background:#3a3a3a;
+color:white;
 
-    color:white;
+box-sizing:border-box;
 
-    margin-top:10px;
-}
 
-.modal-content textarea{
-
-    min-height:100px;
-
-    resize:vertical;
 }
 
 /* ==========================
-EMOJI / COR
+LINHA COR + EMOJI
 ========================== */
 
 .tag-options{
 
-    display:flex;
+display:flex;
+align-items:center;
 
-    align-items:center;
+gap:10px;
 
-    gap:10px;
+margin-top:15px;
 
-    margin-top:15px;
-}
 
-#tagColor{
-    width:60px;
-    height:45px;
-    border:none;
-    background:none;
-    cursor:pointer;
 }
 
 #btnEmoji{
 
-    width:auto;
-    padding:10px 15px;
-    border:none;
-    border-radius:8px;
-    background:#4f46e5;
-    color:white;
-    cursor:pointer;
+padding:10px 15px;
+
+border:none;
+border-radius:8px;
+
+background:#4f46e5;
+color:white;
+
+cursor:pointer;
+
+transition:.2s;
+
+
 }
 
-#emojiContainer{
-    display:none;
-    margin-top:15px;
-}
+#btnEmoji:hover{
 
-emoji-picker{
-    width:100%;
-    height:350px;
+opacity:.9;
+
+
 }
 
 /* ==========================
-BOTÕES MODAL
+EMOJI PICKER
+========================== */
+
+#emojiContainer{
+display:none;
+margin-top:15px;
+}
+
+emoji-picker{
+width:100%;
+height:350px;
+}
+
+/* ==========================
+BOTÕES
 ========================== */
 
 .modal-buttons{
 
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:20px;
+display:flex;
+
+justify-content:flex-end;
+
+gap:10px;
+
+margin-top:20px;
+
+
 }
 
 #saveTag{
 
-    width:auto;
-    padding:10px 20px;
-    border:none;
-    border-radius:8px;
-    background:#10612e;
-    color:white;
-    cursor:pointer;
+padding:10px 18px;
+
+border:none;
+border-radius:8px;
+
+background:#10612e;
+color:white;
+
+cursor:pointer;
+
+
 }
 
 #cancelTag{
 
-    width:auto;
+padding:10px 18px;
+border:none;
+border-radius:8px;
+background:#9e1c1c;
+color:white;
+cursor:pointer;
 
-    padding:10px 20px;
 
-    border:none;
-
-    border-radius:8px;
-
-    background:#9e1c1c;
-
-    color:white;
-
-    cursor:pointer;
 }
 
 /* ==========================
-LISTA TAGS
+TAGS CADASTRADAS
 ========================== */
 
 #listaTags{
 
-    display:flex;
+display:flex;
+flex-wrap:wrap;
 
-    flex-wrap:wrap;
+gap:8px;
 
-    gap:10px;
+max-height:250px;
+overflow-y:auto;
 
-    margin-top:15px;
+padding-top:10px;
+
+
 }
 
 .tag-item{
 
-    display:flex;
-    align-items:center;
-    gap:6px;
-    padding:8px 12px;
-    border-radius:999px;
-    color:white;
-    font-size:14px;
-}
+display:flex;
+align-items:center;
 
+gap:6px;
+
+padding:8px 12px;
+
+border-radius:20px;
+
+color:white;
+
+font-size:14px;
+font-weight:500;
+
+
+}
 /* ==========================
 SCROLL
 ========================== */
