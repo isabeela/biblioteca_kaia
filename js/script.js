@@ -10,42 +10,11 @@ const db =
     SUPABASE_KEY
   );
 
-
-
-// async function carregarVideos() {
-
-//   const { data, error } = await db
-//     .from("biblioteca")
-//     .select("*")
-//     .order("id", { ascending: false });
-
-//   if (error) {
-//     console.error(error);
-//     return;
-//   }
-
-//   todosVideos = data;
-
-//   renderizarVideos(data);
-
-// }
-
-
-// async function carregarVideos() {
-
-//   const { data, error } = await db
-//     .from("biblioteca")
-//     .select("*");
-
-//   console.log("DATA:", data);
-//   console.log("ERROR:", error);
-
-//   if (error) return;
-
-//   renderizarVideos(data);
-// }
 let todosVideos = [];
 let mapaTags = {};
+let paginaAtual = 0;
+const videosPorPagina = 10;
+
 
 async function carregarVideos() {
 
@@ -70,15 +39,122 @@ async function carregarVideos() {
     mapaTags[tag.nome] = tag;
   });
 
-  renderizarVideos(videos);
+  // renderizarVideos(videos);
+
+  todosVideos = videos;
+  renderizarMaisVideos();
 }
 
-function renderizarVideos(videos) {
+// function renderizarVideos(videos) {
+
+//   const gallery =
+//     document.getElementById("gallery");
+
+//   gallery.innerHTML = "";
+
+//   videos.forEach(video => {
+
+//     const tags = video.tags
+//       ? video.tags.split(",")
+//       : [];
+
+//     const tagsHtml = tags
+//       .map(nomeTag => {
+
+//         const tag =
+//           mapaTags[nomeTag.trim()];
+
+//         // caso a tag não exista mais
+//         if (!tag) {
+
+//           return `
+//             <span class="tag">
+//               ${nomeTag}
+//             </span>
+//           `;
+//         }
+
+//         return `
+//           <span
+//             class="tag"
+//             style="
+//               background:${tag.cor};
+//               color:white;
+//             "
+//           >
+//             ${tag.emoji || ""}
+//             ${tag.nome}
+//           </span>
+//         `;
+
+//       })
+//       .join("");
+
+//     gallery.innerHTML += `
+
+//       <div class="video-card">
+
+//         <div class="video-preview">
+
+//           <video
+//             autoplay
+//             muted
+//             loop
+//             playsinline
+//             preload="metadata">
+
+//             <source
+//               src="${video.url}"
+//               type="video/mp4">
+
+//           </video>
+
+//         </div>
+
+//         <div class="content">
+
+//           <h3>${video.nome || ""}</h3>
+
+//           <div class="descricao">
+//             ${video.descricao || ""}
+//           </div>
+
+//           <div class="tags">
+//             ${tagsHtml}
+//           </div>
+
+//         </div>
+
+//       </div>
+
+//     `;
+
+//   });
+
+// }
+
+
+function renderizarMaisVideos() {
+
+  if ( paginaAtual * videosPorPagina >= todosVideos.length) {
+  return;
+}
+
 
   const gallery =
     document.getElementById("gallery");
 
-  gallery.innerHTML = "";
+  const inicio =
+    paginaAtual * videosPorPagina;
+
+  const fim =
+    inicio + videosPorPagina;
+
+  const videos =
+    todosVideos.slice(
+      inicio,
+      fim
+    );
 
   videos.forEach(video => {
 
@@ -92,9 +168,7 @@ function renderizarVideos(videos) {
         const tag =
           mapaTags[nomeTag.trim()];
 
-        // caso a tag não exista mais
         if (!tag) {
-
           return `
             <span class="tag">
               ${nomeTag}
@@ -125,9 +199,9 @@ function renderizarVideos(videos) {
         <div class="video-preview">
 
           <video
-            autoplay
             muted
             loop
+            autoplay
             playsinline
             preload="metadata">
 
@@ -159,6 +233,32 @@ function renderizarVideos(videos) {
 
   });
 
+  paginaAtual++;
 }
+
+let carregandoMais = false;
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    const chegouNoFim =
+
+      window.innerHeight +
+      window.scrollY >=
+
+      document.body.offsetHeight - 500;
+
+    if (
+      chegouNoFim &&
+      !carregandoMais
+    ) {
+
+      renderizarMaisVideos();
+
+    }
+
+  }
+);
 
 carregarVideos();
