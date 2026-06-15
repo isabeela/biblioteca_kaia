@@ -373,3 +373,48 @@ function aplicarFiltros() {
     renderizarMaisVideos();
 
 }
+
+
+async function carregarFiltroTags() {
+
+  const { data, error } =
+    await db
+      .from("tags")
+      .select("*")
+      .order("nome");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const select =
+    document.getElementById("filtroTags");
+
+  select.innerHTML = "";
+
+  data.forEach(tag => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = tag.nome;
+
+    option.textContent =
+      `${tag.emoji || ""} ${tag.nome}`;
+
+    option.dataset.color =
+      tag.cor;
+
+    select.appendChild(option);
+
+  });
+
+  new TomSelect(
+    "#filtroTags",
+    {
+      plugins: ["remove_button"]
+    }
+  );
+
+}
