@@ -255,6 +255,10 @@ async function uploadVideo() {
   }
 
   status.innerText = "✅ Todos os vídeos foram enviados!";
+
+  setTimeout(() => {
+    location.reload();
+  }, 1500);
 }
 
 //
@@ -307,6 +311,7 @@ const descricao = descEl.value;
   }
 
   alert("Vídeo enviado!");
+  location.reload();
 }
 
 //
