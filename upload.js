@@ -112,33 +112,25 @@ videoInput.addEventListener("change", (event) => {
     const title = document.createElement("p");
     title.textContent = nome;
 
-   const tagsContainer = document.createElement("div");
-   tagsContainer.className = "tags-container";
+    const selectTags = document.createElement("select");
 
-   todasTags.forEach(tag => {
+    selectTags.multiple = true;
+    selectTags.className = `tags-${index}`;
 
-    const label = document.createElement("label");
+    todasTags.forEach(tag => {
 
-    label.innerHTML = `
-      <input
-        type="checkbox"
-        value="${tag.nome}"
-        class="video-tag-${index}"
-      >
+      const option = document.createElement("option");
 
-      <span
-        class="tag-chip"
-        style="
-          background:${tag.cor};
-        "
-      >
-        ${tag.emoji || ""} ${tag.nome}
-      </span>
-    `;
+      option.value = tag.nome;
 
-    tagsContainer.appendChild(label);
+      option.textContent =
+        `${tag.emoji || ""} ${tag.nome}`;
 
-  });
+      selectTags.appendChild(option);
+
+    });
+
+   
 
     const desc = document.createElement("textarea");
     desc.placeholder = "Descrição";
@@ -157,12 +149,16 @@ videoInput.addEventListener("change", (event) => {
 
     card.appendChild(video);
     card.appendChild(title);
-    card.appendChild(tagsContainer);
+    card.appendChild(selectTags);
     card.appendChild(desc);
     card.appendChild(btn);
 
     queue.appendChild(card);
-  });
+    new TomSelect(selectTags, {
+      plugins: ["remove_button"],
+      create: false
+    });
+    });
 });
 
 //
@@ -185,11 +181,9 @@ async function uploadVideo() {
 
     const tagsSelecionadas =
       Array.from(
-        document.querySelectorAll(
-          `.video-tag-${i}:checked`
-        )
+        document.querySelector(`.tags-${i}`).selectedOptions
       )
-      .map(el => el.value);
+      .map(option => option.value);
 
     const descricao =
       document.querySelector(`.desc-${i}`)?.value || "";
