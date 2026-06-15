@@ -533,6 +533,7 @@ emoji-picker{
 .descricao{
   margin-top:8px;
   font-size:14px;
-  color:#d0d0d0;
+  color:#000000;
   line-height:1.4;
+  text-align: center;
 }
