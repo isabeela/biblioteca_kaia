@@ -121,8 +121,14 @@ videoInput.addEventListener("change", (event) => {
 
       const option = document.createElement("option");
 
+      // valor salvo no banco
       option.value = tag.nome;
 
+      // informações extras para o TomSelect
+      option.dataset.color = tag.cor;
+      option.dataset.emoji = tag.emoji;
+
+      // texto exibido
       option.textContent =
         `${tag.emoji || ""} ${tag.nome}`;
 
@@ -130,7 +136,6 @@ videoInput.addEventListener("change", (event) => {
 
     });
 
-   
 
     const desc = document.createElement("textarea");
     desc.placeholder = "Descrição";
@@ -155,9 +160,31 @@ videoInput.addEventListener("change", (event) => {
 
     queue.appendChild(card);
     new TomSelect(selectTags, {
-      plugins: ["remove_button"],
-      create: false
+
+  plugins: ["remove_button"],
+
+  render: {
+
+    item: function(data, escape) {
+      const cor =
+        data.$option.dataset.color || "#666";
+
+          return `
+            <div style="
+              background:${cor};
+              color:white;
+              border-radius:20px;
+              padding:4px 10px;
+            ">
+              ${escape(data.text)}
+            </div>
+          `;
+        }
+
+      }
+
     });
+    
     });
 });
 
