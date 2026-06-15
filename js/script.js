@@ -18,20 +18,20 @@ const videosPorPagina = 10;
 
 async function carregarVideos() {
 
-  // vídeos
-  const { data: videos, error } = await db
-    .from("biblioteca")
-    .select("*");
+  const { data: videos, error } =
+    await db
+      .from("biblioteca")
+      .select("*");
 
   if (error) {
     console.error(error);
     return;
   }
 
-  // tags
-  const { data: tags } = await db
-    .from("tags")
-    .select("*");
+  const { data: tags } =
+    await db
+      .from("tags")
+      .select("*");
 
   mapaTags = {};
 
@@ -39,11 +39,15 @@ async function carregarVideos() {
     mapaTags[tag.nome] = tag;
   });
 
-  // renderizarVideos(videos);
-
   todosVideos = videos;
   videosFiltrados = videos;
+
+  paginaAtual = 0;
+
+  document.getElementById("gallery").innerHTML = "";
+
   renderizarMaisVideos();
+
 }
 
 // function renderizarVideos(videos) {
@@ -138,9 +142,11 @@ async function carregarVideos() {
 function renderizarMaisVideos() {
 
   if (
-  paginaAtual * videosPorPagina >=
-  videosFiltrados.length
-)
+    paginaAtual * videosPorPagina >=
+    videosFiltrados.length
+  ) {
+    return;
+  }
 
   const gallery =
     document.getElementById("gallery");
@@ -151,7 +157,7 @@ function renderizarMaisVideos() {
   const fim =
     inicio + videosPorPagina;
 
-   const videos =
+  const videos =
     videosFiltrados.slice(
       inicio,
       fim
@@ -159,22 +165,25 @@ function renderizarMaisVideos() {
 
   videos.forEach(video => {
 
-    const tags = video.tags
-      ? video.tags.split(",")
-      : [];
+    const tags =
+      video.tags
+        ? video.tags.split(",")
+        : [];
 
-    const tagsHtml = tags
-      .map(nomeTag => {
+    const tagsHtml =
+      tags.map(nomeTag => {
 
         const tag =
           mapaTags[nomeTag.trim()];
 
         if (!tag) {
+
           return `
             <span class="tag">
               ${nomeTag}
             </span>
           `;
+
         }
 
         return `
@@ -190,8 +199,7 @@ function renderizarMaisVideos() {
           </span>
         `;
 
-      })
-      .join("");
+      }).join("");
 
     gallery.innerHTML += `
 
@@ -235,8 +243,8 @@ function renderizarMaisVideos() {
   });
 
   paginaAtual++;
-}
 
+}
 let carregandoMais = false;
 
 window.addEventListener(
@@ -250,10 +258,7 @@ window.addEventListener(
 
       document.body.offsetHeight - 500;
 
-    if (
-      chegouNoFim &&
-      !carregandoMais
-    ) {
+    if (chegouNoFim) {
 
       renderizarMaisVideos();
 
@@ -261,6 +266,8 @@ window.addEventListener(
 
   }
 );
+
+
 async function carregarFiltroTags() {
 
   const { data, error } =
@@ -289,29 +296,23 @@ async function carregarFiltroTags() {
     option.textContent =
       `${tag.emoji || ""} ${tag.nome}`;
 
-    option.dataset.color =
-      tag.cor;
-
     select.appendChild(option);
 
   });
 
-  new TomSelect(
+  const ts = new TomSelect(
     "#filtroTags",
     {
-      plugins: ["remove_button"]
+      plugins:["remove_button"]
     }
   );
 
+  ts.on(
+    "change",
+    aplicarFiltros
+  );
+
 }
-
-document
-.getElementById("searchInput")
-.addEventListener("input", aplicarFiltros);
-
-document
-.getElementById("filtroTags")
-.addEventListener("change", aplicarFiltros);
 
 function aplicarFiltros() {
 
@@ -375,52 +376,6 @@ function aplicarFiltros() {
     .innerHTML = "";
 
   renderizarMaisVideos();
-
-}
-
-
-async function carregarFiltroTags() {
-
-  const { data, error } =
-    await db
-      .from("tags")
-      .select("*")
-      .order("nome");
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  const select =
-    document.getElementById("filtroTags");
-
-  select.innerHTML = "";
-
-  data.forEach(tag => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = tag.nome;
-
-    option.textContent =
-      `${tag.emoji || ""} ${tag.nome}`;
-
-    option.dataset.color =
-      tag.cor;
-
-    select.appendChild(option);
-
-  });
-
-  new TomSelect(
-    "#filtroTags",
-    {
-      plugins: ["remove_button"]
-    }
-  );
-
 }
 
 document
@@ -430,6 +385,6 @@ document
     aplicarFiltros
   );
 
-
 carregarVideos();
 carregarFiltroTags();
+
