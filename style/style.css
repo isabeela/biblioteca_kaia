@@ -537,14 +537,3 @@ emoji-picker{
   line-height:1.4;
   text-align: center;
 }
-
-#status{
-    margin-top:15px;
-    padding:12px 16px;
-    border-radius:8px;
-    background:#1f3d2b;
-    color:#7dff9b;
-    font-weight:bold;
-    text-align:center;
-    display:none;
-}

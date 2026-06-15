@@ -254,7 +254,7 @@ async function uploadVideo() {
     }
   }
 
-  status.innerText = "✅ Todos os vídeos foram enviados!";
+  alert("Vídeos enviados!");
 
   setTimeout(() => {
     location.reload();
