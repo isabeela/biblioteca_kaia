@@ -547,8 +547,8 @@ emoji-picker{
     gap:15px;
     margin:20px;
     align-items:center;
-    width: 30%;
-    justify-content: center;
+    width: 100%;
+    justify-content: center;   
 }
 
 #searchInput{
