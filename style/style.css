@@ -82,11 +82,6 @@ FILTROS
     padding:12px 20px;
 
     border:none;
-
-    border-radius:10px;
-
-    background:#00c2ff;
-
     color:white;
 
     cursor:pointer;
@@ -162,14 +157,10 @@ GALERIA
 #gallery{
 
     width:min(1500px,95%);
-
     margin:30px auto;
-
     display:grid;
-
     grid-template-columns:
         repeat(auto-fill,minmax(320px,1fr));
-
     gap:20px;
 }
 
@@ -191,10 +182,7 @@ CARD
 }
 
 .video-card:hover{
-
     transform:translateY(-4px);
-
-    border-color:#00c2ff;
 }
 
 /* ==========================
@@ -251,28 +239,19 @@ TAGS
 ========================== */
 
 .tags{
-
+    
     display:flex;
-
     flex-wrap:wrap;
-
     gap:8px;
-
     margin-top:15px;
 }
 
 .tag{
 
     padding:6px 12px;
-
     border-radius:999px;
-
     background:#00c2ff20;
-
-    border:1px solid #00c2ff;
-
     color:white;
-
     font-size:13px;
 }
 
@@ -281,36 +260,23 @@ QUEUE DE UPLOAD
 ========================== */
 
 #queue{
-
     display:flex;
-
     flex-wrap:wrap;
-
     justify-content:center;
-
     gap:16px;
-
     margin-top:20px;
 }
 
 .video-item{
 
     width:250px;
-
     background:#111;
-
     border:1px solid #444;
-
     border-radius:12px;
-
     padding:12px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:10px;
-
     transition:.2s;
 }
 
@@ -549,17 +515,11 @@ LISTA TAGS
 .tag-item{
 
     display:flex;
-
     align-items:center;
-
     gap:6px;
-
     padding:8px 12px;
-
     border-radius:999px;
-
     color:white;
-
     font-size:14px;
 }
 
