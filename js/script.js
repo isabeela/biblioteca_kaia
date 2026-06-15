@@ -430,18 +430,6 @@ document
     aplicarFiltros
   );
 
-  const ts = new TomSelect(
-  "#filtroTags",
-  {
-    plugins: ["remove_button"]
-  }
-);
-
-ts.on(
-  "change",
-  aplicarFiltros
-);
-
 
 carregarVideos();
 carregarFiltroTags();
