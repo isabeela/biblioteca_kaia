@@ -359,6 +359,8 @@ QUEUE DE UPLOAD
 
 #novaTag input{
     width:100%;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 /* Cor */
