@@ -382,6 +382,7 @@ QUEUE DE UPLOAD
     text-align:center;
     font-size:25px;
     background-color: transparent;
+    border: none;
 }
 
 #btnEmoji{
