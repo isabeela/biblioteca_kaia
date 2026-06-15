@@ -311,7 +311,6 @@ const descricao = descEl.value;
   }
 
   alert("Vídeo enviado!");
-  location.reload();
 }
 
 //
