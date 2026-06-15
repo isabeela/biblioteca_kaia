@@ -392,6 +392,10 @@ QUEUE DE UPLOAD
     font-size:18px;
 }
 
+#emojiContainer{
+    display:none;
+    margin-top:15px;
+}
 /* Botões */
 
 .modal-buttons{
