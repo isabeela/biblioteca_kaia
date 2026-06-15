@@ -355,8 +355,9 @@ QUEUE DE UPLOAD
 #novaTag{
     flex:1;
     margin:0;
-    padding: 5px;
+    padding: 10px;
     border-radius: 20px;
+    border: none;
 }
 
 #novaTag > input {
