@@ -307,6 +307,27 @@ QUEUE DE UPLOAD
     color:white;
 }
 
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.8);
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:9999;
+}
+
+.modal.show{
+
+    display:flex;
+}
 
 .modal-content{
     width: 700px;
