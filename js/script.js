@@ -11,10 +11,10 @@ const db =
   );
 
 let todosVideos = [];
+let videosFiltrados = [];
 let mapaTags = {};
 let paginaAtual = 0;
 const videosPorPagina = 10;
-
 
 async function carregarVideos() {
 
@@ -42,6 +42,7 @@ async function carregarVideos() {
   // renderizarVideos(videos);
 
   todosVideos = videos;
+  videosFiltrados = videos;
   renderizarMaisVideos();
 }
 
@@ -136,10 +137,10 @@ async function carregarVideos() {
 
 function renderizarMaisVideos() {
 
-  if ( paginaAtual * videosPorPagina >= todosVideos.length) {
-  return;
-}
-
+  if (
+  paginaAtual * videosPorPagina >=
+  videosFiltrados.length
+)
 
   const gallery =
     document.getElementById("gallery");
@@ -150,8 +151,8 @@ function renderizarMaisVideos() {
   const fim =
     inicio + videosPorPagina;
 
-  const videos =
-    todosVideos.slice(
+   const videos =
+    videosFiltrados.slice(
       inicio,
       fim
     );
@@ -260,43 +261,47 @@ window.addEventListener(
 
   }
 );
-
-carregarVideos();
-
-
-
-
-
 async function carregarFiltroTags() {
 
-    const { data } = await db
+  const { data, error } =
+    await db
       .from("tags")
       .select("*")
       .order("nome");
 
-    const select =
-      document.getElementById("filtroTags");
+  if (error) {
+    console.error(error);
+    return;
+  }
 
-    data.forEach(tag => {
+  const select =
+    document.getElementById("filtroTags");
 
-        const option =
-          document.createElement("option");
+  select.innerHTML = "";
 
-        option.value = tag.nome;
+  data.forEach(tag => {
 
-        option.textContent =
-          `${tag.emoji || ""} ${tag.nome}`;
+    const option =
+      document.createElement("option");
 
-        option.dataset.color =
-          tag.cor;
+    option.value = tag.nome;
 
-        select.appendChild(option);
+    option.textContent =
+      `${tag.emoji || ""} ${tag.nome}`;
 
-    });
+    option.dataset.color =
+      tag.cor;
 
-    new TomSelect(select,{
-        plugins:["remove_button"]
-    });
+    select.appendChild(option);
+
+  });
+
+  new TomSelect(
+    "#filtroTags",
+    {
+      plugins: ["remove_button"]
+    }
+  );
 
 }
 
@@ -310,67 +315,66 @@ document
 
 function aplicarFiltros() {
 
-    const texto =
-      document
+  const texto =
+    document
       .getElementById("searchInput")
       .value
       .toLowerCase();
 
-    const select =
-      document
-      .getElementById("filtroTags");
+  const tomSelect =
+    document
+      .getElementById("filtroTags")
+      .tomselect;
 
-    const tagsSelecionadas =
-      Array.from(
-        select.selectedOptions
-      )
-      .map(o => o.value);
+  const tagsSelecionadas =
+    tomSelect
+      ? tomSelect.getValue()
+      : [];
 
-    const filtrados =
-      todosVideos.filter(video => {
+  videosFiltrados =
+    todosVideos.filter(video => {
 
-        const encontrouTexto =
+      const nome =
+        (video.nome || "")
+        .toLowerCase();
 
-          (video.nome || "")
-          .toLowerCase()
-          .includes(texto)
+      const descricao =
+        (video.descricao || "")
+        .toLowerCase();
 
-          ||
-
-          (video.descricao || "")
-          .toLowerCase()
-          .includes(texto);
-
-        const tagsVideo =
-          video.tags
+      const tagsVideo =
+        video.tags
           ? video.tags.split(",")
           : [];
 
-        const encontrouTags =
+      const encontrouTexto =
 
-          tagsSelecionadas.length === 0 ||
+        nome.includes(texto) ||
 
-          tagsSelecionadas.every(tag =>
-            tagsVideo.includes(tag)
-          );
+        descricao.includes(texto);
 
-        return (
-          encontrouTexto &&
-          encontrouTags
+      const encontrouTags =
+
+        tagsSelecionadas.length === 0 ||
+
+        tagsSelecionadas.every(tag =>
+          tagsVideo.includes(tag)
         );
 
-      });
+      return (
+        encontrouTexto &&
+        encontrouTags
+      );
 
-    paginaAtual = 0;
+    });
 
-    document
-      .getElementById("gallery")
-      .innerHTML = "";
+  paginaAtual = 0;
 
-    todosVideosFiltrados =
-      filtrados;
+  document
+    .getElementById("gallery")
+    .innerHTML = "";
 
-    renderizarMaisVideos();
+  renderizarMaisVideos();
 
 }
 
@@ -418,3 +422,26 @@ async function carregarFiltroTags() {
   );
 
 }
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    aplicarFiltros
+  );
+
+  const ts = new TomSelect(
+  "#filtroTags",
+  {
+    plugins: ["remove_button"]
+  }
+);
+
+ts.on(
+  "change",
+  aplicarFiltros
+);
+
+
+carregarVideos();
+carregarFiltroTags();
