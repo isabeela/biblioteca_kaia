@@ -1,7 +1,7 @@
 body {
     background-color: #292929;
     font-family: Arial, Helvetica, sans-serif;
-    width: fit-content;
+    width: max-content;
 }
 
 h1, h2, h3, h4 {
