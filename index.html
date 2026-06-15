@@ -22,16 +22,18 @@
 <h1> BiblioteKaia </h1>
 <h4> A Biblioteca de animação da Kaia </h4>
 
+<div class="filtros">
+    <select id="filtroTags" multiple> </select>
+    <input type="text" id="searchInput" placeholder="Pesquisar vídeos...">
+    <button id="btnNovaTag"> ➕ Nova Tag </button>
+    <a href="upload.html"> Adicionar ciclos </a>
+</div>
 
-<button id="btnNovaTag">
-    ➕ Nova Tag
-</button>
 
 <div id="tagModal" class="modal">
     <div class="modal-content">
         <h3>Criar Nova Tag</h3>
        <div class="tag-row">
-
         <input type="text" id="novaTag" placeholder="Nome da tag">
         <input type="color" id="tagColor" value="#3b82f6">
 
@@ -68,10 +70,7 @@
 </div>
 </header>
 
-<div class="filtros">
-    <select id="filtroTags" multiple> </select>
-    <input type="text" id="searchInput" placeholder="Pesquisar vídeos...">
-</div>
+
 
 
 
