@@ -395,6 +395,7 @@ QUEUE DE UPLOAD
 #emojiContainer{
     display:none;
     margin-top:15px;
+    width: 100%;
 }
 /* Botões */
 
