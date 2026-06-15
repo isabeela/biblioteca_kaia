@@ -529,3 +529,10 @@ emoji-picker{
     cursor:pointer;
     flex:none;
 }
+
+.descricao{
+  margin-top:8px;
+  font-size:14px;
+  color:#d0d0d0;
+  line-height:1.4;
+}
