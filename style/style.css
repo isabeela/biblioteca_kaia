@@ -355,14 +355,12 @@ QUEUE DE UPLOAD
 #novaTag{
     flex:1;
     margin:0;
-    padding: 20px;
+    padding: 50px;
     border-radius: 20px;
 }
 
-#novaTag input{
+#novaTag > input {
     width:100%;
-    padding: 20px;
-    border-radius: 20px;
 }
 
 /* Cor */
