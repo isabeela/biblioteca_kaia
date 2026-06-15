@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel='stylesheet' href="style/style.css">
+<link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
 
 
 <title>BiblioteKaia - Biblioteca de animação</title>
@@ -19,39 +20,25 @@
 <h1> BiblioteKaia </h1>
 <h4> A Biblioteca de animação da Kaia </h4>
 
+<div class="filtros">
+    <select id="filtroTags" multiple> </select>
+    <input type="text" id="searchInput" placeholder="Pesquisar vídeos...">
+</div>
+
 <button id="btnNovaTag">
     ➕ Nova Tag
 </button>
 
 <div id="tagModal" class="modal">
-
     <div class="modal-content">
-
         <h3>Criar Nova Tag</h3>
-
        <div class="tag-row">
 
-    <input
-        type="text"
-        id="novaTag"
-        placeholder="Nome da tag"
-    >
+        <input type="text" id="novaTag" placeholder="Nome da tag">
+        <input type="color" id="tagColor" value="#3b82f6">
 
-    <input
-        type="color"
-        id="tagColor"
-        value="#3b82f6"
-    >
-
-    <input
-        type="text"
-        id="tagEmoji"
-        placeholder="😀"
-        readonly
-    >
-
-    <button type="button" id="btnEmoji" title="Selecionar Emoji"> 😀 </button>
-
+        <input type="text" id="tagEmoji" placeholder="😀"readonly>
+        <button type="button" id="btnEmoji" title="Selecionar Emoji"> 😀 </button>
 </div>
 
         <div id="emojiContainer">
@@ -92,6 +79,8 @@
 <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 <script src="js/script.js"></script>
 <script src="js/tags.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
 
 
 </body>

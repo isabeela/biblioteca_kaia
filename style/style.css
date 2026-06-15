@@ -541,3 +541,17 @@ emoji-picker{
 .video-item{
     transition: opacity .3s ease;
 }
+
+.filtros{
+    display:flex;
+    gap:15px;
+    margin:20px;
+    align-items:center;
+}
+
+#searchInput{
+    flex:1;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+}

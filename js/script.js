@@ -262,3 +262,114 @@ window.addEventListener(
 );
 
 carregarVideos();
+
+
+
+
+
+async function carregarFiltroTags() {
+
+    const { data } = await db
+      .from("tags")
+      .select("*")
+      .order("nome");
+
+    const select =
+      document.getElementById("filtroTags");
+
+    data.forEach(tag => {
+
+        const option =
+          document.createElement("option");
+
+        option.value = tag.nome;
+
+        option.textContent =
+          `${tag.emoji || ""} ${tag.nome}`;
+
+        option.dataset.color =
+          tag.cor;
+
+        select.appendChild(option);
+
+    });
+
+    new TomSelect(select,{
+        plugins:["remove_button"]
+    });
+
+}
+
+document
+.getElementById("searchInput")
+.addEventListener("input", aplicarFiltros);
+
+document
+.getElementById("filtroTags")
+.addEventListener("change", aplicarFiltros);
+
+function aplicarFiltros() {
+
+    const texto =
+      document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+    const select =
+      document
+      .getElementById("filtroTags");
+
+    const tagsSelecionadas =
+      Array.from(
+        select.selectedOptions
+      )
+      .map(o => o.value);
+
+    const filtrados =
+      todosVideos.filter(video => {
+
+        const encontrouTexto =
+
+          (video.nome || "")
+          .toLowerCase()
+          .includes(texto)
+
+          ||
+
+          (video.descricao || "")
+          .toLowerCase()
+          .includes(texto);
+
+        const tagsVideo =
+          video.tags
+          ? video.tags.split(",")
+          : [];
+
+        const encontrouTags =
+
+          tagsSelecionadas.length === 0 ||
+
+          tagsSelecionadas.every(tag =>
+            tagsVideo.includes(tag)
+          );
+
+        return (
+          encontrouTexto &&
+          encontrouTags
+        );
+
+      });
+
+    paginaAtual = 0;
+
+    document
+      .getElementById("gallery")
+      .innerHTML = "";
+
+    todosVideosFiltrados =
+      filtrados;
+
+    renderizarMaisVideos();
+
+}
