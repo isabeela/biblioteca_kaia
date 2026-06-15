@@ -261,15 +261,16 @@ async function uploadVideo() {
 // 🎯 UPLOAD INDIVIDUAL
 //
 async function uploadSingleFile(file, descEl, index) {
-  const tags =
-  Array.from(
-    document.querySelectorAll(
-      `.video-tag-${index}:checked`
-    )
-  )
-.map(el => el.value)
+
+const selectTags =
+document.querySelector(`.tags-${index}`);
+
+const tags =
+Array.from(selectTags.selectedOptions)
+.map(option => option.value)
 .join(",");
-  const descricao = descEl.value;
+
+const descricao = descEl.value;
 
   const nome = extrairNomeArquivo(file.name);
   const fileName = `${Date.now()}-${file.name}`;
