@@ -547,7 +547,7 @@ emoji-picker{
     gap:15px;
     margin:20px;
     align-items:center;
-    width: 100%;
+    width: 90%;
     justify-content: center;   
 }
 
@@ -556,9 +556,9 @@ emoji-picker{
     padding:12px;
     border-radius:8px;
     border:none;
-    width: 20%;
+    width: 10%;
 }
 
 #btnNovaTag {
-    width: 30%;
+    width: 5%;
 }
