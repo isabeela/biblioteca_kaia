@@ -10,8 +10,7 @@ const db =
     SUPABASE_KEY
   );
 
-let todosVideos = [];
-let mapaTags = {};
+
 
 // async function carregarVideos() {
 
@@ -45,7 +44,8 @@ let mapaTags = {};
 
 //   renderizarVideos(data);
 // }
-
+let todosVideos = [];
+let mapaTags = {};
 
 async function carregarVideos() {
 
@@ -82,75 +82,82 @@ function renderizarVideos(videos) {
 
   videos.forEach(video => {
 
-   const tagsHtml = tags
-    .map(nomeTag => {
+    const tags = video.tags
+      ? video.tags.split(",")
+      : [];
 
-      const tag =
-        mapaTags[nomeTag.trim()];
+    const tagsHtml = tags
+      .map(nomeTag => {
 
-      if (!tag) {
+        const tag =
+          mapaTags[nomeTag.trim()];
+
+        // caso a tag não exista mais
+        if (!tag) {
+
+          return `
+            <span class="tag">
+              ${nomeTag}
+            </span>
+          `;
+        }
+
         return `
-          <span class="tag">
-            ${nomeTag}
+          <span
+            class="tag"
+            style="
+              background:${tag.cor};
+              color:white;
+            "
+          >
+            ${tag.emoji || ""}
+            ${tag.nome}
           </span>
         `;
-      }
 
-      return `
-        <span
-          class="tag"
-          style="
-            background:${tag.cor};
-            color:white;
-          "
-        >
-          ${tag.emoji || ""}
-          ${tag.nome}
-        </span>
-      `;
+      })
+      .join("");
 
-    })
-    .join("");
-   gallery.innerHTML += `
+    gallery.innerHTML += `
 
-    <div class="video-card">
+      <div class="video-card">
 
-      <div class="video-preview">
+        <div class="video-preview">
 
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata">
 
-          <source
-            src="${video.url}"
-            type="video/mp4">
+            <source
+              src="${video.url}"
+              type="video/mp4">
 
-        </video>
+          </video>
 
-      </div>
-
-      <div class="content">
-
-        <h3>${video.nome || ""}</h3>
-
-        <div class="descricao">
-          ${video.descricao || ""}
         </div>
 
-        <div class="tags">
-          ${tagsHtml}
+        <div class="content">
+
+          <h3>${video.nome || ""}</h3>
+
+          <div class="descricao">
+            ${video.descricao || ""}
+          </div>
+
+          <div class="tags">
+            ${tagsHtml}
+          </div>
+
         </div>
 
       </div>
-
-    </div>
 
     `;
 
-      });
+  });
 
 }
 
