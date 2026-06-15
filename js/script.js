@@ -63,42 +63,46 @@ function renderizarVideos(videos) {
       )
       .join("");
 
-    gallery.innerHTML += `
+   gallery.innerHTML += `
 
-      <div class="video-card">
+    <div class="video-card">
 
-        <div class="video-preview">
+      <div class="video-preview">
 
-          <video
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata">
 
-            <source
-              src="${video.url}"
-              type="video/mp4">
+          <source
+            src="${video.url}"
+            type="video/mp4">
 
-          </video>
+        </video>
 
+      </div>
+
+      <div class="content">
+
+        <h3>${video.nome || ""}</h3>
+
+        <div class="descricao">
+          ${video.descricao || ""}
         </div>
 
-        <div class="content">
-
-          <h3>${video.nome || ""}</h3>
-
-          <div class="tags">
-            ${tagsHtml}
-          </div>
-
+        <div class="tags">
+          ${tagsHtml}
         </div>
 
       </div>
 
+    </div>
+
     `;
 
-  });
+      });
 
 }
 
