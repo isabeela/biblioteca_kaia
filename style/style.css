@@ -80,7 +80,7 @@ FILTROS
     width:auto;
 
     padding:12px 20px;
-
+   background-color: #033d4e;
     border:none;
     color:white;
 
@@ -239,7 +239,6 @@ TAGS
 ========================== */
 
 .tags{
-    
     display:flex;
     flex-wrap:wrap;
     gap:8px;
@@ -247,7 +246,6 @@ TAGS
 }
 
 .tag{
-
     padding:6px 12px;
     border-radius:999px;
     background:#00c2ff20;
