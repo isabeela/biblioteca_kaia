@@ -548,6 +548,7 @@ emoji-picker{
     margin:20px;
     align-items:center;
     width: 30%;
+    justify-content: center;
 }
 
 #searchInput{
@@ -559,5 +560,5 @@ emoji-picker{
 }
 
 #btnNovaTag {
-    width: 10%;
+    width: 30%;
 }
