@@ -557,3 +557,7 @@ emoji-picker{
     border:none;
     width: 20%;
 }
+
+#btnNovaTag {
+    width: 30%;
+}
