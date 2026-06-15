@@ -537,3 +537,7 @@ emoji-picker{
   line-height:1.4;
   text-align: center;
 }
+
+.video-item{
+    transition: opacity .3s ease;
+}

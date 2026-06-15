@@ -149,7 +149,8 @@ videoInput.addEventListener("change", (event) => {
     uploadSingleFile(
       file,
       desc,
-      index
+      index,
+      card
     );
 
     card.appendChild(video);
@@ -264,7 +265,7 @@ async function uploadVideo() {
 //
 // 🎯 UPLOAD INDIVIDUAL
 //
-async function uploadSingleFile(file, descEl, index) {
+async function uploadSingleFile(file, descEl, index, card) {
 
 const selectTags =
 document.querySelector(`.tags-${index}`);
@@ -310,8 +311,14 @@ const descricao = descEl.value;
     return;
   }
 
-  alert("Vídeo enviado!");
-}
+  alert("Vídeo enviado com sucesso")
+
+  card.style.opacity = "0";
+
+  setTimeout(() => {
+    card.remove();
+  }, 300);
+  }
 
 //
 // BOTÃO
