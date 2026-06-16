@@ -366,6 +366,27 @@ async function salvarTag(){
 }
 
 
+document
+
+.getElementById("cancelTag")
+
+.addEventListener(
+
+"click",
+
+() => {
+
+document
+
+.getElementById("modalTag")
+
+.classList.remove("show");
+
+}
+
+);
+
+
 
 
 async function carregarFiltroTags() {
