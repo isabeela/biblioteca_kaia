@@ -178,9 +178,9 @@ async function abrirModalTag(id) {
 });
 
   const tagsAtuais =
-    video.tags
-      ? video.tags.split(",")
-      : [];
+  video.tags && video.tags.trim()
+    ? video.tags.split(",")
+    : [];
 
   tomTagsVideo.setValue(tagsAtuais);
 
