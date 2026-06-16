@@ -283,21 +283,67 @@ window.addEventListener(
   }
 );
 
-function abrirModalTag(id){
+
+async function carregarSelectTags(){
+
+    const { data } = await db
+      .from("tags")
+      .select("*")
+      .order("nome");
+
+    const select =
+      document.getElementById("selectTag");
+
+    select.innerHTML = `
+
+      <option
+        value=""
+        disabled
+        selected>
+
+        Selecione uma tag
+
+      </option>
+
+    `;
+
+    data.forEach(tag => {
+
+        select.innerHTML += `
+
+          <option value="${tag.nome}">
+
+            ${tag.emoji || ""}
+            ${tag.nome}
+
+          </option>
+
+        `;
+
+    });
+}
+
+
+async function abrirModalTag(id){
 
     videoSelecionado = id;
 
+    await carregarSelectTags();
+
     document
-    .getElementById("modalTag")
-    .classList.add("show");
+      .getElementById("modalTag")
+      .classList.add("show");
+
 }
 
 async function salvarTag(){
 
     const novaTag =
-    document
-    .getElementById("novaTag")
-    .value;
+
+      document
+      .getElementById("selectTag")
+      .value;
+
 
     const { data } = await db
 
@@ -310,41 +356,36 @@ async function salvarTag(){
       .single();
 
 
-    let tagsAtuais = data.tag || "";
+    let tags = data.tag || "";
 
-    if(tagsAtuais != ""){
+    if(tags){
 
-        tagsAtuais += ",";
+        tags += ",";
 
     }
 
-    tagsAtuais += novaTag;
+    tags += novaTag;
 
 
-    const { error } = await db
+    await db
+
       .from("biblioteca")
+
       .update({
-          tag: tagsAtuais
+
+          tag: tags
 
       })
+
       .eq("id", videoSelecionado);
 
 
-    if(error){
-        console.log(error);
-        return;
-
-    }
-
-
     document
-    .getElementById("modalTag")
-    .classList.remove("show");
+      .getElementById("modalTag")
+      .classList.remove("show");
+      
     carregarVideos();
-
 }
-
-
 async function carregarFiltroTags() {
 
   const { data, error } =
