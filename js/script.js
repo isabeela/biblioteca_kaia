@@ -293,7 +293,6 @@ async function salvarTag() {
   carregarVideos();
 }
 
-console.log("TomSelect valor bruto:", tomTagsVideo.getValue());
 
 /* ✅ EVENTOS (CORRIGIDO) */
 document.addEventListener("click", (e) => {
