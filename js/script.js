@@ -267,13 +267,14 @@ async function salvarTag() {
 }
 
 /* ✅ EVENTOS (CORRIGIDO) */
-document.getElementById("saveTag")
-  .addEventListener("click", salvarTag);
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("saveTag")
+    .addEventListener("click", salvarTag);
+});
 
-document.getElementById("cancelTag")
-  .addEventListener("click", () => {
-    document.getElementById("modalTag").classList.remove("show");
-  });
+function fecharModalTag() {
+  document.getElementById("modalTag").classList.remove("show");
+}
 
 carregarVideos();
 carregarFiltroTags();
