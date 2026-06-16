@@ -170,9 +170,12 @@ async function abrirModalTag(id) {
     tomTagsVideo.destroy();
   }
 
-  tomTagsVideo = new TomSelect("#selectTagsVideo", {
-    plugins: ["remove_button"]
-  });
+ tomTagsVideo = new TomSelect("#selectTagsVideo", {
+  plugins: ["remove_button"],
+  create: false,
+  persist: false,
+  allowEmptyOption: true
+});
 
   const tagsAtuais =
     video.tags
