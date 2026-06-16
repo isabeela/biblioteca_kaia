@@ -258,15 +258,21 @@ async function salvarTag() {
 
   let tagsSelecionadas = tomTagsVideo.getValue();
 
-  // garante que é array
-  if (!Array.isArray(tagsSelecionadas)) {
-    tagsSelecionadas = [tagsSelecionadas];
+  console.log("RAW TomSelect:", tagsSelecionadas);
+
+  // 🔥 normaliza tudo para array
+  if (!tagsSelecionadas) {
+    tagsSelecionadas = [];
   }
 
-  // remove vazios
-  tagsSelecionadas = tagsSelecionadas.filter(tag => tag && tag.trim() !== "");
+  if (!Array.isArray(tagsSelecionadas)) {
+    tagsSelecionadas = String(tagsSelecionadas)
+      .split(",")
+      .map(t => t.trim())
+      .filter(t => t !== "");
+  }
 
-  console.log("Tags a salvar:", tagsSelecionadas);
+  console.log("NORMALIZADO:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
