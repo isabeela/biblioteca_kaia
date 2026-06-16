@@ -44,14 +44,10 @@ FILTROS
 .filtros{
 
     width:min(1000px,95%);
-
     margin:20px auto;
-
     display:flex;
-
     gap:15px;
-
-    align-items:center;
+    align-items: flex-start;
 }
 
 #searchInput{
