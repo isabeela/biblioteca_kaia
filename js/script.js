@@ -288,9 +288,10 @@ async function salvarTag() {
 }
 
 /* ✅ EVENTOS (CORRIGIDO) */
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("saveTag")
-    .addEventListener("click", salvarTag);
+document.addEventListener("click", (e) => {
+  if (e.target && e.target.id === "saveTag") {
+    salvarTag();
+  }
 });
 
 function fecharModalTag() {
