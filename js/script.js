@@ -251,24 +251,10 @@ document.getElementById("searchInput")
 
 async function salvarTag() {
 
-  if (!tomTagsVideo || !videoSelecionado) {
-    console.log("TomSelect ou vídeo não definido");
-    return;
-  }
+  const select = document.getElementById("selectTagsVideo");
 
-  // 🔥 FORÇA sincronização do TomSelect
-  const raw = tomTagsVideo.items || tomTagsVideo.getValue();
-
-  console.log("RAW items:", raw);
-
-  let tagsSelecionadas = Array.isArray(raw)
-    ? raw
-    : String(raw || "")
-        .split(",")
-        .map(t => t.trim())
-        .filter(Boolean);
-
-  console.log("FINAL NORMALIZADO:", tagsSelecionadas);
+  const tagsSelecionadas = Array.from(select.selectedOptions)
+    .map(option => option.value);
 
   const { error } = await db
     .from("biblioteca")
@@ -278,7 +264,7 @@ async function salvarTag() {
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log("Erro Supabase:", error);
+    console.log(error);
     return;
   }
 
