@@ -290,7 +290,6 @@ function abrirModalTag(id){
     document
     .getElementById("modalTag")
     .classList.add("show");
-
 }
 
 async function salvarTag(){
