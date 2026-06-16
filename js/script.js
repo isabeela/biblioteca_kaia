@@ -20,508 +20,260 @@ const videosPorPagina = 10;
 
 async function carregarVideos() {
   const { data: videos, error } =
-    await db
-      .from("biblioteca")
-      .select("*");
+    await db.from("biblioteca").select("*");
+
   if (error) {
     console.error(error);
     return;
   }
+
   const { data: tags } =
-    await db
-      .from("tags")
-      .select("*");
+    await db.from("tags").select("*");
+
   mapaTags = {};
+
   tags.forEach(tag => {
     mapaTags[tag.nome] = tag;
   });
+
   todosVideos = videos;
   videosFiltrados = videos;
   paginaAtual = 0;
-  document.getElementById("gallery").innerHTML = "";
 
+  document.getElementById("gallery").innerHTML = "";
   renderizarMaisVideos();
 }
 
-
 function renderizarMaisVideos() {
-  if ( paginaAtual * videosPorPagina >= videosFiltrados.length) {
+  if (paginaAtual * videosPorPagina >= videosFiltrados.length) {
     return;
   }
 
   const gallery = document.getElementById("gallery");
+
   const inicio = paginaAtual * videosPorPagina;
   const fim = inicio + videosPorPagina;
 
-  const videos =
-    videosFiltrados.slice(
-      inicio,
-      fim
-    );
+  const videos = videosFiltrados.slice(inicio, fim);
 
   videos.forEach(video => {
 
-    const tags =
-      video.tags
-        ? video.tags.split(",")
-        : [];
+    const tags = video.tags ? video.tags.split(",") : [];
 
-    const tagsHtml =
-      tags.map(nomeTag => {
+    const tagsHtml = tags.map(nomeTag => {
+      const tag = mapaTags[nomeTag.trim()];
 
-        const tag =
-          mapaTags[nomeTag.trim()];
+      if (!tag) {
+        return `<span class="tag">${nomeTag}</span>`;
+      }
 
-        if (!tag) {
-
-          return `
-            <span class="tag">
-              ${nomeTag}
-            </span>
-          `;
-
-        }
-
-        return `
-          <span
-            class="tag"
-            style="
-              background:${tag.cor};
-              color:white;
-            "
-          >
-            ${tag.emoji || ""}
-            ${tag.nome}
-          </span>
-        `;
-
-      }).join("");
+      return `
+        <span class="tag" style="background:${tag.cor}; color:white;">
+          ${tag.emoji || ""} ${tag.nome}
+        </span>
+      `;
+    }).join("");
 
     gallery.innerHTML += `
-
-    <div class="video-card">
+      <div class="video-card">
 
         <div class="video-preview">
-
-            <video
-                muted
-                loop
-                autoplay
-                playsinline
-                preload="metadata">
-
-                <source
-                    src="${video.url}"
-                    type="video/mp4">
-
-            </video>
-
+          <video muted loop autoplay playsinline preload="metadata">
+            <source src="${video.url}" type="video/mp4">
+          </video>
         </div>
 
         <div class="content">
+          <h3>${video.nome || ""}</h3>
+          <div class="descricao">${video.descricao || ""}</div>
 
-            <h3>${video.nome || ""}</h3>
-
-            <div class="descricao">
-
-                ${video.descricao || ""}
-
-            </div>
-
-            <div class="tags">
-
-                ${tagsHtml}
-
-            </div>
-
+          <div class="tags">
+            ${tagsHtml}
+          </div>
         </div>
 
         <div class="acoes">
-
-            <button
-                onclick="abrirModalTag(${video.id})">
-
-                +
-
-            </button>
-
-            <button
-                onclick="abrirEditar(${video.id})">
-
-                ✏️
-
-            </button>
-
-            <button
-                onclick="deletarVideo(${video.id})">
-
-                🗑️
-
-            </button>
-
+          <button onclick="abrirModalTag(${video.id})">+</button>
+          <button onclick="abrirEditar(${video.id})">✏️</button>
+          <button onclick="deletarVideo(${video.id})">🗑️</button>
         </div>
 
-    </div>
-
+      </div>
     `;
+  });
 
-      });
-
-      paginaAtual++;
-
+  paginaAtual++;
 }
 
-let carregandoMais = false;
+window.addEventListener("scroll", () => {
+  const chegouNoFim =
+    window.innerHeight + window.scrollY >=
+    document.body.offsetHeight - 500;
 
-window.addEventListener(
-  "scroll",
-  () => {
-
-    const chegouNoFim =
-
-      window.innerHeight +
-      window.scrollY >=
-
-      document.body.offsetHeight - 500;
-
-    if (chegouNoFim) {
-
-      renderizarMaisVideos();
-
-    }
-
+  if (chegouNoFim) {
+    renderizarMaisVideos();
   }
-);
+});
 
+async function carregarSelectTags() {
+  const { data } = await db
+    .from("tags")
+    .select("*")
+    .order("nome");
 
-async function carregarSelectTags(){
+  const select = document.getElementById("selectTag");
 
-    const { data } = await db
-      .from("tags")
-      .select("*")
-      .order("nome");
+  select.innerHTML = `
+    <option value="" disabled selected>
+      Selecione uma tag
+    </option>
+  `;
 
-    const select =
-      document.getElementById("selectTag");
-
-    select.innerHTML = `
-
-      <option
-        value=""
-        disabled
-        selected>
-
-        Selecione uma tag
-
+  data.forEach(tag => {
+    select.innerHTML += `
+      <option value="${tag.nome}">
+        ${tag.emoji || ""} ${tag.nome}
       </option>
-
     `;
-
-    data.forEach(tag => {
-        select.innerHTML += `
-          <option value="${tag.nome}">
-
-            ${tag.emoji || ""}
-            ${tag.nome}
-
-          </option>
-        `;
-    });
+  });
 }
 
+async function abrirModalTag(id) {
+  videoSelecionado = id;
 
+  const { data: video } = await db
+    .from("biblioteca")
+    .select("*")
+    .eq("id", id)
+    .single();
 
+  const { data: tags } = await db
+    .from("tags")
+    .select("*")
+    .order("nome");
 
-async function abrirModalTag(id){
+  document.getElementById("tituloModalTag").innerText =
+    `Adicionar tags: ${video.nome}`;
 
-    videoSelecionado = id;
+  const select = document.getElementById("selectTagsVideo");
+  select.innerHTML = "";
 
+  tags.forEach(tag => {
+    select.innerHTML += `
+      <option value="${tag.nome}">
+        ${tag.emoji || ""} ${tag.nome}
+      </option>
+    `;
+  });
 
-    const { data: video } = await db
+  if (tomTagsVideo) {
+    tomTagsVideo.destroy();
+  }
 
-      .from("biblioteca")
+  tomTagsVideo = new TomSelect("#selectTagsVideo", {
+    plugins: ["remove_button"]
+  });
 
-      .select("*")
-
-      .eq("id", id)
-
-      .single();
-
-
-    const { data: tags } = await db
-
-      .from("tags")
-
-      .select("*")
-
-      .order("nome");
-
-
-    document
-
-      .getElementById("tituloModalTag")
-
-      .innerText =
-
-      `Adicionar tags: ${video.nome}`;
-
-
-
-    const select =
-
-      document.getElementById(
-
-        "selectTagsVideo"
-
-      );
-
-
-    select.innerHTML = "";
-
-
-    tags.forEach(tag=>{
-
-        select.innerHTML += `
-
-        <option
-
-            value="${tag.nome}">
-
-            ${tag.emoji || ""}
-
-            ${tag.nome}
-
-        </option>
-
-        `;
-
-    });
-
-
-
-    if(tomTagsVideo){
-
-        tomTagsVideo.destroy();
-
-    }
-
-
-    tomTagsVideo =
-
-      new TomSelect(
-
-        "#selectTagsVideo",
-
-        {
-
-          plugins:["remove_button"]
-
-        }
-
-      );
-
-
-
-    const tagsAtuais =
-
-      video.tag
-
-      ? video.tag.split(",")
-
+  const tagsAtuais =
+    video.tags
+      ? video.tags.split(",")
       : [];
 
+  tomTagsVideo.setValue(tagsAtuais);
 
-    tomTagsVideo.setValue(
-
-      tagsAtuais
-
-    );
-
-
-
-    document
-
-      .getElementById("modalTag")
-
-      .classList.add("show");
-
+  document.getElementById("modalTag").classList.add("show");
 }
 
-
-
-
 async function carregarFiltroTags() {
-
   const { data, error } =
-    await db
-      .from("tags")
-      .select("*")
-      .order("nome");
+    await db.from("tags").select("*").order("nome");
 
   if (error) {
     console.error(error);
     return;
   }
 
-  const select =
-    document.getElementById("filtroTags");
+  const select = document.getElementById("filtroTags");
 
   select.innerHTML = "";
 
   data.forEach(tag => {
-
-    const option =
-      document.createElement("option");
-
+    const option = document.createElement("option");
     option.value = tag.nome;
-
-    option.textContent =
-      `${tag.emoji || ""} ${tag.nome}`;
-
+    option.textContent = `${tag.emoji || ""} ${tag.nome}`;
     select.appendChild(option);
-
   });
 
-  const ts = new TomSelect(
-    "#filtroTags",
-    {
-      plugins:["remove_button"]
-    }
-  );
+  const ts = new TomSelect("#filtroTags", {
+    plugins: ["remove_button"]
+  });
 
-  ts.on(
-    "change",
-    aplicarFiltros
-  );
-
+  ts.on("change", aplicarFiltros);
 }
 
 function aplicarFiltros() {
+  const texto = document.getElementById("searchInput").value.toLowerCase();
 
-  const texto =
-    document
-      .getElementById("searchInput")
-      .value
-      .toLowerCase();
+  const tomSelect = document.getElementById("filtroTags").tomselect;
 
-  const tomSelect =
-    document
-      .getElementById("filtroTags")
-      .tomselect;
+  const tagsSelecionadas = tomSelect ? tomSelect.getValue() : [];
 
-  const tagsSelecionadas =
-    tomSelect
-      ? tomSelect.getValue()
-      : [];
+  videosFiltrados = todosVideos.filter(video => {
 
-  videosFiltrados =
-    todosVideos.filter(video => {
+    const nome = (video.nome || "").toLowerCase();
+    const descricao = (video.descricao || "").toLowerCase();
 
-      const nome =
-        (video.nome || "")
-        .toLowerCase();
+    const tagsVideo = video.tags ? video.tags.split(",") : [];
 
-      const descricao =
-        (video.descricao || "")
-        .toLowerCase();
+    const encontrouTexto =
+      nome.includes(texto) ||
+      descricao.includes(texto);
 
-      const tagsVideo =
-        video.tags
-          ? video.tags.split(",")
-          : [];
-
-      const encontrouTexto =
-
-        nome.includes(texto) ||
-
-        descricao.includes(texto);
-
-      const encontrouTags =
-
-        tagsSelecionadas.length === 0 ||
-
-        tagsSelecionadas.every(tag =>
-          tagsVideo.includes(tag)
-        );
-
-      return (
-        encontrouTexto &&
-        encontrouTags
+    const encontrouTags =
+      tagsSelecionadas.length === 0 ||
+      tagsSelecionadas.every(tag =>
+        tagsVideo.includes(tag)
       );
 
-    });
+    return encontrouTexto && encontrouTags;
+  });
 
   paginaAtual = 0;
-
-  document
-    .getElementById("gallery")
-    .innerHTML = "";
-
+  document.getElementById("gallery").innerHTML = "";
   renderizarMaisVideos();
 }
 
-document
-  .getElementById("searchInput")
-  .addEventListener(
-    "input",
-    aplicarFiltros
-  );
+document.getElementById("searchInput")
+  .addEventListener("input", aplicarFiltros);
+
+async function salvarTag() {
+  const tagsSelecionadas = tomTagsVideo.getValue();
+
+  const { error } = await db
+    .from("biblioteca")
+    .update({
+      tags: tagsSelecionadas.join(",")
+    })
+    .eq("id", videoSelecionado);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  document.getElementById("modalTag").classList.remove("show");
+
+  carregarVideos();
+}
+
+/* ✅ EVENTOS (CORRIGIDO) */
+document.getElementById("saveTag")
+  .addEventListener("click", salvarTag);
+
+document.getElementById("cancelTag")
+  .addEventListener("click", () => {
+    document.getElementById("modalTag").classList.remove("show");
+  });
 
 carregarVideos();
 carregarFiltroTags();
-
-
-async function salvarTag(){
-
-    const tagsSelecionadas =
-      tomTagsVideo.getValue();
-
-    const { error } = await db
-      .from("biblioteca")
-      .update({
-          tag:
-          tagsSelecionadas.join(",")
-      })
-      .eq(
-         "id",
-         videoSelecionado
-      );
-
-    if(error){
-        console.log(error);
-        return;
-    }
-
-
-    document
-      .getElementById("modalTag")
-      .classList.remove("show");
-
-    carregarVideos();
-
-    document.getElementById("saveTag").addEventListener("click",salvarTag);
-
-}
-
-
-document
-
-.getElementById("cancelTag")
-
-.addEventListener(
-
-"click",
-
-() => {
-
-document
-
-.getElementById("modalTag")
-
-.classList.remove("show");
-
-}
-
-);
-
-
