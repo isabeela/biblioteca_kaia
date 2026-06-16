@@ -99,75 +99,75 @@ function renderizarMaisVideos() {
 
     gallery.innerHTML += `
 
-<div class="video-card">
+    <div class="video-card">
 
-    <div class="video-preview">
+        <div class="video-preview">
 
-        <video
-            muted
-            loop
-            autoplay
-            playsinline
-            preload="metadata">
+            <video
+                muted
+                loop
+                autoplay
+                playsinline
+                preload="metadata">
 
-            <source
-                src="${video.url}"
-                type="video/mp4">
+                <source
+                    src="${video.url}"
+                    type="video/mp4">
 
-        </video>
-
-    </div>
-
-    <div class="content">
-
-        <h3>${video.nome || ""}</h3>
-
-        <div class="descricao">
-
-            ${video.descricao || ""}
+            </video>
 
         </div>
 
-        <div class="tags">
+        <div class="content">
 
-            ${tagsHtml}
+            <h3>${video.nome || ""}</h3>
+
+            <div class="descricao">
+
+                ${video.descricao || ""}
+
+            </div>
+
+            <div class="tags">
+
+                ${tagsHtml}
+
+            </div>
+
+        </div>
+
+        <div class="acoes">
+
+            <button
+                onclick="abrirModalTag(${video.id})">
+
+                +
+
+            </button>
+
+            <button
+                onclick="abrirEditar(${video.id})">
+
+                ✏️
+
+            </button>
+
+            <button
+                onclick="deletarVideo(${video.id})">
+
+                🗑️
+
+            </button>
 
         </div>
 
     </div>
 
-    <div class="acoes">
+    `;
 
-        <button
-            onclick="abrirModalTag(${video.id})">
+      });
 
-            +
-
-        </button>
-
-        <button
-            onclick="abrirEditar(${video.id})">
-
-            ✏️
-
-        </button>
-
-        <button
-            onclick="deletarVideo(${video.id})">
-
-            🗑️
-
-        </button>
-
-    </div>
-
-</div>
-
-`;
-
-  });
-
-  paginaAtual++;
+      paginaAtual++;
 
 }
 
