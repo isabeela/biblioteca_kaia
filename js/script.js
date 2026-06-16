@@ -256,23 +256,19 @@ async function salvarTag() {
     return;
   }
 
-  let tagsSelecionadas = tomTagsVideo.getValue();
+  // 🔥 FORÇA sincronização do TomSelect
+  const raw = tomTagsVideo.items || tomTagsVideo.getValue();
 
-  console.log("RAW TomSelect:", tagsSelecionadas);
+  console.log("RAW items:", raw);
 
-  // 🔥 normaliza tudo para array
-  if (!tagsSelecionadas) {
-    tagsSelecionadas = [];
-  }
+  let tagsSelecionadas = Array.isArray(raw)
+    ? raw
+    : String(raw || "")
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean);
 
-  if (!Array.isArray(tagsSelecionadas)) {
-    tagsSelecionadas = String(tagsSelecionadas)
-      .split(",")
-      .map(t => t.trim())
-      .filter(t => t !== "");
-  }
-
-  console.log("NORMALIZADO:", tagsSelecionadas);
+  console.log("FINAL NORMALIZADO:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
