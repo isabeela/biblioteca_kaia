@@ -247,7 +247,23 @@ document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
 async function salvarTag() {
-  const tagsSelecionadas = tomTagsVideo.getValue();
+
+  if (!tomTagsVideo || !videoSelecionado) {
+    console.log("TomSelect ou vídeo não definido");
+    return;
+  }
+
+  let tagsSelecionadas = tomTagsVideo.getValue();
+
+  // garante que é array
+  if (!Array.isArray(tagsSelecionadas)) {
+    tagsSelecionadas = [tagsSelecionadas];
+  }
+
+  // remove vazios
+  tagsSelecionadas = tagsSelecionadas.filter(tag => tag && tag.trim() !== "");
+
+  console.log("Tags a salvar:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
@@ -257,11 +273,13 @@ async function salvarTag() {
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log(error);
+    console.log("Erro Supabase:", error);
     return;
   }
 
   document.getElementById("modalTag").classList.remove("show");
+
+  videoSelecionado = null;
 
   carregarVideos();
 }
