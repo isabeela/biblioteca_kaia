@@ -14,61 +14,44 @@ let todosVideos = [];
 let videosFiltrados = [];
 let videoSelecionado = null;
 let mapaTags = {};
+let tomTagsVideo;
 let paginaAtual = 0;
 const videosPorPagina = 10;
 
 async function carregarVideos() {
-
   const { data: videos, error } =
     await db
       .from("biblioteca")
       .select("*");
-
   if (error) {
     console.error(error);
     return;
   }
-
   const { data: tags } =
     await db
       .from("tags")
       .select("*");
-
   mapaTags = {};
-
   tags.forEach(tag => {
     mapaTags[tag.nome] = tag;
   });
-
   todosVideos = videos;
   videosFiltrados = videos;
-
   paginaAtual = 0;
-
   document.getElementById("gallery").innerHTML = "";
 
   renderizarMaisVideos();
-
 }
 
 
 function renderizarMaisVideos() {
-
-  if (
-    paginaAtual * videosPorPagina >=
-    videosFiltrados.length
-  ) {
+  if ( paginaAtual * videosPorPagina >= videosFiltrados.length) {
     return;
   }
 
-  const gallery =
-    document.getElementById("gallery");
-
-  const inicio =
-    paginaAtual * videosPorPagina;
-
-  const fim =
-    inicio + videosPorPagina;
+  const gallery = document.getElementById("gallery");
+  const inicio = paginaAtual * videosPorPagina;
+  const fim = inicio + videosPorPagina;
 
   const videos =
     videosFiltrados.slice(
@@ -173,6 +156,7 @@ function renderizarMaisVideos() {
   paginaAtual++;
 
 }
+
 let carregandoMais = false;
 
 window.addEventListener(
@@ -220,70 +204,102 @@ async function carregarSelectTags(){
     `;
 
     data.forEach(tag => {
-
         select.innerHTML += `
-
           <option value="${tag.nome}">
 
             ${tag.emoji || ""}
             ${tag.nome}
 
           </option>
-
         `;
-
     });
 }
 
 
-let tomTagsVideo;
+
 
 async function abrirModalTag(id){
 
     videoSelecionado = id;
 
-    const { data: tags } = await db
-      .from("tags")
-      .select("*")
-      .order("nome");
 
     const { data: video } = await db
+
       .from("biblioteca")
-      .select("tag")
+
+      .select("*")
+
       .eq("id", id)
+
       .single();
 
 
-    const tagsDoVideo =
-      video.tag
-      ? video.tag.split(",")
-      : [];
+    const { data: tags } = await db
+
+      .from("tags")
+
+      .select("*")
+
+      .order("nome");
+
+
+    document
+
+      .getElementById("tituloModalTag")
+
+      .innerText =
+
+      `Adicionar tags: ${video.nome}`;
+
+
 
     const select =
+
       document.getElementById(
+
         "selectTagsVideo"
+
       );
 
+
     select.innerHTML = "";
-    tags.forEach(tag => {
-      select.innerHTML += `
+
+
+    tags.forEach(tag=>{
+
+        select.innerHTML += `
+
         <option
-          value="${tag.nome}">
-          ${tag.emoji || ""}
-          ${tag.nome}
+
+            value="${tag.nome}">
+
+            ${tag.emoji || ""}
+
+            ${tag.nome}
+
         </option>
-      `;
+
+        `;
+
     });
 
+
+
     if(tomTagsVideo){
+
         tomTagsVideo.destroy();
+
     }
 
 
     tomTagsVideo =
+
       new TomSelect(
+
         "#selectTagsVideo",
+
         {
+
           plugins:["remove_button"]
 
         }
@@ -291,14 +307,30 @@ async function abrirModalTag(id){
       );
 
 
+
+    const tagsAtuais =
+
+      video.tag
+
+      ? video.tag.split(",")
+
+      : [];
+
+
     tomTagsVideo.setValue(
-      tagsDoVideo
+
+      tagsAtuais
+
     );
 
 
+
     document
+
       .getElementById("modalTag")
+
       .classList.add("show");
+
 }
 
 async function salvarTag(){

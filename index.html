@@ -74,16 +74,38 @@
 </main>
 
 <div id="modalTag" class="modal">
-  <div class="modal-content">
-    <h3>Adicionar tags</h3>
-    <select id="selectTagsVideo" multiple></select>
-    <div class="modal-buttons">
-        <button id="saveTag"> Salvar </button>
-        <button id="cancelTag"> Cancelar </button>
-    </div>
-  </div>
-</div>
 
+    <div class="modal-content">
+
+        <h3 id="tituloModalTag">
+            Adicionar tags
+        </h3>
+
+        <select
+            id="selectTagsVideo"
+            multiple>
+
+        </select>
+
+        <div class="modal-buttons">
+
+            <button id="saveTag">
+
+                Salvar
+
+            </button>
+
+            <button id="cancelTag">
+
+                Cancelar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
