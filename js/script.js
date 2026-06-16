@@ -347,59 +347,6 @@ async function abrirModalTag(id){
 
 }
 
-async function salvarTag(){
-
-    const tagsSelecionadas =
-      tomTagsVideo.getValue();
-
-    const { error } = await db
-      .from("biblioteca")
-      .update({
-          tag:
-          tagsSelecionadas.join(",")
-      })
-      .eq(
-         "id",
-         videoSelecionado
-      );
-
-    if(error){
-        console.log(error);
-        return;
-    }
-
-
-    document
-      .getElementById("modalTag")
-      .classList.remove("show");
-
-    carregarVideos();
-
-    document.getElementById("saveTag").addEventListener("click",salvarTag);
-
-}
-
-
-document
-
-.getElementById("cancelTag")
-
-.addEventListener(
-
-"click",
-
-() => {
-
-document
-
-.getElementById("modalTag")
-
-.classList.remove("show");
-
-}
-
-);
-
 
 
 
@@ -522,4 +469,59 @@ document
 
 carregarVideos();
 carregarFiltroTags();
+
+
+async function salvarTag(){
+
+    const tagsSelecionadas =
+      tomTagsVideo.getValue();
+
+    const { error } = await db
+      .from("biblioteca")
+      .update({
+          tag:
+          tagsSelecionadas.join(",")
+      })
+      .eq(
+         "id",
+         videoSelecionado
+      );
+
+    if(error){
+        console.log(error);
+        return;
+    }
+
+
+    document
+      .getElementById("modalTag")
+      .classList.remove("show");
+
+    carregarVideos();
+
+    document.getElementById("saveTag").addEventListener("click",salvarTag);
+
+}
+
+
+document
+
+.getElementById("cancelTag")
+
+.addEventListener(
+
+"click",
+
+() => {
+
+document
+
+.getElementById("modalTag")
+
+.classList.remove("show");
+
+}
+
+);
+
 
