@@ -99,11 +99,11 @@ function renderizarMaisVideos() {
 
     gallery.innerHTML += `
 
-      <div class="video-card">
+<div class="video-card">
 
-        <div class="video-preview">
+    <div class="video-preview">
 
-          <video
+        <video
             muted
             loop
             autoplay
@@ -111,45 +111,59 @@ function renderizarMaisVideos() {
             preload="metadata">
 
             <source
-              src="${video.url}"
-              type="video/mp4">
+                src="${video.url}"
+                type="video/mp4">
 
-          </video>
+        </video>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
 
-          <h3>${video.nome || ""}</h3>
+        <h3>${video.nome || ""}</h3>
 
-          <div class="descricao">
+        <div class="descricao">
+
             ${video.descricao || ""}
-          </div>
-
-          <div class="tags">
-            ${tagsHtml}
-          </div>
 
         </div>
-        <div class="acoes">
 
-        <button onclick="abrirModalTag(${video.id})">
+        <div class="tags">
+
+            ${tagsHtml}
+
+        </div>
+
+    </div>
+
+    <div class="acoes">
+
+        <button
+            onclick="abrirModalTag(${video.id})">
+
             +
+
         </button>
 
-        <button onclick="abrirEditar(${video.id})">
+        <button
+            onclick="abrirEditar(${video.id})">
+
             ✏️
+
         </button>
 
-        <button onclick="deletarVideo(${video.id})">
+        <button
+            onclick="deletarVideo(${video.id})">
+
             🗑️
+
         </button>
+
+    </div>
 
 </div>
 
-      </div>
-
-    `;
+`;
 
   });
 
