@@ -361,9 +361,11 @@ async function salvarTag(){
 
     carregarVideos();
 
+    document.getElementById("saveTag").addEventListener("click",salvarTag);
+
 }
 
-document.getElementById("saveTag").addEventListener("click",salvarTag);
+
 
 
 async function carregarFiltroTags() {
