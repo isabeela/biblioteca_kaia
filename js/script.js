@@ -251,20 +251,31 @@ document.getElementById("searchInput")
 
 async function salvarTag() {
 
-  const select = document.getElementById("selectTagsVideo");
+  if (!tomTagsVideo || !videoSelecionado) {
+    console.log("TomSelect ou vídeo não definido");
+    return;
+  }
 
-  const tagsSelecionadas = Array.from(select.selectedOptions)
-    .map(option => option.value);
+  const tagsSelecionadas = tomTagsVideo.getValue();
+
+  console.log("Tags selecionadas (TomSelect):", tagsSelecionadas);
+
+  const tagsArray = Array.isArray(tagsSelecionadas)
+    ? tagsSelecionadas
+    : String(tagsSelecionadas || "")
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean);
 
   const { error } = await db
     .from("biblioteca")
     .update({
-      tags: tagsSelecionadas.join(",")
+      tags: tagsArray.join(",")
     })
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log(error);
+    console.log("Erro Supabase:", error);
     return;
   }
 
@@ -275,8 +286,6 @@ async function salvarTag() {
   carregarVideos();
 }
 
-
-/* ✅ EVENTOS (CORRIGIDO) */
 document.addEventListener("click", (e) => {
   if (e.target && e.target.id === "saveTag") {
     salvarTag();
