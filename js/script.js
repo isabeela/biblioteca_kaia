@@ -14,6 +14,7 @@ let todosVideos = [];
 let videosFiltrados = [];
 let videoSelecionado = null;
 let mapaTags = {};
+let tomTagsVideo;
 let paginaAtual = 0;
 const videosPorPagina = 10;
 
@@ -50,94 +51,6 @@ async function carregarVideos() {
   renderizarMaisVideos();
 
 }
-
-// function renderizarVideos(videos) {
-
-//   const gallery =
-//     document.getElementById("gallery");
-
-//   gallery.innerHTML = "";
-
-//   videos.forEach(video => {
-
-//     const tags = video.tags
-//       ? video.tags.split(",")
-//       : [];
-
-//     const tagsHtml = tags
-//       .map(nomeTag => {
-
-//         const tag =
-//           mapaTags[nomeTag.trim()];
-
-//         // caso a tag não exista mais
-//         if (!tag) {
-
-//           return `
-//             <span class="tag">
-//               ${nomeTag}
-//             </span>
-//           `;
-//         }
-
-//         return `
-//           <span
-//             class="tag"
-//             style="
-//               background:${tag.cor};
-//               color:white;
-//             "
-//           >
-//             ${tag.emoji || ""}
-//             ${tag.nome}
-//           </span>
-//         `;
-
-//       })
-//       .join("");
-
-//     gallery.innerHTML += `
-
-//       <div class="video-card">
-
-//         <div class="video-preview">
-
-//           <video
-//             autoplay
-//             muted
-//             loop
-//             playsinline
-//             preload="metadata">
-
-//             <source
-//               src="${video.url}"
-//               type="video/mp4">
-
-//           </video>
-
-//         </div>
-
-//         <div class="content">
-
-//           <h3>${video.nome || ""}</h3>
-
-//           <div class="descricao">
-//             ${video.descricao || ""}
-//           </div>
-
-//           <div class="tags">
-//             ${tagsHtml}
-//           </div>
-
-//         </div>
-
-//       </div>
-
-//     `;
-
-//   });
-
-// }
 
 
 function renderizarMaisVideos() {
@@ -324,68 +237,135 @@ async function carregarSelectTags(){
 }
 
 
+let tomTagsVideo;
+
 async function abrirModalTag(id){
 
     videoSelecionado = id;
 
-    await carregarSelectTags();
+    const { data: tags } = await db
+      .from("tags")
+      .select("*")
+      .order("nome");
+
+    const { data: video } = await db
+      .from("biblioteca")
+      .select("tag")
+      .eq("id", id)
+      .single();
+
+
+    const tagsDoVideo =
+      video.tag
+      ? video.tag.split(",")
+      : [];
+
+    const select =
+      document.getElementById(
+        "selectTagsVideo"
+      );
+
+    select.innerHTML = "";
+    tags.forEach(tag => {
+      select.innerHTML += `
+        <option
+          value="${tag.nome}">
+          ${tag.emoji || ""}
+          ${tag.nome}
+        </option>
+      `;
+    });
+
+    if(tomTagsVideo){
+        tomTagsVideo.destroy();
+    }
+
+
+    tomTagsVideo =
+      new TomSelect(
+        "#selectTagsVideo",
+        {
+          plugins:["remove_button"]
+
+        }
+
+      );
+
+
+    tomTagsVideo.setValue(
+      tagsDoVideo
+    );
+
 
     document
       .getElementById("modalTag")
       .classList.add("show");
-
 }
 
 async function salvarTag(){
 
-    const novaTag =
+    const tagsSelecionadas =
 
-      document
-      .getElementById("selectTag")
-      .value;
+      tomTagsVideo.getValue();
 
 
-    const { data } = await db
-
-      .from("biblioteca")
-
-      .select("tag")
-
-      .eq("id", videoSelecionado)
-
-      .single();
-
-
-    let tags = data.tag || "";
-
-    if(tags){
-
-        tags += ",";
-
-    }
-
-    tags += novaTag;
-
-
-    await db
+    const { error } = await db
 
       .from("biblioteca")
 
       .update({
 
-          tag: tags
+         tag:
+
+         tagsSelecionadas.join(",")
 
       })
 
-      .eq("id", videoSelecionado);
+      .eq(
+
+        "id",
+
+        videoSelecionado
+
+      );
+
+
+    if(error){
+
+        console.log(error);
+
+        return;
+
+    }
 
 
     document
+
       .getElementById("modalTag")
+
       .classList.remove("show");
-      
+
+
     carregarVideos();
+
 }
+
+document
+
+.getElementById("saveTag")
+
+.addEventListener(
+
+    "click",
+
+    salvarTag
+
+);
+
+
+
+
+
 async function carregarFiltroTags() {
 
   const { data, error } =
