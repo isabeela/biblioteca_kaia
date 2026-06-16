@@ -340,23 +340,24 @@ async function salvarTag(){
       tomTagsVideo.getValue();
 
 
+
     const { error } = await db
 
       .from("biblioteca")
 
       .update({
 
-         tag:
+          tag:
 
-         tagsSelecionadas.join(",")
+          tagsSelecionadas.join(",")
 
       })
 
       .eq(
 
-        "id",
+         "id",
 
-        videoSelecionado
+         videoSelecionado
 
       );
 
@@ -380,20 +381,6 @@ async function salvarTag(){
     carregarVideos();
 
 }
-
-document
-
-.getElementById("saveTag")
-
-.addEventListener(
-
-    "click",
-
-    salvarTag
-
-);
-
-
 
 
 
