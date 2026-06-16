@@ -477,6 +477,32 @@ emoji-picker{
     font-size:14px;
     color:white;
 }
+
+
+.acoes{
+
+    display:flex;
+    gap:8px;
+    justify-content:flex-end;
+    margin-top:10px;
+}
+
+.acoes button{
+
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    background:#444;
+    color:white;
+    font-size:16px;
+}
+
+.acoes button:hover{
+
+    background:#00c2ff;
+}
 /* ==========================
 SCROLL
 ========================== */
