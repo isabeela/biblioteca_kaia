@@ -14,7 +14,6 @@ let todosVideos = [];
 let videosFiltrados = [];
 let videoSelecionado = null;
 let mapaTags = {};
-let tomTagsVideo;
 let paginaAtual = 0;
 const videosPorPagina = 10;
 
