@@ -12,6 +12,7 @@ const db =
 
 let todosVideos = [];
 let videosFiltrados = [];
+let videoSelecionado = null;
 let mapaTags = {};
 let paginaAtual = 0;
 const videosPorPagina = 10;
@@ -281,6 +282,68 @@ window.addEventListener(
 
   }
 );
+
+function abrirModalTag(id){
+
+    videoSelecionado = id;
+
+    document
+    .getElementById("modalTag")
+    .classList.add("show");
+
+}
+
+async function salvarTag(){
+
+    const novaTag =
+    document
+    .getElementById("novaTag")
+    .value;
+
+    const { data } = await db
+
+      .from("biblioteca")
+
+      .select("tag")
+
+      .eq("id", videoSelecionado)
+
+      .single();
+
+
+    let tagsAtuais = data.tag || "";
+
+    if(tagsAtuais != ""){
+
+        tagsAtuais += ",";
+
+    }
+
+    tagsAtuais += novaTag;
+
+
+    const { error } = await db
+      .from("biblioteca")
+      .update({
+          tag: tagsAtuais
+
+      })
+      .eq("id", videoSelecionado);
+
+
+    if(error){
+        console.log(error);
+        return;
+
+    }
+
+
+    document
+    .getElementById("modalTag")
+    .classList.remove("show");
+    carregarVideos();
+
+}
 
 
 async function carregarFiltroTags() {
