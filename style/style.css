@@ -19,6 +19,13 @@ h1,h2,h3,h4{
     color:white;
 }
 
+a {
+    text-decoration: none;
+    background-color: #c6f2ff;
+    color: black;
+    padding: 20px;
+    border-radius: 5px;
+}
 .container{
     width:min(1400px,95%);
     margin:0 auto;
