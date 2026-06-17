@@ -123,8 +123,9 @@ async function salvarTagsVideo(){
 
     }
 
-    alert("Salvou");
+    alert("Salvo com sucesso");
     fecharModalTag();
+    await carregarVideos();
 
 }
 
