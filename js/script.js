@@ -139,30 +139,6 @@ async function carregarSelectTags() {
   });
 }
 
-// ABRE O MODAL DE + PARA ADICIONAR NOVA TAG AO VIDEO QUE JA TEM NA PÁGINA INICIAL//
-
-async function abrirModalTag(id){
-
-    videoSelecionado = id;
-
-    const { data: video } = await db
-    .from("biblioteca")
-    .select("tags")
-    .eq("id", id)
-    .single();
-
-    const tagsSelecionadas =
-        video?.tags
-        ? video.tags.split(",")
-        : [];
-
-    await carregarTagsModal(tagsSelecionadas);
-
-    document
-    .getElementById("modalTag")
-    .classList.add("show");
-}
-
 async function carregarFiltroTags() {
   const { data, error } =
     await db.from("tags").select("*").order("nome");
@@ -264,45 +240,6 @@ async function carregarTagsModal(tagsSelecionadas){
 
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
-
-async function adicionarTags() {
-
-    const tagsSelecionadas = tomTagsVideo.getValue();
-
-    console.log(tagsSelecionadas);
-
-    const tagsString = tagsSelecionadas.join(",");
-
-    console.log(tagsString);
-
-    const { data, error } = await db
-        .from("biblioteca")
-        .update({
-            tags: tagsString
-        })
-        .eq("id", videoSelecionado)
-        .select();
-
-    console.log("DATA:", data);
-    console.log("ERROR:", error);
-
-    if(error){
-        return;
-    }
-
-    fecharModalTag();
-
-    await carregarVideos();
-}
-
-
-function fecharModalTag(){
-
-    document
-    .getElementById("modalTag")
-    .classList.remove("show");
-
-}
 
 
 carregarVideos();
