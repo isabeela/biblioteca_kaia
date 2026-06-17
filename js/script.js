@@ -139,6 +139,7 @@ async function carregarSelectTags() {
   });
 }
 
+
 async function carregarFiltroTags() {
   const { data, error } =
     await db.from("tags").select("*").order("nome");
@@ -241,6 +242,40 @@ async function carregarTagsModal(tagsSelecionadas){
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
+
+  async function abrirModalTag(id){
+
+    videoSelecionado = id;
+
+    console.log("Vídeo selecionado:", id);
+
+    // Busca as tags atuais do vídeo
+
+    const { data: video, error } = await db
+        .from("biblioteca")
+        .select("tags")
+        .eq("id", id)
+        .single();
+
+    if(error){
+
+        console.log(error);
+
+        return;
+    }
+
+    const tagsAtuais =
+        video?.tags
+        ? video.tags.split(",").filter(Boolean)
+        : [];
+
+    await carregarTagsModal(tagsAtuais);
+
+    document
+        .getElementById("modalTag")
+        .classList.add("show");
+
+}
 
 carregarVideos();
 carregarFiltroTags();
