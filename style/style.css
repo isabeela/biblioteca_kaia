@@ -95,64 +95,6 @@ UPLOAD
 ========================== */
 
 
-.upload-actions{
-
-    text-align:center;
-
-    margin-bottom:20px;
-}
-
-#btnUpload{
-
-    width:auto;
-
-    padding:12px 25px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#00c2ff;
-
-    color:white;
-
-    cursor:pointer;
-
-    font-size:16px;
-}
-
-#drop-zone{
-
-    width:min(700px,95%);
-
-    margin:20px auto;
-
-    padding:50px;
-
-    border:2px dashed #666;
-
-    border-radius:16px;
-
-    background:#1f1f1f;
-
-    text-align:center;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-#drop-zone:hover,
-#drop-zone.dragover{
-
-    border-color:#f6fffb;
-
-    background:#2d2d2d;
-}
-
-#drop-zone input{
-    display:none;
-}
 
 /* ==========================
 GALERIA

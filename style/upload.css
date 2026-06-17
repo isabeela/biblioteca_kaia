@@ -1,0 +1,194 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#292929;
+    color:white;
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
+}
+
+h1,h2,h3,h4{
+    color:white;
+}
+
+a {
+    text-decoration: none;
+    background-color: #c6f2ff;
+    color: black;
+    padding: 12px;
+    border-radius: 5px;
+}
+.container{
+    width:min(1400px,95%);
+    margin:0 auto;
+}
+
+/* =========================
+UPLOAD GRID (CARDS LADO A LADO)
+========================= */
+
+#queue {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    width: min(1400px, 95%);
+    margin: 20px auto;
+    align-items: start;
+}
+
+/* =========================
+CARD UPLOAD
+========================= */
+
+.video-item {
+    background: #1f1f1f;
+    border: 1px solid #444;
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: 0.2s;
+}
+
+.video-item:hover {
+    transform: translateY(-4px);
+    border-color: #00c2ff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* =========================
+VIDEO PREVIEW
+========================= */
+
+.video-item video {
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: black;
+}
+
+/* =========================
+TÍTULO DO ARQUIVO
+========================= */
+
+.video-item p {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+    word-break: break-word;
+}
+
+/* =========================
+INPUTS (LEGÍVEIS)
+========================= */
+
+.video-item textarea {
+    width: 100%;
+    min-height: 70px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #2a2a2a;
+    color: white;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+}
+
+.video-item textarea:focus {
+    border-color: #00c2ff;
+}
+
+/* =========================
+SELECT (TAGS)
+========================= */
+
+.video-item select {
+    width: 100%;
+}
+
+/* =========================
+BOTÃO
+========================= */
+
+.video-item button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00c2ff, #00ffcc);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.video-item button:hover {
+    transform: scale(1.02);
+}
+
+
+.upload-actions{
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+#btnUpload{
+
+    width:auto;
+
+    padding:12px 25px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#00c2ff;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+}
+
+#drop-zone{
+
+    width:min(700px,95%);
+
+    margin:20px auto;
+
+    padding:50px;
+
+    border:2px dashed #666;
+
+    border-radius:16px;
+
+    background:#1f1f1f;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+#drop-zone:hover,
+#drop-zone.dragover{
+
+    border-color:#f6fffb;
+
+    background:#2d2d2d;
+}
+
+#drop-zone input{
+    display:none;
+}
