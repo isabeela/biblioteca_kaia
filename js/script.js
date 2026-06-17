@@ -239,12 +239,6 @@ async function carregarTagsModal(tagsSelecionadas){
     tomTagsVideo.setValue(tagsSelecionadas);
 }
 
-new TomSelect("#filtroTags", {
-  plugins: ["remove_button"],
-  placeholder: "Filtrar Tags"
-});
-
-
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
