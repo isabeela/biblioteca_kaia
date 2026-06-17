@@ -306,5 +306,17 @@ function fecharModalTag() {
   document.getElementById("modalTag").classList.remove("show");
 }
 
+const { data, error } = await db
+.from("biblioteca")
+.update({
+   tags: tagsArray.join(",")
+})
+.eq("id", videoSelecionado)
+.select();
+
+console.log("ID:", videoSelecionado);
+console.log("DATA:", data);
+console.log("ERROR:", error);
+
 carregarVideos();
 carregarFiltroTags();
