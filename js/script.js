@@ -251,26 +251,20 @@ document.getElementById("searchInput")
 
 async function salvarTag() {
 
-  if (!tomTagsVideo || !videoSelecionado) {
-    console.log("TomSelect ou vídeo não definido");
-    return;
-  }
+  if (!videoSelecionado) return;
 
-  const tagsSelecionadas = tomTagsVideo.getValue();
+  const select = document.getElementById("selectTagsVideo");
 
-  console.log("Tags selecionadas (TomSelect):", tagsSelecionadas);
+  // 🔥 fonte REAL e confiável (não depende do TomSelect)
+  const tagsSelecionadas = Array.from(select.selectedOptions)
+    .map(option => option.value);
 
-  const tagsArray = Array.isArray(tagsSelecionadas)
-    ? tagsSelecionadas
-    : String(tagsSelecionadas || "")
-        .split(",")
-        .map(t => t.trim())
-        .filter(Boolean);
+  console.log("Tags selecionadas:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
     .update({
-      tags: tagsArray.join(",")
+      tags: tagsSelecionadas.join(",")
     })
     .eq("id", videoSelecionado);
 
