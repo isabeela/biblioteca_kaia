@@ -201,3 +201,9 @@ BOTÃO
 #drop-zone input{
     display:none;
 }
+
+
+.remove {
+    background: transparent;
+    color: #000;
+}
