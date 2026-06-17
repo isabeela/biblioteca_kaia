@@ -210,3 +210,32 @@ async function salvarEdicao() {
 function fecharEditar() {
     document.getElementById("modalEditar").classList.remove("show");
 }
+
+
+async function deletarVideo(id) {
+
+    const confirmar =
+        confirm("Tem certeza que deseja excluir este vídeo?");
+
+    if (!confirmar) return;
+
+    const { error } = await db
+        .from("biblioteca")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert("Erro ao excluir vídeo");
+        return;
+    }
+
+    // remove só da tela (sem reload)
+    todosVideos = todosVideos.filter(v => v.id !== id);
+    videosFiltrados = videosFiltrados.filter(v => v.id !== id);
+
+    document.getElementById("gallery").innerHTML = "";
+    paginaAtual = 0;
+    renderizarMaisVideos();
+
+    alert("Vídeo excluído!");
+}
