@@ -133,8 +133,6 @@ function fecharModalTag(){
 
 }
 
-
-
 // =====================================
 // EVENTOS
 // =====================================
@@ -154,3 +152,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+// ADICIONAR DESCRIÇÃO
+
+let videoEditando = null;
+
+async function abrirEditar(id) {
+
+    videoEditando = id;
+
+    const { data: video, error } = await db
+        .from("biblioteca")
+        .select("descricao, nome")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+        console.log(error);
+        return;
+    }
+
+    document.getElementById("editDescricao").value =
+        video.descricao || "";
+
+    document.getElementById("editTitulo").innerText =
+        video.nome || "Editar vídeo";
+
+    document.getElementById("modalEditar").classList.add("show");
+}
+
+
+async function salvarEdicao() {
+
+    const descricao =
+        document.getElementById("editDescricao").value;
+
+    const { error } = await db
+        .from("biblioteca")
+        .update({
+            descricao: descricao
+        })
+        .eq("id", videoEditando);
+
+    if (error) {
+        console.log(error);
+        alert("Erro ao salvar");
+        return;
+    }
+
+    alert("Descrição atualizada!");
+
+    location.reload(); // ou carregarVideos()
+
+}
+
+
+function fecharEditar() {
+    document.getElementById("modalEditar").classList.remove("show");
+}
