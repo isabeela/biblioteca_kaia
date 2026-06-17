@@ -139,6 +139,7 @@ async function carregarSelectTags() {
 }
 
 async function abrirModalTag(id) {
+
   videoSelecionado = id;
 
   const { data: video } = await db
@@ -152,10 +153,8 @@ async function abrirModalTag(id) {
     .select("*")
     .order("nome");
 
-  document.getElementById("tituloModalTag").innerText =
-    `Adicionar tags: ${video.nome}`;
-
   const select = document.getElementById("selectTagsVideo");
+
   select.innerHTML = "";
 
   tags.forEach(tag => {
@@ -165,25 +164,29 @@ async function abrirModalTag(id) {
     select.appendChild(option);
   });
 
-  // destrói instância anterior
+  // 🔥 destrói antigo com segurança
   if (tomTagsVideo) {
     tomTagsVideo.destroy();
     tomTagsVideo = null;
   }
 
-  // cria nova instância
-  tomTagsVideo = new TomSelect("#selectTagsVideo", {
-    plugins: ["remove_button"],
-    create: false,
-    persist: false
-  });
+  // 🔥 garante DOM pronto antes de criar
+  setTimeout(() => {
 
-  // garante string limpa
-  const tagsAtuais = video.tags
-    ? video.tags.split(",").filter(t => t.trim() !== "")
-    : [];
+    tomTagsVideo = new TomSelect("#selectTagsVideo", {
+      plugins: ["remove_button"],
+      create: false,
+      persist: false
+    });
 
-  tomTagsVideo.setValue(tagsAtuais);
+    const tagsAtuais =
+      video.tags
+        ? video.tags.split(",").filter(Boolean)
+        : [];
+
+    tomTagsVideo.setValue(tagsAtuais);
+
+  }, 0);
 
   document.getElementById("modalTag").classList.add("show");
 }
