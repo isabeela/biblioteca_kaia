@@ -288,13 +288,15 @@ async function salvarTag() {
   carregarVideos();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("saveTag").addEventListener("click", salvarTag);
-  document.getElementById("cancelTag").addEventListener("click", () => {
-    document.getElementById("modalTag").classList.remove("show");
-    videoSelecionado = null;
-  });
+document.addEventListener("click", (e) => {
+  if (e.target && e.target.id === "saveTag") {
+    salvarTag();
+  }
 });
+
+function fecharModalTag() {
+  document.getElementById("modalTag").classList.remove("show");
+}
 
 carregarVideos();
 carregarFiltroTags();
