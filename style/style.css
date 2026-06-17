@@ -566,12 +566,12 @@ MODAL TAGS
 }
 
 /* salvar */
-#saveTagVideo{
+#saveTagsVideo{
     background:#107c41;
     color:#fff;
 }
 
-#saveTag:hover{
+#saveTags:hover{
      background: #083f21;
 }
 
