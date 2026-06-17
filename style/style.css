@@ -94,6 +94,12 @@ FILTROS
 UPLOAD
 ========================== */
 
+.box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
 .upload-actions{
 
     text-align:center;
