@@ -280,11 +280,18 @@ async function adicionarTags(){
         console.log(error);
         return;
     }
-
     fecharModalTag();
-
     await carregarVideos();
 }
+
+function fecharModalTag(){
+
+    document
+    .getElementById("modalTag")
+    .classList.remove("show");
+
+}
+
 
 carregarVideos();
 carregarFiltroTags();
