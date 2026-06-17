@@ -66,7 +66,6 @@ CARD UPLOAD
 
 .video-item:hover {
     transform: translateY(-4px);
-    border-color: #00c2ff;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
@@ -112,7 +111,7 @@ INPUTS (LEGÍVEIS)
 }
 
 .video-item textarea:focus {
-    border-color: #00c2ff;
+    border-color: #2a2a2b;
 }
 
 /* =========================
@@ -131,7 +130,7 @@ BOTÃO
     padding: 10px;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, #00c2ff, #00ffcc);
+    background: #2b1577 ;
     color: black;
     font-weight: bold;
     cursor: pointer;
