@@ -159,33 +159,35 @@ async function abrirModalTag(id) {
   select.innerHTML = "";
 
   tags.forEach(tag => {
-    select.innerHTML += `
-      <option value="${tag.nome}">
-        ${tag.emoji || ""} ${tag.nome}
-      </option>
-    `;
+    const option = document.createElement("option");
+    option.value = tag.nome;
+    option.textContent = `${tag.emoji || ""} ${tag.nome}`;
+    select.appendChild(option);
   });
 
+  // destrói instância anterior
   if (tomTagsVideo) {
     tomTagsVideo.destroy();
+    tomTagsVideo = null;
   }
 
- tomTagsVideo = new TomSelect("#selectTagsVideo", {
-  plugins: ["remove_button"],
-  create: false,
-  persist: false,
-  allowEmptyOption: true
-});
+  // cria nova instância
+  tomTagsVideo = new TomSelect("#selectTagsVideo", {
+    plugins: ["remove_button"],
+    create: false,
+    persist: false
+  });
 
-  const tagsAtuais =
-  video.tags && video.tags.trim()
-    ? video.tags.split(",")
+  // garante string limpa
+  const tagsAtuais = video.tags
+    ? video.tags.split(",").filter(t => t.trim() !== "")
     : [];
 
   tomTagsVideo.setValue(tagsAtuais);
 
   document.getElementById("modalTag").classList.add("show");
 }
+
 
 async function carregarFiltroTags() {
   const { data, error } =
@@ -249,34 +251,40 @@ function aplicarFiltros() {
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
+
+
+
 async function salvarTag() {
 
-  const select = document.getElementById("selectTagsVideo");
+  if (!tomTagsVideo || !videoSelecionado) {
+    console.log("Sem TomSelect ou vídeo selecionado");
+    return;
+  }
 
-  const tagsSelecionadas = Array.from(select.selectedOptions)
-    .map(option => option.value);
+  // 🔥 única fonte de verdade
+  const tagsSelecionadas = tomTagsVideo.getValue();
 
   console.log("Tags selecionadas:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
     .update({
-      tags: tagsSelecionadas.join(",")
+      tags: (tagsSelecionadas || []).join(",")
     })
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log(error);
+    console.log("Erro ao salvar:", error);
     return;
   }
 
+  // fecha modal
   document.getElementById("modalTag").classList.remove("show");
 
+  // limpa estado
   videoSelecionado = null;
-  console.log(
- console.log("TOM VALUE:", tomTagsVideo.getValue())
-);
 
+  // recarrega lista
   carregarVideos();
 }
 
