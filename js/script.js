@@ -267,40 +267,29 @@ document.getElementById("searchInput")
 
 async function adicionarTags() {
 
-    if (!tomTagsVideo) {
-        console.log("TomSelect não foi criado");
-        return;
-    }
+    console.log("videoSelecionado:", videoSelecionado);
 
-    const tagsSelecionadas =
-        tomTagsVideo.getValue();
+    const tagsSelecionadas = tomTagsVideo.getValue();
 
-    console.log(tagsSelecionadas);
+    console.log("tagsSelecionadas:", tagsSelecionadas);
 
-    const tagsString =
-        Array.isArray(tagsSelecionadas)
+    const tagsString = Array.isArray(tagsSelecionadas)
         ? tagsSelecionadas.join(",")
         : tagsSelecionadas;
 
-    const { error } = await db
+    console.log("tagsString:", tagsString);
+
+    const { data, error } = await db
         .from("biblioteca")
         .update({
             tags: tagsString
         })
-        .eq("id", videoSelecionado);
+        .eq("id", videoSelecionado)
+        .select();
 
-    if (error) {
-
-        console.log(error);
-
-        return;
-    }
-
-    fecharModalTag();
-
-    await carregarVideos();
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 }
-
 function fecharModalTag(){
 
     document
