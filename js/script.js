@@ -10,7 +10,6 @@ const db =
     SUPABASE_KEY
   );
 
-  
 let todosVideos = [];
 let videosFiltrados = [];
 let videoSelecionado = null;
@@ -19,6 +18,7 @@ let tomTagsVideo;
 let paginaAtual = 0;
 const videosPorPagina = 10;
 
+// VÍDEOS DO BANCO DE DADOS CARREGAM NA PÁGINA INICIAL //
 async function carregarVideos() {
   const { data: videos, error } =
     await db.from("biblioteca").select("*");
@@ -27,7 +27,6 @@ async function carregarVideos() {
     console.error(error);
     return;
   }
-
   const { data: tags } =
     await db.from("tags").select("*");
 
@@ -44,6 +43,8 @@ async function carregarVideos() {
   document.getElementById("gallery").innerHTML = "";
   renderizarMaisVideos();
 }
+
+// FAZ COM QUE CARREGUE 10 VIDEOS POR VEZ NA PÁGINA E ADICIONA O FRONT DO CARTÃOZINHO //
 
 function renderizarMaisVideos() {
   if (paginaAtual * videosPorPagina >= videosFiltrados.length) {
@@ -106,6 +107,7 @@ function renderizarMaisVideos() {
   paginaAtual++;
 }
 
+// CARREGAMENTO NA BARRA DE ROLAGEM//
 window.addEventListener("scroll", () => {
   const chegouNoFim =
     window.innerHeight + window.scrollY >=
@@ -116,20 +118,18 @@ window.addEventListener("scroll", () => {
   }
 });
 
+// CARREGA AS TAGS PARA FILTRAR //
 async function carregarSelectTags() {
   const { data } = await db
     .from("tags")
     .select("*")
     .order("nome");
-
   const select = document.getElementById("selectTag");
-
   select.innerHTML = `
     <option value="" disabled selected>
       Selecione uma tag
     </option>
   `;
-
   data.forEach(tag => {
     select.innerHTML += `
       <option value="${tag.nome}">
@@ -139,10 +139,12 @@ async function carregarSelectTags() {
   });
 }
 
+
+
+// ABRE O MODAL DE + PARA ADICIONAR NOVA TAG AO VIDEO QUE JA TEM NA PÁGINA INICIAL//
+
 async function abrirModalTag(id) {
-
   videoSelecionado = id;
-
   const { data: video } = await db
     .from("biblioteca")
     .select("*")
@@ -153,9 +155,7 @@ async function abrirModalTag(id) {
     .from("tags")
     .select("*")
     .order("nome");
-
   const select = document.getElementById("selectTagsVideo");
-
   select.innerHTML = "";
 
   tags.forEach(tag => {
@@ -164,12 +164,6 @@ async function abrirModalTag(id) {
     option.textContent = `${tag.emoji || ""} ${tag.nome}`;
     select.appendChild(option);
   });
-
-  // 🔥 destrói antigo com segurança
-  if (tomTagsVideo) {
-    tomTagsVideo.destroy();
-    tomTagsVideo = null;
-  }
 
   // 🔥 garante DOM pronto antes de criar
   setTimeout(() => {
