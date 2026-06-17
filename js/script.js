@@ -95,9 +95,9 @@ function renderizarMaisVideos() {
         </div>
 
         <div class="acoes">
-          <button onclick="abrirModalTag(${video.id})">✏️</button>
-          <button onclick="abrirEditar(${video.id})">📝</button>
-          <button onclick="deletarVideo(${video.id})">🗑️</button>
+          <button onclick="abrirModalTag(${video.id})" title="Editar Tags">✏️</button>
+          <button onclick="abrirEditar(${video.id})" title="Editar Descrição">📝</button>
+          <button onclick="deletarVideo(${video.id})" title="Excluir Vídeo">🗑️</button>
         </div>
 
       </div>
