@@ -243,25 +243,27 @@ document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
 
-  async function abrirModalTag(id){
+ async function abrirModalTag(id){
 
     videoSelecionado = id;
 
     console.log("Vídeo selecionado:", id);
 
-    // Busca as tags atuais do vídeo
-
     const { data: video, error } = await db
         .from("biblioteca")
-        .select("tags")
+        .select("nome, tags")
         .eq("id", id)
         .single();
 
     if(error){
-
         console.log(error);
-
         return;
+    }
+
+    const titulo = document.getElementById("tituloModalTag");
+
+    if(titulo){
+        titulo.innerText = video.nome || "Adicionar tags";
     }
 
     const tagsAtuais =
@@ -274,7 +276,6 @@ document.getElementById("searchInput")
     document
         .getElementById("modalTag")
         .classList.add("show");
-
 }
 
 carregarVideos();
