@@ -17,7 +17,7 @@ async function abrirModalTag(id){
      const titulo = document.getElementById("tituloModalTag");
 
     if (titulo) {
-        titulo.innerText = `Adicionar Tag | ${video.nome || "Sem nome"}`;
+        titulo.innerText = `Editar Tags | ${video.nome || "Sem nome"}`;
     }
 
 
