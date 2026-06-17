@@ -139,53 +139,29 @@ async function carregarSelectTags() {
   });
 }
 
-
-
 // ABRE O MODAL DE + PARA ADICIONAR NOVA TAG AO VIDEO QUE JA TEM NA PÁGINA INICIAL//
 
-async function abrirModalTag(id) {
-  videoSelecionado = id;
-  const { data: video } = await db
+async function abrirModalTag(id){
+
+    videoSelecionado = id;
+
+    const { data: video } = await db
     .from("biblioteca")
-    .select("*")
+    .select("tags")
     .eq("id", id)
     .single();
 
-  const { data: tags } = await db
-    .from("tags")
-    .select("*")
-    .order("nome");
-  const select = document.getElementById("selectTagsVideo");
-  select.innerHTML = "";
-
-  tags.forEach(tag => {
-    const option = document.createElement("option");
-    option.value = tag.nome;
-    option.textContent = `${tag.emoji || ""} ${tag.nome}`;
-    select.appendChild(option);
-  });
-
-  // 🔥 garante DOM pronto antes de criar
-  setTimeout(() => {
-
-    tomTagsVideo = new TomSelect("#selectTagsVideo", {
-      plugins: ["remove_button"],
-      create: false,
-      persist: false
-    });
-
-    const tagsAtuais =
-      video.tags
-        ? video.tags.split(",").filter(Boolean)
+    const tagsSelecionadas =
+        video?.tags
+        ? video.tags.split(",")
         : [];
 
-    tomTagsVideo.setValue(tagsAtuais);
+    await carregarTagsModal(tagsSelecionadas);
 
-  }, 0);
-
-  document.getElementById("modalTag").classList.add("show");
+    document
+    .getElementById("modalTag")
+    .classList.add("show");
 }
-
 
 async function carregarFiltroTags() {
   const { data, error } =
@@ -216,11 +192,9 @@ async function carregarFiltroTags() {
 
 function aplicarFiltros() {
   const texto = document.getElementById("searchInput").value.toLowerCase();
-
   const tomSelect = document.getElementById("filtroTags").tomselect;
 
   const tagsSelecionadas = tomSelect ? tomSelect.getValue() : [];
-
   videosFiltrados = todosVideos.filter(video => {
 
     const nome = (video.nome || "").toLowerCase();
@@ -246,47 +220,71 @@ function aplicarFiltros() {
   renderizarMaisVideos();
 }
 
+async function carregarTagsModal(tagsSelecionadas){
+
+    const { data: tags } = await db
+    .from("tags")
+    .select("*")
+    .order("nome");
+
+    const select =
+        document.getElementById("selectTagsVideo");
+
+    select.innerHTML = "";
+
+    tags.forEach(tag => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = tag.nome;
+        option.textContent =
+            `${tag.emoji || ""} ${tag.nome}`;
+
+        select.appendChild(option);
+
+    });
+
+    if(tomTagsVideo){
+        tomTagsVideo.destroy();
+    }
+
+    tomTagsVideo = new TomSelect("#selectTagsVideo",{
+
+        plugins:["remove_button"],
+
+        create:false,
+
+        persist:false
+
+    });
+
+    tomTagsVideo.setValue(tagsSelecionadas);
+}
+
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
-async function adicionarTag() {
-
-  console.log("videoSelecionado:", videoSelecionado);
-
-  console.log("TomSelect:", tomTagsVideo);
-
-  const tagsSelecionadas = tomTagsVideo.getValue();
-
-  console.log("tagsSelecionadas:", tagsSelecionadas);
-
-  const payload = Array.isArray(tagsSelecionadas)
-    ? tagsSelecionadas.join(",")
-    : tagsSelecionadas;
-
-  console.log("SALVANDO:", payload);
-
-  const { data, error } = await db
+async function adicionarTags(){
+    const tags = tomTagsVideo.getValue();
+    const tagsString = tags.join(",");
+    const { error } = await db
     .from("biblioteca")
     .update({
-      tags: payload
+
+        tags: tagsString
+
     })
-    .eq("id", videoSelecionado)
-    .select();
+    .eq("id", videoSelecionado);
+    if(error){
+        console.log(error);
+        return;
+    }
 
-  console.log("DATA:", data);
-  console.log("ERROR:", error);
+    fecharModalTag();
+
+    await carregarVideos();
 }
-
-document.addEventListener("click", (e) => {
-  if (e.target && e.target.id === "saveTag") {
-    adicionarTag();
-  }
-});
-
-function fecharModalTag() {
-  document.getElementById("modalTag").classList.remove("show");
-}
-
 
 carregarVideos();
 carregarFiltroTags();
