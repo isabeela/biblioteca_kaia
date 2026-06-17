@@ -3,12 +3,6 @@ async function abrirModalTag(id){
     videoSelecionado = id;
 
     console.log("Vídeo selecionado:", id);
-    const titulo = document.getElementById("tituloModalTag");
-
-    if (titulo) {
-        titulo.innerText = `Adicionar Tag | ${video.nome || "Sem nome"}`;
-    }
-
     const { data: video, error } = await db
         .from("biblioteca")
         .select("nome, tags")
@@ -20,11 +14,12 @@ async function abrirModalTag(id){
         return;
     }
 
-    const titulo = document.getElementById("tituloModalTag");
+     const titulo = document.getElementById("tituloModalTag");
 
-    if(titulo){
-        titulo.innerText = video.nome || "Adicionar tags";
+    if (titulo) {
+        titulo.innerText = `Adicionar Tag | ${video.nome || "Sem nome"}`;
     }
+
 
     const tagsAtuais =
         video?.tags
