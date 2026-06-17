@@ -3,6 +3,11 @@ async function abrirModalTag(id){
     videoSelecionado = id;
 
     console.log("Vídeo selecionado:", id);
+    const titulo = document.getElementById("tituloModalTag");
+
+    if (titulo) {
+        titulo.innerText = `Adicionar Tag | ${video.nome || "Sem nome"}`;
+    }
 
     const { data: video, error } = await db
         .from("biblioteca")
