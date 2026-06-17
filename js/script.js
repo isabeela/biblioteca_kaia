@@ -274,7 +274,7 @@ async function salvarTag() {
 
   videoSelecionado = null;
   console.log(
-  document.getElementById("selectTagsVideo").selectedOptions
+ console.log("TOM VALUE:", tomTagsVideo.getValue())
 );
 
   carregarVideos();
