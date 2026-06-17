@@ -202,7 +202,7 @@ async function salvarEdicao() {
 
     alert("Descrição atualizada!");
 
-    location.reload(); // ou carregarVideos()
+    location.reload();
 
 }
 
