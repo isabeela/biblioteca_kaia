@@ -631,7 +631,10 @@ MODAL EDITAR
     color: white;
 }
 
-
+.remove {
+    background: transparent;
+    color: #000;
+}
 
 
 /* ==========================
