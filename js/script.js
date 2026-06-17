@@ -256,24 +256,26 @@ document.getElementById("searchInput")
 
 async function adicionarTag() {
 
-  if (!tomTagsVideo || !videoSelecionado) {
-    console.log("estado inválido");
+  console.log("videoSelecionado:", videoSelecionado);
+  console.log("tomTagsVideo:", tomTagsVideo);
+
+  if (!videoSelecionado) {
+    console.log("sem vídeo selecionado");
     return;
   }
 
-  // 🔥 garante sincronização real
-  const raw = tomTagsVideo.getValue();
+  if (!tomTagsVideo) {
+    console.log("TomSelect ainda não inicializou");
+    return;
+  }
 
-  console.log("RAW:", raw);
+  const raw = tomTagsVideo.getValue();
 
   const tagsSelecionadas = Array.isArray(raw)
     ? raw
     : String(raw || "")
         .split(",")
-        .map(t => t.trim())
         .filter(Boolean);
-
-  console.log("NORMALIZADO:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
@@ -283,11 +285,11 @@ async function adicionarTag() {
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log("ERRO:", error);
+    console.log(error);
     return;
   }
 
-  // document.getElementById("modalTag").classList.remove("show");
+  document.getElementById("modalTag").classList.remove("show");
 
   videoSelecionado = null;
 
