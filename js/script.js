@@ -251,11 +251,8 @@ document.getElementById("searchInput")
 
 async function salvarTag() {
 
-  if (!videoSelecionado) return;
-
   const select = document.getElementById("selectTagsVideo");
 
-  // 🔥 fonte REAL e confiável (não depende do TomSelect)
   const tagsSelecionadas = Array.from(select.selectedOptions)
     .map(option => option.value);
 
@@ -269,7 +266,7 @@ async function salvarTag() {
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log("Erro Supabase:", error);
+    console.log(error);
     return;
   }
 
