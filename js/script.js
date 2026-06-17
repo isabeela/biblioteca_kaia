@@ -21,7 +21,7 @@ const videosPorPagina = 10;
 // VÍDEOS DO BANCO DE DADOS CARREGAM NA PÁGINA INICIAL //
 async function carregarVideos() {
   const { data: videos, error } =
-    await db.from("biblioteca").select("*");
+    await db.from("biblioteca").select("*").order("nome", { ascending: true });
 
   if (error) {
     console.error(error);
