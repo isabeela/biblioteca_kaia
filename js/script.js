@@ -267,43 +267,32 @@ document.getElementById("searchInput")
 
 async function adicionarTags() {
 
-    // Verifica se um vídeo foi selecionado
-    if (!videoSelecionado) {
-        alert("Nenhum vídeo selecionado.");
-        return;
-    }
-
-    // Verifica se o TomSelect foi criado
     if (!tomTagsVideo) {
-        alert("Erro ao carregar as tags.");
+        console.log("TomSelect não foi criado");
         return;
     }
 
-    // Obtém todas as tags selecionadas
-    const tagsSelecionadas = tomTagsVideo.getValue();
+    const tagsSelecionadas =
+        tomTagsVideo.getValue();
 
-    console.log("Vídeo:", videoSelecionado);
-    console.log("Tags:", tagsSelecionadas);
+    console.log(tagsSelecionadas);
 
-    // Converte para string separada por vírgulas
-    const tagsString = Array.isArray(tagsSelecionadas)
+    const tagsString =
+        Array.isArray(tagsSelecionadas)
         ? tagsSelecionadas.join(",")
         : tagsSelecionadas;
 
-    // Atualiza o banco
-    const { data, error } = await db
+    const { error } = await db
         .from("biblioteca")
         .update({
             tags: tagsString
         })
-        .eq("id", videoSelecionado)
-        .select();
-
-    console.log(data);
-    console.log(error);
+        .eq("id", videoSelecionado);
 
     if (error) {
-        alert("Erro ao salvar as tags.");
+
+        console.log(error);
+
         return;
     }
 
