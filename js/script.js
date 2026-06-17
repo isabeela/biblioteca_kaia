@@ -266,8 +266,8 @@ document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
 async function adicionarTags(){
-    const tags = tomTagsVideo.getValue();
-    const tagsString = tags.join(",");
+  
+    const tagsString = tagsSelecionadas.join(",");
     const { error } = await db
     .from("biblioteca")
     .update({
