@@ -144,7 +144,7 @@ UPLOAD
 #drop-zone:hover,
 #drop-zone.dragover{
 
-    border-color:#00ff88;
+    border-color:#f6fffb;
 
     background:#2d2d2d;
 }
@@ -575,12 +575,12 @@ MODAL EDITAR
 
 /* Botão salvar */
 #btnSalvarEdit{
-    background:#00c2ff;
+    background:#107c41;
     color:black;
 }
 
 #btnSalvarEdit:hover{
-    background:#00a6d1;
+    background: #083f21;
 }
 
 /* Botão cancelar */
