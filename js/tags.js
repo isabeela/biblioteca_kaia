@@ -236,10 +236,6 @@ async function carregarTags() {
 
 }
 
-document
-.getElementById("saveNewTag")
-.addEventListener("click", salvarTag);
-
 // ==========================
 // INICIALIZAÇÃO
 // ==========================
