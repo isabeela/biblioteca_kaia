@@ -267,17 +267,13 @@ document.getElementById("searchInput")
 
 async function adicionarTags() {
 
-    console.log("videoSelecionado:", videoSelecionado);
-
     const tagsSelecionadas = tomTagsVideo.getValue();
 
-    console.log("tagsSelecionadas:", tagsSelecionadas);
+    console.log(tagsSelecionadas);
 
-    const tagsString = Array.isArray(tagsSelecionadas)
-        ? tagsSelecionadas.join(",")
-        : tagsSelecionadas;
+    const tagsString = tagsSelecionadas.join(",");
 
-    console.log("tagsString:", tagsString);
+    console.log(tagsString);
 
     const { data, error } = await db
         .from("biblioteca")
@@ -289,7 +285,17 @@ async function adicionarTags() {
 
     console.log("DATA:", data);
     console.log("ERROR:", error);
+
+    if(error){
+        return;
+    }
+
+    fecharModalTag();
+
+    await carregarVideos();
 }
+
+
 function fecharModalTag(){
 
     document
