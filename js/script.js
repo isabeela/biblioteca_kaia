@@ -258,12 +258,19 @@ async function adicionarTag() {
     return;
   }
 
-  // 🔥 força atualização do estado interno
-  tomTagsVideo.blur();
+  // 🔥 garante sincronização real
+  const raw = tomTagsVideo.getValue();
 
-  const tagsSelecionadas = tomTagsVideo.getValue() || [];
+  console.log("RAW:", raw);
 
-  console.log("TAGS:", tagsSelecionadas);
+  const tagsSelecionadas = Array.isArray(raw)
+    ? raw
+    : String(raw || "")
+        .split(",")
+        .map(t => t.trim())
+        .filter(Boolean);
+
+  console.log("NORMALIZADO:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
