@@ -247,27 +247,34 @@ document.getElementById("searchInput")
 
     videoSelecionado = id;
 
+    console.log("Vídeo selecionado:", id);
+
+    // Busca as tags atuais do vídeo
+
     const { data: video, error } = await db
         .from("biblioteca")
-        .select("nome, tags")
+        .select("tags")
         .eq("id", id)
         .single();
 
     if(error){
+
         console.log(error);
+
         return;
     }
 
-    document.getElementById("tituloModalTag").innerText =
-        video.nome || "Adicionar tags";
+    const tagsAtuais =
+        video?.tags
+        ? video.tags.split(",").filter(Boolean)
+        : [];
 
-    const tagsSelecionadas =
-        video?.tags ? video.tags.split(",") : [];
+    await carregarTagsModal(tagsAtuais);
 
-    await carregarTagsModal(tagsSelecionadas);
-
-    document.getElementById("modalTag")
+    document
+        .getElementById("modalTag")
         .classList.add("show");
+
 }
 
 carregarVideos();
