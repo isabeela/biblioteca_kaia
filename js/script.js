@@ -273,6 +273,9 @@ async function salvarTag() {
   document.getElementById("modalTag").classList.remove("show");
 
   videoSelecionado = null;
+  console.log(
+  document.getElementById("selectTagsVideo").selectedOptions
+);
 
   carregarVideos();
 }
