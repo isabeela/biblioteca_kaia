@@ -284,7 +284,7 @@ async function adicionarTag() {
     return;
   }
 
-  document.getElementById("modalTag").classList.remove("show");
+  // document.getElementById("modalTag").classList.remove("show");
 
   videoSelecionado = null;
 
