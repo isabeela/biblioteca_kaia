@@ -123,7 +123,8 @@ async function salvarTagsVideo(){
 
     }
 
-    alert("Salvou com sucesso");
+    alert("Salvou");
+    fecharModalTag();
 
 }
 
