@@ -1,8 +1,6 @@
 // =====================================
 // VIDEO TAGS
 // =====================================
-
-let videoSelecionado = null;
 let tomTagsVideo = null;
 
 
