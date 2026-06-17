@@ -151,23 +151,19 @@ BOTÃO
 }
 
 #btnUpload{
-
     width: 35%;
-
     padding:12px 25px;
-
     border:none;
-
     border-radius:10px;
-
     background:  #287975;
     color: #fff;
     font-weight: bold;
     cursor: pointer;
-
-    cursor:pointer;
-
     font-size:16px;
+}
+
+#btnUpload:hover {
+    background-color: #39b3ac;
 }
 
 
