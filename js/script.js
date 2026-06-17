@@ -11,7 +11,6 @@ const db =
   );
 
   
-
 let todosVideos = [];
 let videosFiltrados = [];
 let videoSelecionado = null;
@@ -257,44 +256,46 @@ document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
 async function adicionarTag() {
-
-  console.log("videoSelecionado:", videoSelecionado);
-  console.log("tomTagsVideo:", tomTagsVideo);
-
-  if (!videoSelecionado) {
-    console.log("sem vídeo selecionado");
-    return;
-  }
-
-  if (!tomTagsVideo) {
-    console.log("TomSelect ainda não inicializou");
-    return;
-  }
-
   const raw = tomTagsVideo.getValue();
 
-  const tagsSelecionadas = Array.isArray(raw)
+  const novasTags = Array.isArray(raw)
     ? raw
     : String(raw || "")
         .split(",")
+        .map(t => t.trim())
         .filter(Boolean);
+
+  const { data: videoAtual, error: erroLeitura } = await db
+    .from("biblioteca")
+    .select("tags")
+    .eq("id", videoSelecionado)
+    .single();
+
+  if (erroLeitura) {
+    console.log("Erro ao ler tags atuais:", erroLeitura);
+    return;
+  }
+
+  const tagsAtuais = videoAtual.tags
+    ? videoAtual.tags.split(",").map(t => t.trim()).filter(Boolean)
+    : [];
+
+  const tagsUnicas = [...new Set([...tagsAtuais, ...novasTags])];
 
   const { error } = await db
     .from("biblioteca")
     .update({
-      tags: tagsSelecionadas.join(",")
+      tags: tagsUnicas.join(",")
     })
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log(error);
+    console.log("Erro ao salvar:", error);
     return;
   }
 
   document.getElementById("modalTag").classList.remove("show");
-
   videoSelecionado = null;
-
   carregarVideos();
 }
 
