@@ -505,6 +505,86 @@ emoji-picker{
 }
 
 
+/*===============================
+MODAL TAG
+================================*/
+/* ==========================
+MODAL TAGS
+========================== */
+
+#modalTag{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+}
+
+#modalTag.show{
+    display:flex;
+}
+
+#modalTag .modal-content{
+    width:500px;
+    max-width:90vw;
+    background:#2b2b2b;
+    padding:25px;
+    border-radius:15px;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+/* Título */
+#modalTag h3{
+    text-align:center;
+    margin-bottom:20px;
+    font-size:20px;
+}
+
+/* Select TomSelect */
+#selectTagsVideo{
+    width:100%;
+}
+
+/* Botões */
+#modalTag .modal-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+#modalTag button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+/* salvar */
+#saveTag{
+    background:#107c41;
+    color:#fff;
+}
+
+#saveTag:hover{
+     background: #083f21;
+}
+
+/* cancelar */
+#cancelTag{
+    background:#c81e1e;
+    color:white;
+}
+
+#cancelTag:hover{
+    background:#a81818;
+}
+
 
 /* ==========================
 MODAL EDITAR

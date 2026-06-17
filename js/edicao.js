@@ -213,7 +213,6 @@ function fecharEditar() {
 
 
 async function deletarVideo(id) {
-
     const confirmar =
         confirm("Tem certeza que deseja excluir este vídeo?");
 
