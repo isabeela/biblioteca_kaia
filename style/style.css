@@ -577,7 +577,7 @@ MODAL EDITAR
 /* Botão salvar */
 #btnSalvarEdit{
     background:#107c41;
-    color:black;
+    color:#fff;
 }
 
 #btnSalvarEdit:hover{
@@ -587,7 +587,7 @@ MODAL EDITAR
 /* Botão cancelar */
 #modalEditar button:last-child{
     background:#c81e1e;
-    color:white;
+    color:#fff;
 }
 
 #modalEditar button:last-child:hover{
