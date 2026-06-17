@@ -265,22 +265,50 @@ async function carregarTagsModal(tagsSelecionadas){
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
-async function adicionarTags(){
-  
-    const tagsString = tagsSelecionadas.join(",");
-    const { error } = await db
-    .from("biblioteca")
-    .update({
+async function adicionarTags() {
 
-        tags: tagsString
-
-    })
-    .eq("id", videoSelecionado);
-    if(error){
-        console.log(error);
+    // Verifica se um vídeo foi selecionado
+    if (!videoSelecionado) {
+        alert("Nenhum vídeo selecionado.");
         return;
     }
+
+    // Verifica se o TomSelect foi criado
+    if (!tomTagsVideo) {
+        alert("Erro ao carregar as tags.");
+        return;
+    }
+
+    // Obtém todas as tags selecionadas
+    const tagsSelecionadas = tomTagsVideo.getValue();
+
+    console.log("Vídeo:", videoSelecionado);
+    console.log("Tags:", tagsSelecionadas);
+
+    // Converte para string separada por vírgulas
+    const tagsString = Array.isArray(tagsSelecionadas)
+        ? tagsSelecionadas.join(",")
+        : tagsSelecionadas;
+
+    // Atualiza o banco
+    const { data, error } = await db
+        .from("biblioteca")
+        .update({
+            tags: tagsString
+        })
+        .eq("id", videoSelecionado)
+        .select();
+
+    console.log(data);
+    console.log(error);
+
+    if (error) {
+        alert("Erro ao salvar as tags.");
+        return;
+    }
+
     fecharModalTag();
+
     await carregarVideos();
 }
 
