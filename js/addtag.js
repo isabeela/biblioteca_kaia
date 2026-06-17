@@ -87,25 +87,21 @@ async function salvarTagsVideo(){
     if(!videoSelecionado){
 
         alert("Nenhum vídeo selecionado");
-
         return;
-    }
 
+    }
 
     const tagsSelecionadas =
         tomTagsVideo.getValue();
 
     console.log("Tags:", tagsSelecionadas);
 
-
     const tagsString =
         Array.isArray(tagsSelecionadas)
         ? tagsSelecionadas.join(",")
         : tagsSelecionadas;
 
-
     console.log("Salvar:", tagsString);
-
 
     const { data, error } = await db
         .from("biblioteca")
@@ -117,29 +113,17 @@ async function salvarTagsVideo(){
         .eq("id", videoSelecionado)
         .select();
 
-
     console.log("DATA:", data);
-
     console.log("ERROR:", error);
-
 
     if(error){
 
         alert("Erro ao salvar");
-
         return;
-    }
-
-
-    fecharModalTag();
-
-
-    // Atualiza a galeria
-    if(typeof carregarVideos === "function"){
-
-        await carregarVideos();
 
     }
+
+    alert("Salvou com sucesso");
 
 }
 
