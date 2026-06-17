@@ -251,40 +251,36 @@ function aplicarFiltros() {
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
-
-
-
 async function salvarTag() {
 
   if (!tomTagsVideo || !videoSelecionado) {
-    console.log("Sem TomSelect ou vídeo selecionado");
+    console.log("estado inválido");
     return;
   }
 
-  // 🔥 única fonte de verdade
-  const tagsSelecionadas = tomTagsVideo.getValue();
+  // 🔥 força atualização do estado interno
+  tomTagsVideo.blur();
 
-  console.log("Tags selecionadas:", tagsSelecionadas);
+  const tagsSelecionadas = tomTagsVideo.getValue() || [];
+
+  console.log("TAGS:", tagsSelecionadas);
 
   const { error } = await db
     .from("biblioteca")
     .update({
-      tags: (tagsSelecionadas || []).join(",")
+      tags: tagsSelecionadas.join(",")
     })
     .eq("id", videoSelecionado);
 
   if (error) {
-    console.log("Erro ao salvar:", error);
+    console.log("ERRO:", error);
     return;
   }
 
-  // fecha modal
   document.getElementById("modalTag").classList.remove("show");
 
-  // limpa estado
   videoSelecionado = null;
 
-  // recarrega lista
   carregarVideos();
 }
 
