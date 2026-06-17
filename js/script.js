@@ -242,41 +242,5 @@ async function carregarTagsModal(tagsSelecionadas){
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
-
- async function abrirModalTag(id){
-
-    videoSelecionado = id;
-
-    console.log("Vídeo selecionado:", id);
-
-    const { data: video, error } = await db
-        .from("biblioteca")
-        .select("nome, tags")
-        .eq("id", id)
-        .single();
-
-    if(error){
-        console.log(error);
-        return;
-    }
-
-    const titulo = document.getElementById("tituloModalTag");
-
-    if(titulo){
-        titulo.innerText = video.nome || "Adicionar tags";
-    }
-
-    const tagsAtuais =
-        video?.tags
-        ? video.tags.split(",").filter(Boolean)
-        : [];
-
-    await carregarTagsModal(tagsAtuais);
-
-    document
-        .getElementById("modalTag")
-        .classList.add("show");
-}
-
 carregarVideos();
 carregarFiltroTags();
