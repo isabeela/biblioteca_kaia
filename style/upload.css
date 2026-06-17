@@ -152,7 +152,7 @@ BOTÃO
 
 #btnUpload{
 
-    width:auto;
+    width: 60%;
 
     padding:12px 25px;
 
@@ -160,14 +160,17 @@ BOTÃO
 
     border-radius:10px;
 
-    background: #44c6bf;
-
-    color:#000;
+    background:  #287975;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
 
     cursor:pointer;
 
     font-size:16px;
 }
+
+
 
 #drop-zone{
 
