@@ -21,8 +21,9 @@ h1,h2,h3,h4{
 
 a {
     text-decoration: none;
-    background-color: #c6f2ff;
-    color: black;
+    background:  #287975;
+    color: #fff;
+    font-weight: bold;
     padding: 12px;
     border-radius: 5px;
 }
@@ -81,11 +82,10 @@ FILTROS
 #btnNovaTag{
 
     width:auto;
-
     padding:12px 20px;
-   background-color: #033d4e;
-    border:none;
-    color:white;
+    background:  #287975;
+    color: #fff;
+    font-weight: bold;
 
     cursor:pointer;
 }
