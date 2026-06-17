@@ -251,7 +251,7 @@ function aplicarFiltros() {
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
-async function salvarTag() {
+async function adicionarTag() {
 
   if (!tomTagsVideo || !videoSelecionado) {
     console.log("estado inválido");
@@ -286,7 +286,7 @@ async function salvarTag() {
 
 document.addEventListener("click", (e) => {
   if (e.target && e.target.id === "saveTag") {
-    salvarTag();
+    adicionarTag();
   }
 });
 
