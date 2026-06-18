@@ -257,6 +257,6 @@ document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
 carregarVideos();
-await carregarFiltroTags();
+carregarFiltroTags();
 initFiltroTags();
 
