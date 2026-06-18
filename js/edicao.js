@@ -246,28 +246,69 @@ function fecharEditar() {
 
 
 async function deletarVideo(id) {
-    const confirmar =
-        confirm("Tem certeza que deseja excluir este vídeo?");
+
+    const confirmar = confirm(
+        "Tem certeza que deseja excluir este vídeo?"
+    );
 
     if (!confirmar) return;
 
-    const { error } = await db
+    // Busca a URL do vídeo
+    const { data: video, error: erroBusca } = await db
+        .from("biblioteca")
+        .select("url")
+        .eq("id", id)
+        .single();
+
+    if (erroBusca) {
+        console.log(erroBusca);
+        alert("Erro ao localizar vídeo");
+        return;
+    }
+
+    // Remove arquivo do Storage
+    if (video?.url) {
+
+        const fileName =
+            video.url.split("/").pop();
+
+        const { error: erroStorage } =
+            await db.storage
+                .from("videos")
+                .remove([fileName]);
+
+        if (erroStorage) {
+            console.log(erroStorage);
+        }
+    }
+
+    // Remove do banco
+    const { error: erroBanco } = await db
         .from("biblioteca")
         .delete()
         .eq("id", id);
 
-    if (error) {
+    if (erroBanco) {
+
+        console.log(erroBanco);
+
         alert("Erro ao excluir vídeo");
+
         return;
     }
 
-    // remove só da tela (sem reload)
-    todosVideos = todosVideos.filter(v => v.id !== id);
-    videosFiltrados = videosFiltrados.filter(v => v.id !== id);
+    // Remove da tela
+    todosVideos =
+        todosVideos.filter(v => v.id !== id);
+
+    videosFiltrados =
+        videosFiltrados.filter(v => v.id !== id);
 
     document.getElementById("gallery").innerHTML = "";
+
     paginaAtual = 0;
+
     renderizarMaisVideos();
 
-    alert("Vídeo excluído!");
+    alert("Vídeo excluído com sucesso!");
 }
