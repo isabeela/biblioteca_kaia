@@ -267,10 +267,10 @@ async function deletarVideo(id) {
     }
 
     // Remove arquivo do Storage
-    if (video?.url) {
+    if (videos?.url) {
 
         const fileName =
-            video.url.split("/").pop();
+            videos.url.split("/").pop();
 
         const { error: erroStorage } =
             await db.storage
