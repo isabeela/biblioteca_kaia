@@ -258,5 +258,5 @@ document.getElementById("searchInput")
 
 carregarVideos();
 carregarFiltroTags();
-initFiltroTags();
+
 
