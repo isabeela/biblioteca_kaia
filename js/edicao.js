@@ -266,11 +266,12 @@ async function deletarVideo(id) {
         return;
     }
 
-    // Remove arquivo do Storage
-    if (videos?.url) {
+    // Remove o arquivo do Storage
+    if (video?.url) {
 
-        const fileName =
-            videos.url.split("/").pop();
+        const fileName = video.url
+            .split("/")
+            .pop();
 
         const { error: erroStorage } =
             await db.storage
@@ -278,19 +279,19 @@ async function deletarVideo(id) {
                 .remove([fileName]);
 
         if (erroStorage) {
-            console.log(erroStorage);
+            console.log("Erro Storage:", erroStorage);
         }
     }
 
     // Remove do banco
-    const { error: erroBanco } = await db
+    const { error } = await db
         .from("biblioteca")
         .delete()
         .eq("id", id);
 
-    if (erroBanco) {
+    if (error) {
 
-        console.log(erroBanco);
+        console.log(error);
 
         alert("Erro ao excluir vídeo");
 
