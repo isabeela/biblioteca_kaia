@@ -239,6 +239,20 @@ async function carregarTagsModal(tagsSelecionadas){
     tomTagsVideo.setValue(tagsSelecionadas);
 }
 
+function initFiltroTags() {
+  const el = document.getElementById("filtroTags");
+
+  // evita duplicar instância
+  if (el.tomselect) {
+    el.tomselect.destroy();
+  }
+
+  new TomSelect(el, {
+    plugins: ["remove_button"],
+    placeholder: "Selecione tags..."
+  });
+}
+
 document.getElementById("searchInput")
   .addEventListener("input", aplicarFiltros);
 
