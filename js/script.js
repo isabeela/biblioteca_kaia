@@ -1,24 +1,4 @@
 /********* ENTRAR NO SISTEMA *********/
-function senha() {
-  var img = document.querySelector(".imagem-login");
-  img.style.backgroundAttachment = "fixed";
-  inputSenha = document.querySelector("input[type='password']").value;
-
-    img.setAttribute('src','./img/senha-novo.png');
-}
-
-function email() {
-    var img = document.querySelector(".imagem-login");
-    img.setAttribute('src','./img/login.png');
-    img.style.backgroundAttachment  = "fixed"
-  }
-
-
-function entrar() {
-    var img = document.querySelector(".imagem-login");
-    img.setAttribute('src','./img/entrar.png');
-    img.style.backgroundAttachment  = "fixed"
-}
 
 
 window.addEventListener("load", () => {

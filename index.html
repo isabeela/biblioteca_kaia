@@ -154,6 +154,29 @@
     </div>
 </div>
 
+<script>
+    function senha() {
+  var img = document.querySelector(".imagem-login");
+  img.style.backgroundAttachment = "fixed";
+  inputSenha = document.querySelector("input[type='password']").value;
+
+    img.setAttribute('src','./img/senha-novo.png');
+}
+
+function email() {
+    var img = document.querySelector(".imagem-login");
+    img.setAttribute('src','./img/login.png');
+    img.style.backgroundAttachment  = "fixed"
+  }
+
+
+function entrar() {
+    var img = document.querySelector(".imagem-login");
+    img.setAttribute('src','./img/entrar.png');
+    img.style.backgroundAttachment  = "fixed"
+}
+
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
