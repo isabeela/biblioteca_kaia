@@ -1,3 +1,86 @@
+/********* ENTRAR NO SISTEMA *********/
+function senha() {
+  var img = document.querySelector(".imagem-login");
+  img.style.backgroundAttachment = "fixed";
+  inputSenha = document.querySelector("input[type='password']").value;
+
+    img.setAttribute('src','./img/senha-novo.png');
+}
+
+function email() {
+    var img = document.querySelector(".imagem-login");
+    img.setAttribute('src','./img/login.png');
+    img.style.backgroundAttachment  = "fixed"
+  }
+
+
+function entrar() {
+    var img = document.querySelector(".imagem-login");
+    img.setAttribute('src','./img/entrar.png');
+    img.style.backgroundAttachment  = "fixed"
+}
+
+
+document
+.getElementById("formLogin")
+.addEventListener("submit", async (e) => {
+
+    e.preventDefault(); // impede recarregar página
+
+    const senha =
+        document.getElementById("senha").value;
+
+    const { data, error } = await db
+        .rpc("verificar_senha", {
+            senha: senha
+        });
+
+    if(error){
+        console.log(error);
+        return;
+    }
+
+    if(data === true){
+
+        sessionStorage.setItem(
+            "autenticado",
+            "true"
+        );
+
+        // fecha modal ou esconde login
+        document
+            .querySelector("section")
+            .style.display = "none";
+
+        document
+            .getElementById("erro")
+            .style.display = "none";
+
+    } else {
+
+        document
+            .getElementById("erro")
+            .style.display = "block";
+    }
+
+});
+
+
+window.addEventListener("load", () => {
+
+    const logado =
+        sessionStorage.getItem("autenticado");
+
+    if(logado === "true"){
+        document.querySelector("section").style.display = "none";
+    } else {
+        document.querySelector("section").style.display = "block";
+    }
+
+});
+
+
+/****** BANCO DE DADOS  ******/
 const SUPABASE_URL =
   "https://rjrwdgbdeluiskmiojfi.supabase.co";
 

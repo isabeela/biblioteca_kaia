@@ -33,6 +33,69 @@ a {
 }
 
 /* ==========================
+LOGIN
+============================/*
+
+
+/**** LOGIN ****/
+
+.img-login {
+    text-align: center;
+    margin-bottom: -155px;
+    margin-top: 25px;
+    position: relative;
+}
+
+.imagem-login {
+   max-width: 100%;
+    width: 230px;
+} 
+
+.imagem-cadastro {
+    max-width: 20%;
+}
+
+#login {
+    margin: 100px auto;
+    padding: 20px 50px;
+    background-color: #242529;
+    width: 30%;
+    border-radius: 20px;
+}
+
+
+ #cadastrar {
+    margin: 115px auto;
+    padding: 20px 50px;
+    background-color: #0a0233;
+    width: 30%;
+    border-radius: 20px;
+}
+
+
+.formulario h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 30px auto 20px auto;
+}
+   
+
+.signed {
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+.signed span a {
+    color: #fff;
+    color:rgb(196, 194, 194);
+    text-decoration: underline;
+
+}
+
+
+/* ==========================
 TOPO
 ========================== */
 
