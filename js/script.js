@@ -21,11 +21,27 @@ function entrar() {
 }
 
 
+window.addEventListener("load", () => {
+
+    const logado =
+        sessionStorage.getItem("autenticado");
+
+    if(!logado){
+
+        document
+        .getElementById("modalLogin")
+        .classList.add("show");
+
+    }
+
+});
+
+
 document
 .getElementById("formLogin")
 .addEventListener("submit", async (e) => {
 
-    e.preventDefault(); // impede recarregar página
+    e.preventDefault();
 
     const senha =
         document.getElementById("senha").value;
@@ -47,24 +63,22 @@ document
             "true"
         );
 
-        // fecha modal ou esconde login
         document
-            .querySelector("section")
-            .style.display = "none";
+        .getElementById("modalLogin")
+        .classList.remove("show");
 
         document
-            .getElementById("erro")
-            .style.display = "none";
+        .getElementById("erro")
+        .style.display = "none";
 
     } else {
 
         document
-            .getElementById("erro")
-            .style.display = "block";
+        .getElementById("erro")
+        .style.display = "block";
     }
 
 });
-
 
 window.addEventListener("load", () => {
 
@@ -78,6 +92,8 @@ window.addEventListener("load", () => {
     }
 
 });
+
+
 
 
 /****** BANCO DE DADOS  ******/

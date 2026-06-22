@@ -129,27 +129,30 @@
 </div>
 
 
+<div id="modalLogin" class="modal-login">
+    <div class="modal-login-content">
+        <div class="img-login">
+                <img src="img/login.png" class="imagem-login">
+            </div>
+            <section id="login">
+                <div class="formulario">
+                    <h1> Acessar</h1>
+        
+                    <form id="formLogin">
+            
+                        <input type="password" id="senha" name="password" placeholder=" Digite a Senha" class="senha" required>
 
-<div class="img-login">
-        <img src="img/login.png" class="imagem-login">
+                        <div class="btn">
+                            <input type="submit" class="entrar" value="Entrar" id="btn-login">
+                        </div>
+                        <div id="erro" style="display:none;">
+                            Senha Incorreta! Tente Novamente 
+                        </div>
+                    </form>
+                </div>
+            </section>
     </div>
-    <section id="login">
-        <div class="formulario">
-             <h1> Acessar</h1>
-  
-            <form id="formLogin">
-    
-                <input type="password" id="senha" name="password" placeholder=" Digite a Senha" class="senha" required>
-
-                <div class="btn">
-                    <input type="submit" class="entrar" value="Entrar" id="btn-login">
-                </div>
-                <div id="erro" style="display:none;">
-                    Senha Incorreta! Tente Novamente 
-                </div>
-            </form>
-		</div>
-    </section>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
