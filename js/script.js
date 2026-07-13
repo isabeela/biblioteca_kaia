@@ -32,6 +32,11 @@ window.addEventListener("load", () => {
 //     console.log("Usuário autenticado");
 // }
 
+const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: "kaiabkps@gmail.com",
+    password: senha
+});
+
 
 document.getElementById("btn-login").addEventListener("click", async () => {
 
