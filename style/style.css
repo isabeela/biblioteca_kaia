@@ -68,6 +68,13 @@ LOGIN
     height: 30%;
 }
 
+#formLogin {
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+}
+
+
  #cadastrar {
     margin: 115px auto;
     padding: 20px 50px;
