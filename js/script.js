@@ -16,17 +16,17 @@ window.addEventListener("load", () => {
 
 });
 
-const { data, error } = await supabase.auth.signInWithPassword({
-    email: "kaiabkps@gmail.com",
-    password: document.getElementById("senha").value
-});
+// const { data, error } = await supabase.auth.signInWithPassword({
+//     email: "kaiabkps@gmail.com",
+//     password: document.getElementById("senha").value
+// });
 
-if (error) {
-    alert("Senha inválida");
-} else {
-    // entrou no sistema
-    console.log("Usuário autenticado");
-}
+// if (error) {
+//     alert("Senha inválida");
+// } else {
+//     // entrou no sistema
+//     console.log("Usuário autenticado");
+// }
 
 
 document.getElementById("btn-login").addEventListener("click", async () => {
