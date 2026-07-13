@@ -3,7 +3,7 @@
         var img = document.querySelector(".imagem-login");
         img.style.backgroundAttachment = "fixed";
         inputSenha = document.querySelector("input[type='password']").value;
-        img.setAttribute('src','img/senha-novo.png');
+        img.setAttribute('src','../img/senha-novo.png');
     }
 
 
