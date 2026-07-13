@@ -205,6 +205,7 @@ async function carregarVideos() {
 // FAZ COM QUE CARREGUE 10 VIDEOS POR VEZ NA PÁGINA E ADICIONA O FRONT DO CARTÃOZINHO //
 
 function renderizarMaisVideos() {
+  console.log("Renderizando página:", paginaAtual);
   if (paginaAtual * videosPorPagina >= videosFiltrados.length) {
     return;
   }
@@ -217,7 +218,7 @@ function renderizarMaisVideos() {
   const videos = videosFiltrados.slice(inicio, fim);
 
  videos.forEach(video => {
-
+    console.log(videos);
     const tags = video.tags ? video.tags.split(",") : [];
 
     const tagsHtml = tags.map(nomeTag => {
