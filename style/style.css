@@ -87,10 +87,12 @@ LOGIN
     background-color: #287975;
     border: none;
     padding: 10px;
+    margin: 5px;
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
 }
+
 
  #cadastrar {
     margin: 115px auto;
