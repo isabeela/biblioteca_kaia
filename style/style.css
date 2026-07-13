@@ -58,13 +58,9 @@ LOGIN
 #modalLogin {
     position: fixed;
     inset: 0;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background: rgba(0, 0, 0, 0.5);
-
     z-index: 9999;
 }
 
@@ -79,6 +75,7 @@ LOGIN
 .modal-login-content {
     width: 30%;
     height: 30%;
+    margin: 0 auto;
 }
 
 #formLogin {
