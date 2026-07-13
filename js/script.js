@@ -242,7 +242,7 @@ function renderizarMaisVideos() {
                     muted
                     loop
                     playsinline
-                    preload="none"
+                    preload="metadata"
                     data-src="${video.url}">
                 </video>
             </div>
