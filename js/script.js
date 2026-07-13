@@ -1,4 +1,5 @@
 
+// 🔑 COLOQUE SEUS DADOS AQUI
 const supabaseUrl = "https://rjrwdgbdeluiskmiojfi.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcndkZ2JkZWx1aXNrbWlvamZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzYyODQsImV4cCI6MjA5Njc1MjI4NH0.zT5JLfXnxOe95LrJ_kqanPu2HlTn8ZZLxUYQDlbrxfM";
 
@@ -6,7 +7,6 @@ const supabaseClient = supabase.createClient(
     supabaseUrl,
     supabaseKey
 );
-
 /********* ENTRAR NO SISTEMA *********/
 
 
@@ -36,36 +36,7 @@ window.addEventListener("load", () => {
 //     // entrou no sistema
 //     console.log("Usuário autenticado");
 // }
-// Verifica se já existe login salvo
-async function verificarSessao() {
 
-    const { data, error } = await supabaseClient.auth.getSession();
-
-    if (data.session) {
-
-        console.log("Usuário já logado");
-
-        // fecha modal
-        document.getElementById("modalLogin").style.display = "none";
-
-        // libera sistema
-        document.body.classList.add("logado");
-
-    } else {
-
-        console.log("Usuário precisa logar");
-
-        // mostra modal
-        document.getElementById("modalLogin").style.display = "flex";
-
-    }
-
-}
-
-verificarSessao();
-
-
-// Botão entrar
 document.getElementById("btn-login").addEventListener("click", async () => {
 
     const senha = document.getElementById("senha").value;
@@ -86,12 +57,11 @@ document.getElementById("btn-login").addEventListener("click", async () => {
 
         console.log("Login realizado:", data);
 
-        // fecha modal
+        // fecha o modal de login
         document.getElementById("modalLogin").style.display = "none";
 
-        // libera sistema
+        // libera o sistema
         document.body.classList.add("logado");
-
     }
 
 });
@@ -238,15 +208,7 @@ function renderizarMaisVideos() {
       <div class="video-card">
 
         <div class="video-preview">
-          <div class="video-preview">
-          <video
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              data-src="${video.url}">
-          </video>
-        </div>
+          <video muted loop autoplay playsinline preload="metadata">
             <source src="${video.url}" type="video/mp4">
           </video>
         </div>
