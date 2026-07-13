@@ -81,6 +81,14 @@ LOGIN
 }
 
 
+#btn-login {
+    width: 50%;
+    color: #fff;
+    background-color: #287975;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
  #cadastrar {
     margin: 115px auto;
     padding: 20px 50px;
