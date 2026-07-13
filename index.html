@@ -165,7 +165,7 @@
                  <div class="formulario">
                     <h1> Acessar</h1>
                     <form id="formLogin">
-                        <input type="password" id="senha" placeholder="Digite a senha" onkeydown="senha()">
+                        <input type="password" id="senha" placeholder="Digite a senha">
                         <div class="btn">
                             <input type="submit" value="Entrar" id="btn-login" >
                         </div>
@@ -179,6 +179,12 @@
     </div>
 
 <script>
+
+const campoSenha = document.getElementById("senha");
+
+campoSenha.addEventListener("input", () => {
+    document.querySelector(".imagem-login").src = "img/senha-novo.png";
+}, { once: true });
 
 
 function email() {
