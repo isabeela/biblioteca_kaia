@@ -32,17 +32,11 @@ window.addEventListener("load", () => {
 //     console.log("Usuário autenticado");
 // }
 
-const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: "kaiabkps@gmail.com",
-    password: senha
-});
-
-
 document.getElementById("btn-login").addEventListener("click", async () => {
 
     const senha = document.getElementById("senha").value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: "kaiabkps@gmail.com",
         password: senha
     });
@@ -60,7 +54,6 @@ document.getElementById("btn-login").addEventListener("click", async () => {
 
         // fecha o modal de login
         document.getElementById("modalLogin").style.display = "none";
-
 
         // libera o sistema
         document.body.classList.add("logado");
