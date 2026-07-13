@@ -36,7 +36,36 @@ window.addEventListener("load", () => {
 //     // entrou no sistema
 //     console.log("Usuário autenticado");
 // }
+// Verifica se já existe login salvo
+async function verificarSessao() {
 
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (data.session) {
+
+        console.log("Usuário já logado");
+
+        // fecha modal
+        document.getElementById("modalLogin").style.display = "none";
+
+        // libera sistema
+        document.body.classList.add("logado");
+
+    } else {
+
+        console.log("Usuário precisa logar");
+
+        // mostra modal
+        document.getElementById("modalLogin").style.display = "flex";
+
+    }
+
+}
+
+verificarSessao();
+
+
+// Botão entrar
 document.getElementById("btn-login").addEventListener("click", async () => {
 
     const senha = document.getElementById("senha").value;
@@ -57,11 +86,12 @@ document.getElementById("btn-login").addEventListener("click", async () => {
 
         console.log("Login realizado:", data);
 
-        // fecha o modal de login
+        // fecha modal
         document.getElementById("modalLogin").style.display = "none";
 
-        // libera o sistema
+        // libera sistema
         document.body.classList.add("logado");
+
     }
 
 });
