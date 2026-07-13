@@ -55,6 +55,19 @@ LOGIN
     max-width: 20%;
 }
 
+#modalLogin {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    z-index: 9999;
+}
+
 #login {
     margin: 100px auto;
     padding: 20px 50px;
