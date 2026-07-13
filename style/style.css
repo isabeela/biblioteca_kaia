@@ -82,10 +82,12 @@ LOGIN
 
 
 #btn-login {
-    width: 50%;
+    width: 30%;
     color: #fff;
     background-color: #287975;
+    padding: 10px;
     text-transform: uppercase;
+    text-decoration: none;
     cursor: pointer;
 }
 
