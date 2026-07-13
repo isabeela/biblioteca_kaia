@@ -74,6 +74,11 @@ LOGIN
     justify-content: center;
 }
 
+#senha {
+    text-decoration: none;
+    padding: 5px;
+}
+
 
  #cadastrar {
     margin: 115px auto;
