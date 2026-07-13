@@ -63,6 +63,9 @@ LOGIN
     border-radius: 20px;
 }
 
+.modal-login-content {
+    width: 80%;
+}
 
  #cadastrar {
     margin: 115px auto;
