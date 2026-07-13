@@ -1,3 +1,7 @@
+
+// 🔑 COLOQUE SEUS DADOS AQUI
+const supabaseUrl = "https://rjrwdgbdeluiskmiojfi.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcndkZ2JkZWx1aXNrbWlvamZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzYyODQsImV4cCI6MjA5Njc1MjI4NH0.zT5JLfXnxOe95LrJ_kqanPu2HlTn8ZZLxUYQDlbrxfM";
 /********* ENTRAR NO SISTEMA *********/
 
 
