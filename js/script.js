@@ -1,12 +1,3 @@
-
-    function senha() {
-        var img = document.querySelector(".imagem-login");
-        img.style.backgroundAttachment = "fixed";
-        inputSenha = document.querySelector("input[type='password']").value;
-        img.setAttribute('src','../img/senha-novo.png');
-    }
-
-
 /********* ENTRAR NO SISTEMA *********/
 
 
@@ -25,6 +16,48 @@ window.addEventListener("load", () => {
 
 });
 
+const { data, error } = await supabase.auth.signInWithPassword({
+    email: "kaiabkps@gmail.com",
+    password: document.getElementById("senha").value
+});
+
+if (error) {
+    alert("Senha inválida");
+} else {
+    // entrou no sistema
+    console.log("Usuário autenticado");
+}
+
+
+document.getElementById("btn-login").addEventListener("click", async () => {
+
+    const senha = document.getElementById("senha").value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: "kaiabkps@gmail.com",
+        password: senha
+    });
+
+
+    if (error) {
+
+        console.log(error.message);
+
+        document.getElementById("erroLogin").style.display = "block";
+
+    } else {
+
+        console.log("Login realizado:", data);
+
+        // fecha o modal de login
+        document.getElementById("modalLogin").style.display = "none";
+
+
+        // libera o sistema
+        document.body.classList.add("logado");
+    }
+
+});
 
 document
 .getElementById("formLogin")
